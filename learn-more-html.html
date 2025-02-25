@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn More - Finesse</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #1a1a1a;
+      --text-primary: #f5f5f7;
+      --text-secondary: #86868b;
+      --accent-primary: #2997ff;
+      --accent-secondary: #5ac8fa;
+      --success: #32d74b;
+      --danger: #ff453a;
+    }
+    
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 600;
+      background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+    
+    .hero {
+      padding: 100px 0 60px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+    
+    h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+    
+    h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+    }
+    
+    .subtitle {
+      font-size: 24px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 32px;
+      font-weight: 400;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      margin: 0 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+    
+    .btn-primary:hover {
+      background-color: #3aa3ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(41, 151, 255, 0.2);
+    }
+    
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(255, 255, 255, 0.05);
+    }
+    
+    .section {
+      padding: 80px 0;
+      position: relative;
+    }
+    
+    .section-inner {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+    
+    .section-content {
+      flex: 1;
+    }
+    
+    .section-image {
+      flex: 1;
+      position: relative;
+    }
+    
+    .section-image img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      transition: transform 0.5s ease;
+    }
+    
+    .section-image:hover img {
+      transform: translateY(-10px);
+    }
+    
+    .feature-list {
+      margin: 24px 0;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    
+    .feature-icon {
+      font-size: 24px;
+      margin-right: 16px;
+      color: var(--accent-primary);
+    }
+    
+    .feature-text h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .feature-text p {
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+      margin: 40px 0;
+    }
+    
+    .quote {
+      background-color: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 40px 0;
+      position: relative;
+    }
+    
+    .quote-text {
+      font-size: 20px;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    
+    .quote-author {
+      font-weight: 600;
+      color: var(--accent-primary);
+    }
+    
+    .quote::before {
+      content: '"';
+      position: absolute;
+      top: -30px;
+      left: 20px;
+      font-size: 100px;
+      color: rgba(255, 255, 255, 0.1);
+      font-family: Georgia, serif;
+    }
+    
+    .cta {
+      text-align: center;
+      padding: 100px 0;
+      background: linear-gradient(45deg, rgba(41, 151, 255, 0.05), rgba(90, 200, 250, 0.05));
+      border-radius: 24px;
+      margin: 40px auto;
+    }
+    
+    .footer {
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .section-inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+      
+      .section-image {
+        order: 1;
+      }
+      
+      .section-content {
+        order: 2;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 36px;
+      }
+      
+      h2 {
+        font-size: 28px;
+      }
+      
+      .subtitle {
+        font-size: 18px;
+      }
+    }
+    
+    /* Apple-style animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate {
+      opacity: 0;
+    }
+    
+    .fade-up {
+      animation: fadeUp 0.8s ease forwards;
+    }
+    
+    .delay-1 {
+      animation-delay: 0.1s;
+    }
+    
+    .delay-2 {
+      animation-delay: 0.2s;
+    }
+    
+    .delay-3 {
+      animation-delay: 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">Finesse</div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Learn More</a>
+        <a href="#" class="nav-link">Features</a>
+        <a href="#" class="nav-link">Dashboard</a>
+        <a href="#" class="nav-link">Sign In</a>
+      </div>
+    </nav>
+    
+    <section class="hero">
+      <h1 class="animate fade-up">Discover Finesse</h1>
+      <p class="subtitle animate fade-up delay-1">A deep dive into how our platform transforms personal finance management</p>
+      <div class="animate fade-up delay-2">
+        <a href="index.html" class="btn btn-secondary">Back to Home</a>
+        <a href="#" class="btn btn-primary">Get Started</a>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-content animate">
+          <h2>Comprehensive Financial Tracking</h2>
+          <p>Finesse provides unparalleled visibility into your financial life with intelligent tracking features that adapt to your needs.</p>
+          
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon">💰</div>
+              <div class="feature-text">
+                <h4>Smart Income & Expense Categorization</h4>
+                <p>Our AI-powered system automatically categorizes your transactions while learning from your manual adjustments for improved accuracy over time.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">🔄</div>
+              <div class="feature-text">
+                <h4>Effortless CSV Import</h4>
+                <p>Import data from any bank or financial institution with our flexible CSV import tool that maps directly to your custom categories.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">🔍</div>
+              <div class="feature-text">
+                <h4>Advanced Search & Filtering</h4>
+                <p>Find any transaction instantly with powerful search capabilities that filter by date, amount, category, or custom tags.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section-image animate fade-up delay-2">
+          <img src="/api/placeholder/600/400" alt="Financial Tracking Dashboard">
+        </div>
+      </div>
+    </section>
+    
+    <div class="divider"></div>
+    
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-image animate">
+          <img src="/api/placeholder/600/400" alt="Financial Visualization Charts">
+        </div>
+        
+        <div class="section-content animate fade-up delay-1">
+          <h2>Insightful Visualizations</h2>
+          <p>Transform complex financial data into clear, actionable insights with our beautiful interactive visualizations.</p>
+          
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon">📊</div>
+              <div class="feature-text">
+                <h4>Interactive Spending Charts</h4>
+                <p>Explore your spending patterns through interactive charts that reveal trends and help identify opportunities for improvement.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">⚖️</div>
+              <div class="feature-text">
+                <h4>Income vs. Expense Analysis</h4>
+                <p>Compare your income and expenses across different time periods to understand your cash flow and savings rate.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">📱</div>
+              <div class="feature-text">
+                <h4>Responsive Design</h4>
+                <p>All charts and visualizations are fully responsive, giving you perfect clarity whether on desktop or mobile.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <div class="divider"></div>
+    
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-content animate">
+          <h2>Financial Goal Setting</h2>
+          <p>Define your financial future with powerful goal-setting tools that keep you on track and motivated.</p>
+          
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon">🎯</div>
+              <div class="feature-text">
+                <h4>Custom Savings Goals</h4>
+                <p>Create personalized savings targets with deadlines and automatic progress tracking.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">📅</div>
+              <div class="feature-text">
+                <h4>Budget Planning</h4>
+                <p>Set monthly budgets for each spending category and receive alerts when you're approaching your limits.</p>
+              </div>
+            </div>
+            
+            <div class="feature-item">
+              <div class="feature-icon">🏆</div>
+              <div class="feature-text">
+                <h4>Achievement Celebrations</h4>
+                <p>Celebrate your financial wins with achievement badges and progress milestones.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section-image animate fade-up delay-2">
+          <img src="/api/placeholder/600/400" alt="Financial Goal Setting">
+        </div>
+      </div>
+    </section>
+    
+    <div class="quote animate">
+      <p class="quote-text">"Finesse has completely transformed how I manage my finances. I've saved over $5,000 in the first year just by having clear visibility into my spending patterns."</p>
+      <p class="quote-author">— Alex T., Software Engineer</p>
+    </div>
+    
+    <section class="section">
+      <h2 class="animate" style="text-align: center;">Security & Privacy</h2>
+      <p class="subtitle animate fade-up delay-1">Your financial data deserves the highest level of protection</p>
+      
+      <div class="feature-list" style="max-width: 800px; margin: 40px auto;">
+        <div class="feature-item animate fade-up delay-2">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-text">
+            <h4>End-to-End Encryption</h4>
+            <p>All financial data is encrypted both in transit and at rest using bank-level security protocols.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item animate fade-up delay-2">
+          <div class="feature-icon">👤</div>
+          <div class="feature-text">
+            <h4>User Authentication</h4>
+            <p>Secure access with multi-factor authentication options including biometric verification.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item animate fade-up delay-3">
+          <div class="feature-icon">🛡️</div>
+          <div class="feature-text">
+            <h4>Data Privacy</h4>
+            <p>Your financial data belongs to you alone. We never sell your information or share it with third parties.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta animate">
+      <h2>Ready to Master Your Finances?</h2>
+      <p class="subtitle">Start your journey toward financial clarity and control today.</p>
+      <a href="index.html" class="btn btn-secondary">Back to Home</a>
+      <a href="#" class="btn btn-primary">Get Started Now</a>
+    </section>
+    
+    <footer class="footer">
+      <p>© 2025 Finesse. All rights reserved.</p>
+    </footer>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate elements when they come into view
+      const animateElements = document.querySelectorAll('.animate:not(.fade-up)');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-up');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+      
+      animateElements.forEach(element => {
+        observer.observe(element);
+      });
+      
+      // Handle navigation
+      
