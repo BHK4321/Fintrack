@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinTrack - Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'accent-primary': '#077a12',
+            'accent-secondary': '#b7f5c6',
+            'feature-card-bg': '#0d3d23',
+            'feature-card-hover': '#124f2d',
+            'get-started-bg': '#2997ff',
+            'text-secondary': '#86868b',
+            'success': '#32d74b',
+            'danger': '#ff453a',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen relative">
+  <div class="fixed right-0 bottom-0 min-w-full min-h-full w-auto h-auto -z-10 brightness-80">
+    <video autoplay muted loop class="absolute min-w-full min-h-full object-cover">
+      <source src="Background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <nav class="sticky top-0 z-50 flex justify-between items-center py-5 px-6 bg-[#0a341e] backdrop-blur-xl">
+    <div class="text-5xl font-semibold ml-4 md:ml-24 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent tracking-tighter">FinTrack</div>
+    <div class="flex gap-6 mr-4 md:mr-8">
+      <a href="index.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Home</a>
+      <a href="learn-more.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Learn More</a>
+      <a href="#" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Features</a>
+      <a href="#" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Dashboard</a>
+      <a href="sign-in.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Sign In</a>
+    </div>
+  </nav>
+  
+  <div class="max-w-lg mx-auto my-10 p-10 bg-white rounded-2xl shadow-2xl backdrop-blur-md">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent leading-tight tracking-tight">Create Your Account</h1>
+      <p class="text-text-secondary text-base">Join thousands of users managing their finances with FinTrack</p>
+    </div>
+    
+    <form action="#" method="POST">
+      <div class="flex flex-col md:flex-row gap-5 mb-4">
+        <div class="flex-1 mb-6">
+          <label for="first-name" class="block mb-2 text-sm font-medium text-green-800">First Name</label>
+          <input type="text" id="first-name" name="first-name" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="John" required>
+        </div>
+        
+        <div class="flex-1 mb-6">
+          <label for="last-name" class="block mb-2 text-sm font-medium text-green-800">Last Name</label>
+          <input type="text" id="last-name" name="last-name" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="Doe" required>
+        </div>
+      </div>
+      
+      <div class="mb-6">
+        <label for="email" class="block mb-2 text-sm font-medium text-green-800">Email Address</label>
+        <input type="email" id="email" name="email" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="youremail@example.com" required>
+      </div>
+      
+      <div class="flex flex-col md:flex-row gap-5 mb-4">
+        <div class="flex-1 mb-6">
+          <label for="password" class="block mb-2 text-sm font-medium text-green-800">Password</label>
+          <input type="password" id="password" name="password" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="••••••••" required>
+        </div>
+        
+        <div class="flex-1 mb-6">
+          <label for="confirm-password" class="block mb-2 text-sm font-medium text-green-800">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="••••••••" required>
+        </div>
+      </div>
+      
+      <div class="mb-6">
+        <label for="phone" class="block mb-2 text-sm font-medium text-green-800">Phone Number</label>
+        <input type="tel" id="phone" name="phone" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="+91 98765 43210">
+      </div>
+      
+      <div class="relative my-8 border-t border-white/10 whitespace-nowrap">
+        <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
+          Financial Information
+        </span>
+      </div>
+      
+      
+      <div class="mb-6">
+        <label for="income-range" class="block mb-2 text-sm font-medium text-green-800">Monthly Income Range</label>
+        <select id="income-range" name="income-range" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10 appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-right-4 bg-4" required>
+          <option value="" disabled selected>Select income range</option>
+          <option value="0-20000">₹0 - ₹20,000</option>
+          <option value="20001-40000">₹20,001 - ₹40,000</option>
+          <option value="40001-60000">₹40,001 - ₹60,000</option>
+          <option value="60001-80000">₹60,001 - ₹80,000</option>
+          <option value="80001-100000">₹80,001 - ₹1,00,000</option>
+          <option value="100001+">₹1,00,001+</option>
+        </select>
+      </div>
+      
+      <div class="mb-6">
+        <label for="financial-goals" class="block mb-2 text-sm font-medium text-green-800">Primary Financial Goal</label>
+        <select id="financial-goals" name="financial-goals" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10 appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-right-4 bg-4" required>
+          <option value="" disabled selected>Select your primary goal</option>
+          <option value="budget">Budget Management</option>
+          <option value="debt">Debt Repayment</option>
+          <option value="savings">Building Savings</option>
+          <option value="investment">Investment Growth</option>
+          <option value="retirement">Retirement Planning</option>
+          <option value="property">Property Purchase</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      
+      <div class="relative my-8 border-t border-white/10 whitespace-nowrap">
+        <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
+          Account & Banking details
+        </span>
+      </div>
+      
+      
+      <div class="mb-6">
+        <label for="bank-name" class="block mb-2 text-sm font-medium text-green-800">Bank Name</label>
+        <input type="text" id="bank-name" name="bank-name" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="State Bank of India">
+      </div>
+      
+      <div class="flex flex-col md:flex-row gap-5 mb-4">
+        <div class="flex-1 mb-6">
+          <label for="account-number" class="block mb-2 text-sm font-medium text-green-800">Account Number</label>
+          <input type="password" id="account-number" name="account-number" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="XXXX XXXX XXXX">
+        </div>
+        
+        <div class="flex-1 mb-6">
+          <label for="ifsc-code" class="block mb-2 text-sm font-medium text-green-800">IFSC/SWIFT Code</label>
+          <input type="text" id="ifsc-code" name="ifsc-code" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="SBIN0001234">
+        </div>
+      </div>
+      
+      <div class="flex flex-col md:flex-row gap-5 mb-4">
+        <div class="flex-1 mb-6">
+          <label for="upi-id" class="block mb-2 text-sm font-medium text-green-800">UPI ID</label>
+          <input type="text" id="upi-id" name="upi-id" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="name@upi">
+        </div>
+        
+        <div class="flex-1 mb-6">
+          <label for="card-digits" class="block mb-2 text-sm font-medium text-green-800">Linked Card (Last 4 digits)</label>
+          <input type="text" id="card-digits" name="card-digits" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-white text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="XXXX" maxlength="4" pattern="[0-9]{4}">
+        </div>
+      </div>
+      
+      <div class="flex items-start mb-6">
+        <input type="checkbox" id="remember-me" name="remember-me" class="mr-2 mt-1">
+        <label for="remember-me" class="text-sm text-text-secondary">Remember me on this device</label>
+      </div>
+      
+      <div class="flex items-start mb-6">
+        <input type="checkbox" id="terms" name="terms" class="mr-2 mt-1" required>
+        <label for="terms" class="text-sm text-text-secondary">I agree to the <a href="#" class="text-get-started-bg hover:underline">Terms of Service</a> and <a href="#" class="text-get-started-bg hover:underline">Privacy Policy</a></label>
+      </div>
+      
+      <div class="flex items-start mb-6">
+        <input type="checkbox" id="marketing" name="marketing" class="mr-2 mt-1">
+        <label for="marketing" class="text-sm text-text-secondary">I would like to receive financial tips, product updates, and promotional emails</label>
+      </div>
+      
+      <button type="submit" class="w-full py-3 px-6 bg-get-started-bg hover:bg-blue-600 text-white font-semibold text-base rounded-lg transition duration-300 hover:-translate-y-0.5 mb-4">Create Account</button>
+      
+      <div class="text-center mt-6 text-text-secondary text-sm">
+        Already have an account? <a href="sign-in.html" class="text-get-started-bg font-semibold hover:text-blue-500 transition duration-300">Sign in</a>
+      </div>
+    </form>
+    
+    <div class="mt-8 text-center">
+        <div class="relative my-8 border-t border-white/10 whitespace-nowrap">
+            <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
+              Or sign-up with
+            </span>
+          </div>
+          
+      
+      <div class="flex justify-center gap-4 mt-4">
+        <button class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5">G</button>
+        <button class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5">A</button>
+        <button class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5">F</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="bg-green-900 text-white flex flex-col items-center justify-center p-4">
+        <p class="text-center">© 2025 FinTrack. All rights reserved.</p>
+        <div class="text-center mt-2">
+          <a href="#" class="mx-2 text-gray-300">Privacy Policy</a>
+          <a href="#" class="mx-2 text-gray-300">Terms of Service</a>
+          <a href="#" class="mx-2 text-gray-300">Cookie Settings</a>
+        </div>
+    </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if remember me was set previously
+      const rememberMe = localStorage.getItem('fintrack_remember_me');
+      if (rememberMe === 'true') {
+        document.getElementById('remember-me').checked = true;
+        // You could also autofill some saved information here
+      }
+      
+      // Form validation
+      const form = document.querySelector('form');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        
+        // Check if passwords match
+        if (password !== confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+        
+        // Save remember me preference to localStorage
+        const rememberMeChecked = document.getElementById('remember-me').checked;
+        localStorage.setItem('fintrack_remember_me', rememberMeChecked);
+        
+        // If remember me is checked, you could save non-sensitive data
+        if (rememberMeChecked) {
+          localStorage.setItem('fintrack_email', document.getElementById('email').value);
+          // Don't store sensitive information like passwords in localStorage
+        }
+        
+        // In a real app, you would handle form submission here
+        // This is just a simple redirect
+        window.location.href = "dashboard.html";
+      });
+    });
+  </script>
+</body>
+</html>
