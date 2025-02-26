@@ -58,32 +58,32 @@ app.get("/api/users/:email", async (req, res) => {
         console.log(email);
         const user = await User.findOne({ email }).select("-password");
         console.log(user);
+        if(!user){
+           return res.json({valid : 0 , message: "Not Found!"});
+        }
         if (user) {
             const token = req.headers.authorization?.split(" ")[1];
             console.log(token);
 
             if (!token) {
-                return res.json({valid:false, message: "Email already registered" });
+                return res.json({valid:1, message: "Email already registered" });
             }
             try {
                 console.log(process.env.JWT_SECRET);
                 const decoded = jwt.verify(token, process.env.JWT_SECRET);
                 console.log(decoded.email);
                 if (decoded.email !== email) {
-                    return res.json({ valid: false, message: "Unauthorized access" });
+                    return res.json({ valid: 2, message: "Unauthorized access" });
                 }
                 console.log(decoded.email);
-                return res.status(200).json({ valid: true, user });
+                return res.status(200).json({ valid: 3, user });
             } catch (err) {
-                return res.status(404).json({ valid: false, message: "Invalid or expired token" });
+                return res.status(404).json({ valid: 4, message: "Invalid or expired token" });
             }
-        } else {
-            console.log("kokok");
-            return res.json({ valid: false, message: "Not found!"});
         }
     } catch (error) {
         console.error("Error checking email:", error);
-        return res.json({ valid:false,message: "Server error" });
+        return res.json({ valid: 5,message: "Server error" });
     }
 });
 
