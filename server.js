@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true},
     password: String,
     userage:Number,
+    Married:Boolean,
     Spousename:String,
     Spouseage:Number,
     Spousemonthlyincome:String,
@@ -89,7 +90,7 @@ app.get("/api/users/:email", async (req, res) => {
 app.post("/api/users", async (req, res) => {
     try {
         const {
- firstName, lastName, email, password, userage,
+ firstName, lastName, email, password, userage,Married,
   Spousename, Spouseage, Spousemonthlyincome,Children,
   monthlyincome,Primaryfinancialgoal,phone,Bankname,AccountNumber,
   IFSCCode,LinkedCard,rememberMe ,recievepermission,UPIID} = req.body;
@@ -107,7 +108,7 @@ app.post("/api/users", async (req, res) => {
         const hashup = await bcrypt.hash(UPIID,10);
         const newUser = new User({
              firstName, lastName, email,password:hashedPassword, 
-             userage,
+             userage,Married,
   Spousename, Spouseage, Spousemonthlyincome : hashspouseincome,Children,
   monthlyincome : hashmonthlyincome,Primaryfinancialgoal,phone,Bankname : hashbank,AccountNumber : hashaccnumber,
   IFSCCode : hashifsc,LinkedCard : hashlink,rememberMe ,recievepermission,UPIID:hashup
