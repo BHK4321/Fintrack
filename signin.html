@@ -132,9 +132,12 @@ try {
     console.log(response);
     const data = await response.json();
 
-    if (!response.valid) {
-      alert("Sign-in failed!");
-        return;
+    if (data.valid === 1) {
+      alert("Invalid Email or Password");
+      return;
+    }else if(data.valid === 2){
+      alert("No User found! Sign-up first!");
+      return;
     }
     localStorage.setItem("jwtToken", data.accessToken);
     localStorage.setItem("userEmail" , formData.email);
