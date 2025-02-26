@@ -130,10 +130,10 @@ app.post("/api/signin", async (req, res) => {
     try {
         const { email, password ,rememberMe} = req.body;
         const user = await User.findOne({ email });
-        if (!user) return res.json({valid:false,error: "Invalid email or password" });
+        if (!user) return res.json({valid:2,error: "Invalid email or password"});
         const isMatch = await bcrypt.compare(password, user.password);
         console.log(isMatch);
-        if (!isMatch) return res.json({valid:false, error: "Invalid email or password" });
+        if (!isMatch) return res.json({valid:1, error: "Invalid email or password" });
         const accessToken = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1m"});
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
@@ -141,7 +141,7 @@ app.post("/api/signin", async (req, res) => {
             sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
-        res.status(200).json({ accessToken, message: "Sign-in successful" });
+        res.status(200).json({valid:0, accessToken, message: "Sign-in successful" });
     } catch (error) {
         res.status(500).json({ error: "Sign-in failed" });
     }
