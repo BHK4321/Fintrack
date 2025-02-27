@@ -13,14 +13,15 @@ async function secured(){
     const userData = await userResp.json();
     console.log(userData.valid);
     if(userData.valid === 4 || userData.valid === 5 || userData.valid === 2){
-        alert("Unauthorised accs!");
+        alert("Unauthorised access!");
         localStorage.removeItem("resetToken");
         localStorage.removeItem("userEmail");
+        window.location.href = "index.html";
         return;
     }
     if(userData.valid === 6){
         alert("Error! Please try again!");
-        window.location.href = "http://localhost:8000/forgotpassword"
+        window.location.href = "forgotpassword.html";
         return;
     }
 }
