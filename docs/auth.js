@@ -2,8 +2,12 @@
 async function handleUserAccess() {
     const email = localStorage.getItem("userEmail");
     const token = localStorage.getItem("jwtToken");
-    console.log(email);
-    console.log(token);
+    if (typeof email === "undefined"){
+        localStorage.setItem("userEmail" , null);
+    }
+    if (typeof token === "undefined"){
+        localStorage.setItem("jwtToken" , null);
+    }
     if (!email || !token) {
         document.getElementById("auth-link").style.display = "block";
         return;// No email or token found, user is not logged in
