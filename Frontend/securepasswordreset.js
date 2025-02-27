@@ -13,9 +13,10 @@ async function secured(){
     const userData = await userResp.json();
     console.log(userData.valid);
     if(userData.valid === 4 || userData.valid === 5 || userData.valid === 2){
-        alert("Unauthorised accs!");
+        alert("Unauthorised access!");
         localStorage.removeItem("resetToken");
         localStorage.removeItem("userEmail");
+        window.location.href='index.html';
         return;
     }
     if(userData.valid === 6){
