@@ -27,8 +27,8 @@ app.use(bodyParser.json());
 
 //connect
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("✅ MongoDB Connected"))
-    .catch(err => console.error("❌ MongoDB Connection Error:", err.message));
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.error("MongoDB Connection Error:", err.message));
 
 //schema
 const userSchema = new mongoose.Schema({
