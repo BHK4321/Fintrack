@@ -11,6 +11,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
+const cron = require('node-cron');
 const { configDotenv } = require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -106,7 +107,7 @@ app.get("/api/users/:email", async (req, res) => {
         if (user) {
             const token = req.headers.authorization?.split(" ")[1];
             console.log(token);
-
+            
             if (!token) {
                 return res.json({valid:1, message: "Email already registered" });
             }
@@ -220,7 +221,8 @@ app.post("/api/signin", async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         console.log(isMatch);
         if (!isMatch) return res.json({valid:1, error: "Invalid email or password" });
-        const accessToken = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1m"});
+        const accessToken = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1h"});
+        console.log(accessToken);
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: true,
@@ -311,5 +313,148 @@ app.post("/api/reset-password", async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
+
+
+// Bills and Notifications
+
+// Bill schema
+const billSchema = new mongoose.Schema({
+    amount: Number,
+    description: String,
+    deadline: Date,
+    splitAmount: Number,
+    createdBy: String,
+    friends: [String],
+    createdAt: Date,
+    reminderSent: Boolean
+});
+
+const Bill = mongoose.model('Bill', billSchema);
+
+// API endpoint to save bill
+app.post('/api/bills', async (req, res) => {
+    try {
+        const newBill = new Bill(req.body);
+        await newBill.save();
+        
+        // Send initial notification to friends
+        sendBillNotifications(newBill);
+        
+        res.status(201).json(newBill);
+    } catch (error) {
+        console.error('Error saving bill:', error);
+        res.status(500).json({ error: 'Failed to save bill' });
+    }
+});
+
+// API endpoint to schedule reminder
+app.post('/api/schedule-reminder', (req, res) => {
+    // The actual scheduling is handled by the cron job below
+    // This endpoint just acknowledges the request
+    res.status(200).json({ message: 'Reminder scheduled' });
+});
+
+// Function to send initial bill notifications
+async function sendBillNotifications(bill) {
+    const transporter = createMailTransporter();
+    
+    // Send to each friend
+    for (const friendEmail of bill.friends) {
+        const mailOptions = {
+            from: process.env.EMAIL_SERVER,
+            to: friendEmail,
+            subject: `New Split Bill: ${bill.description}`,
+            html: `
+                <h2>You've been added to a split bill</h2>
+                <p><strong>${bill.createdBy}</strong> has created a new split bill and included you.</p>
+                <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+                    <p><strong>Description:</strong> ${bill.description}</p>
+                    <p><strong>Your share:</strong> $${bill.splitAmount}</p>
+                    <p><strong>Payment deadline:</strong> ${new Date(bill.deadline).toLocaleString()}</p>
+                </div>
+                <p>You will receive a reminder 6 hour before the deadline.</p>
+            `
+        };
+        
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log(`Initial notification sent to ${friendEmail}`);
+        } catch (error) {
+            console.error(`Error sending notification to ${friendEmail}:`, error);
+        }
+    }
+}
+
+// Function to create mail transporter
+function createMailTransporter() {
+    // Replace with your email service credentials
+    return nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_SERVER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+}
+
+// Schedule a cron job to run every minute to check for upcoming deadlines
+cron.schedule('* * * * *', async () => {
+    try {
+        const now = new Date();
+        const oneHourFromNow = new Date(now.getTime() + 6 * 60 * 60 * 1000);
+        
+        // Find bills with deadlines 1 hour from now that haven't had reminders sent
+        const upcomingBills = await Bill.find({
+            deadline: {
+                $gt: now,
+                $lt: oneHourFromNow
+            },
+            reminderSent: false
+        });
+        
+        for (const bill of upcomingBills) {
+            // Send reminder emails
+            await sendReminderEmails(bill);
+            
+            // Mark reminder as sent
+            bill.reminderSent = true;
+            await bill.save();
+        }
+    } catch (error) {
+        console.error('Error checking for upcoming deadlines:', error);
+    }
+});
+
+// Function to send reminder emails
+async function sendReminderEmails(bill) {
+    const transporter = createMailTransporter();
+    
+    // Send to each friend
+    for (const friendEmail of bill.friends) {
+        const mailOptions = {
+            from: '"FinTrack Reminder" <noreply@fintrack.com>',
+            to: friendEmail,
+            subject: `REMINDER: Payment due in 6 hour for ${bill.description}`,
+            html: `
+                <h2>⏰ Payment Reminder</h2>
+                <p>Your payment for the following bill is due in <strong>6 hour</strong>:</p>
+                <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f8f8f8;">
+                    <p><strong>Description:</strong> ${bill.description}</p>
+                    <p><strong>Your share:</strong> $${bill.splitAmount}</p>
+                    <p><strong>Payment deadline:</strong> ${new Date(bill.deadline).toLocaleString()}</p>
+                    <p><strong>Created by:</strong> ${bill.createdBy}</p>
+                </div>
+                <p>Please make your payment as soon as possible to avoid missing the deadline.</p>
+            `
+        };
+        
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log(`Reminder sent to ${friendEmail} for bill: ${bill.description}`);
+        } catch (error) {
+            console.error(`Error sending reminder to ${friendEmail}:`, error);
+        }
+    }
+}
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
