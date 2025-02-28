@@ -142,6 +142,7 @@ try {
       alert("No User found! Sign-up first!");
       return;
     }
+    alert("Signed-in!");
     localStorage.setItem("jwtToken", data.accessToken);
     localStorage.setItem("userEmail" , formData.email);
     window.location.href = "index.html";
