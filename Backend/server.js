@@ -12,18 +12,62 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 const cron = require('node-cron');
+const session = require("express-session");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const { configDotenv } = require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
 app.use(cors());
-app.use(cors({
-    origin: '*', 
-    credentials: true
-  }));
-
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/auth/google/callback", // Update this based on your setup
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          // Find or create the user in your database
+          let user = await User.findOne({ googleId: profile.id });
+  
+          if (!user) {
+            user = await User.create({
+              googleId: profile.id,
+              name: profile.displayName,
+              email: profile.emails[0].value,
+              avatar: profile.photos[0].value,
+            });
+          }
+  
+          // Generate JWT token
+          const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+          });
+  
+          return done(null, { user, token });
+        } catch (err) {
+          return done(err, null);
+        }
+      }
+    )
+  );
+  
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
 
 //connect
 mongoose.connect(process.env.MONGO_URI)
@@ -500,5 +544,51 @@ async function sendReminderEmails(bill) {
         console.error(`Error sending reminder to ${bill.createdBy}:`, error);
     }
 }
+
+// Google sign-in
+
+app.get(
+    "/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+);
+  
+  // Google OAuth callback
+app.get(
+    "/auth/google/callback",
+    passport.authenticate("google", { session: false }),
+    (req, res) => {
+      const { token, user } = req.user;
+  
+      // Send token and user data to frontend
+      res.json({ token, user });
+});
+
+app.post("/api/google-signin", async (req, res) => {
+    try {
+        const { token } = req.body;
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: "YOUR_GOOGLE_CLIENT_ID",
+        });
+
+        const { email, name, picture } = ticket.getPayload();
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.json({ status: "new_user" });
+        }
+
+        // User exists → Generate JWT
+        const authToken = jwt.sign({ id: user._id }, "your_secret_key", {
+            expiresIn: "7d",
+        });
+
+        res.json({ token: authToken, user });
+
+    } catch (error) {
+        res.status(400).json({ error: "Invalid Google token" });
+    }
+});
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
