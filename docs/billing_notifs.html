@@ -328,6 +328,9 @@
 
     // Friends list functionality
     const friends = [];
+    const friendId = Date.now();
+    const email = localStorage.getItem("userEmail");
+    friends.push({ email, id: friendId });
     const addFriendBtn = document.getElementById('add-friend-btn');
     const friendEmailInput = document.getElementById('friend-email');
     const friendsList = document.getElementById('friends-list');
@@ -393,7 +396,6 @@
                     </button>
                 `;
                 friendsList.appendChild(listItem);
-                
                 const removeBtn = listItem.querySelector('button');
                 removeBtn.addEventListener('click', () => {
                     const friendId = parseInt(removeBtn.getAttribute('data-friend-id'));
@@ -442,7 +444,7 @@
         }
         
         if (friends.length === 0) {
-            alert('Please add at least one friend to split the bill with.');
+            alert('Please add at least one person to split the bill with.');
             return;
         }
 
@@ -453,7 +455,23 @@
         
         const deadline = new Date(deadlineDateInput.value);
         const description = document.getElementById('bill-description').value;
-        
+        // Create bill object to store
+    const billData = {
+        amount: billAmount,
+        description: description,
+        deadline: deadline.toISOString(),
+        splitAmount: (billAmount / (friends.length + 1)).toFixed(2),
+        createdBy:  localStorage.getItem("userEmail"), // You need to implement this function to get current user email
+        friends: friends.map(friend => friend.email),
+        createdAt: new Date().toISOString(),
+        reminderSent: false
+    };
+    
+    // Save bill data to your database
+    saveBillToDatabase(billData);
+    
+    // Schedule email reminder
+    scheduleReminderEmail(billData);
         alert(`Bill split successfully!\n\nAmount: $${billAmount}\nDescription: ${description}\nDeadline: ${deadline.toLocaleDateString()}\nSplit request sent to ${friends.length} friend${friends.length > 1 ? 's' : ''}.`);
         closeModal();
         
@@ -464,6 +482,45 @@
         updateSplitAmount();
         updateDeadlineDisplay();
     });
+    
+// 2. Function to save bill to database (you'll need a backend implementation)
+function saveBillToDatabase(billData) {
+    // Using fetch to send data to your backend API
+    fetch('http://localhost:5000/api/bills', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(billData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Bill saved successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error saving bill:', error);
+    });
+}
+
+// 3. Function to schedule reminder email
+function scheduleReminderEmail(billData) {
+    // This is a frontend function that tells the backend to schedule an email
+    fetch('http://localhost:5000/api/schedule-reminder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(billData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Reminder scheduled successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error scheduling reminder:', error);
+    });
+}
+
 </script>
 </body>
 </html>
