@@ -24,9 +24,8 @@
     }
   </script>
   <link rel="stylesheet" href="all.css">
-  <script>
-
-  </script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src = "google.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen relative">
   <div class="fixed right-0 bottom-0 min-w-full min-h-full w-auto h-auto -z-10 brightness-80">
@@ -94,9 +93,7 @@
       </div>
       
       <div class="flex justify-center gap-4 mt-4">
-        <button class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5 text-green-800">G</button>
-        <button class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5 text-green-800">A</button>
-        <button class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5 text-green-800">F</button>
+        <button onclick="googleSignIn()" class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5 text-green-800">G</button>
       </div>
     </div>
   </div>
@@ -142,8 +139,9 @@ try {
       alert("No User found! Sign-up first!");
       return;
     }
-    alert("Signed-in!");
+    alert("signed-in");
     localStorage.setItem("jwtToken", data.accessToken);
+    console.log("jwtToken");
     localStorage.setItem("userEmail" , formData.email);
     window.location.href = "index.html";
 } catch (error) {
