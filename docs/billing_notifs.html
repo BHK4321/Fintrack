@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinTrack - Split Bill with Friends</title>
+  <link rel="stylesheet" href="all.css">
+  <link rel="stylesheet" href="backgroundstyle.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .invisible {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        /* Custom scrollbar for the modal */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Date input styling */
+        input[type="date"] {
+            position: relative;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            cursor: pointer;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 2.5rem;
+        }
+    </style>
+</head>
+
+<body>
+  <video class="video-bg" autoplay muted loop>
+    <source src="Background.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <nav class="nav">
+    <div class="logo">FinTrack</div>
+    <div class="nav-links">
+      <a href="LearnMore.html" class="nav-link">Learn More</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#" class="nav-link">Dashboard</a>
+      <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
+      <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+    </div>
+  </nav>
+  <script src="auth.js"></script>
+  <section class="hero bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+        <h1 class="text-3xl font-bold mb-6">Split Bills</h1>
+        <p class="mb-8 text-gray-600">Split bills with your friends and set payment deadlines.</p>
+        <button id="openBillingBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg flex items-center justify-center mx-auto">
+            <span id="dollar-icon" class="mr-2"></span>
+            Split New Bill
+        </button>
+    </div>
+
+    <!-- Billing Modal -->
+    <div id="billingModal" class="modal fixed inset-0 z-50 flex items-center justify-center invisible">
+        <div class="modal-overlay absolute inset-0"></div>
+        <div class="modal-container bg-white w-full max-w-2xl mx-auto rounded-lg shadow-lg z-50 overflow-hidden">
+            <div class="modal-content max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="px-6 py-4 border-b">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl font-bold">Split Bill with Friends</h3>
+                        <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <span id="x-icon"></span>
+                        </button>
+                    </div>
+                    <p class="text-gray-600 mt-1">Split bills and set payment deadlines for your friends.</p>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="px-6 py-4 text-black">
+                    <form id="billingForm">
+                        <div class="space-y-6">
+                            <!-- Bill Details -->
+                            <div class="grid gap-4">
+                                <div class="grid gap-2">
+                                    <label for="bill-amount" class="text-sm font-medium">Bill Amount</label>
+                                    <div class="relative">
+                                        <span id="dollar-sign-icon" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></span>
+                                        <input 
+                                            id="bill-amount" 
+                                            type="number" 
+                                            min="0.01" 
+                                            step="0.01" 
+                                            placeholder="0.00" 
+                                            class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                
+                                <div class="grid gap-2">
+                                    <label for="bill-description" class="text-sm font-medium">Description</label>
+                                    <input 
+                                        id="bill-description" 
+                                        type="text"
+                                        placeholder="Dinner, utilities, etc." 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="grid gap-2">
+                                    <label for="deadline-date" class="text-sm font-medium">Payment Deadline</label>
+                                    <div class="relative">
+                                        <span id="calendar-icon" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></span>
+                                        <input 
+                                            id="deadline-date" 
+                                            type="date"
+                                            class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                
+                                <div class="grid gap-2">
+                                    <label class="text-sm font-medium">Add Friends (via Gmail)</label>
+                                    <div class="flex gap-2">
+                                        <div class="relative flex-1">
+                                            <span id="mail-icon" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></span>
+                                            <input 
+                                                id="friend-email"
+                                                type="email"
+                                                placeholder="friend@gmail.com" 
+                                                class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md"
+                                            >
+                                        </div>
+                                        <button 
+                                            type="button" 
+                                            id="add-friend-btn"
+                                            class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md flex items-center"
+                                        >
+                                            <span id="plus-circle-icon" class="mr-2"></span>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="friends-list-container" class="bg-gray-100 rounded-lg p-4 space-y-3 hidden">
+                                    <h4 class="text-sm font-medium">Friends to split with:</h4>
+                                    <ul id="friends-list" class="space-y-2">
+                                        <!-- Friends will be added here dynamically -->
+                                    </ul>
+                                    
+                                    <div class="bg-blue-100 rounded-md p-3 mt-4 space-y-2">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm font-medium">Each person pays:</span>
+                                            <span id="split-amount" class="text-lg font-bold">$0.00</span>
+                                        </div>
+                                        <p id="split-description" class="text-xs text-gray-600">
+                                            Split equally between you and 0 friends
+                                        </p>
+                                        <div class="flex items-center text-xs text-gray-600">
+                                            <span id="clock-icon" class="mr-1"></span>
+                                            <span id="deadline-display">No deadline set</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            type="submit" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg mt-6"
+                        >
+                            Send Split Request
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="px-6 py-4 border-t">
+                    <p class="text-xs text-gray-500">
+                        Friends will receive an email with their split amount and payment deadline.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+  </section>
+  <section class="features" id="features">
+    <div class="section-header">
+      <h2>How It Works</h2>
+      <p class="subtitle">Simple steps to manage shared expenses.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3 class="feature-title">Create a Split</h3>
+        <p class="feature-desc">Enter bill details and add friends to split with.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✉️</div>
+        <h3 class="feature-title">Send Requests</h3>
+        <p class="feature-desc">Friends receive notifications with their due amounts.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3 class="feature-title">Track Payments</h3>
+        <p class="feature-desc">Monitor who has paid and send reminders if needed.</p>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Mobile App</a></li>
+          <li><a href="#">Browser Extension</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 FinTrack. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Create specific icons
+    document.getElementById('dollar-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>';
+    document.getElementById('x-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+    document.getElementById('dollar-sign-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>';
+    document.getElementById('mail-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+    document.getElementById('plus-circle-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>';
+    document.getElementById('calendar-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>';
+    document.getElementById('clock-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+
+    // Modal functionality
+    const modal = document.getElementById('billingModal');
+    const openModalBtn = document.getElementById('openBillingBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalOverlay = document.querySelector('.modal-overlay');
+
+    // Set minimum date for deadline
+    const deadlineDateInput = document.getElementById('deadline-date');
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    deadlineDateInput.min = tomorrow.toISOString().split('T')[0];
+
+    // Update deadline display
+    const updateDeadlineDisplay = () => {
+        const deadlineDisplay = document.getElementById('deadline-display');
+        const selectedDate = deadlineDateInput.value;
+        
+        if (selectedDate) {
+            const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+            deadlineDisplay.textContent = `Due by ${formattedDate}`;
+        } else {
+            deadlineDisplay.textContent = 'No deadline set';
+        }
+    };
+
+    deadlineDateInput.addEventListener('change', updateDeadlineDisplay);
+
+    // Open modal
+    openModalBtn.addEventListener('click', () => {
+        modal.classList.remove('invisible');
+        modal.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close modal
+    const closeModal = () => {
+        modal.classList.remove('visible');
+        modal.classList.add('invisible');
+        document.body.style.overflow = '';
+    };
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', closeModal);
+
+    // Friends list functionality
+    const friends = [];
+    const addFriendBtn = document.getElementById('add-friend-btn');
+    const friendEmailInput = document.getElementById('friend-email');
+    const friendsList = document.getElementById('friends-list');
+    const friendsListContainer = document.getElementById('friends-list-container');
+    const billAmountInput = document.getElementById('bill-amount');
+    const splitAmountElement = document.getElementById('split-amount');
+    const splitDescriptionElement = document.getElementById('split-description');
+    const billingForm = document.getElementById('billingForm');
+
+    // Add friend
+    addFriendBtn.addEventListener('click', () => {
+        const email = friendEmailInput.value.trim();
+        if (!email) return;
+        
+        const emailRegex = /^[^\s@]+@gmail\.com$/i;
+        if (!emailRegex.test(email)) {
+            alert('Invalid email. Please enter a valid Gmail address.');
+            return;
+        }
+        
+        if (friends.some(friend => friend.email.toLowerCase() === email.toLowerCase())) {
+            alert('This Gmail address is already added.');
+            return;
+        }
+        
+        const friendId = Date.now();
+        friends.push({ email, id: friendId });
+        friendEmailInput.value = '';
+        
+        updateFriendsList();
+        updateSplitAmount();
+    });
+
+    // Enter key to add friend
+    friendEmailInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addFriendBtn.click();
+        }
+    });
+
+    // Update friends list UI
+    function updateFriendsList() {
+        if (friends.length > 0) {
+            friendsListContainer.classList.remove('hidden');
+            
+            friendsList.innerHTML = '';
+            friends.forEach(friend => {
+                const listItem = document.createElement('li');
+                listItem.className = 'flex items-center justify-between bg-white rounded-md p-2';
+                listItem.innerHTML = `
+                    <span class="text-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail mr-2 text-gray-500"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        ${friend.email}
+                    </span>
+                    <button 
+                        type="button" 
+                        class="h-8 w-8 p-0 text-red-500 hover:text-red-700 bg-transparent"
+                        data-friend-id="${friend.id}"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                        <span class="sr-only">Remove</span>
+                    </button>
+                `;
+                friendsList.appendChild(listItem);
+                const removeBtn = listItem.querySelector('button');
+                removeBtn.addEventListener('click', () => {
+                    const friendId = parseInt(removeBtn.getAttribute('data-friend-id'));
+                    removeFriend(friendId);
+                });
+            });
+        } else {
+            friendsListContainer.classList.add('hidden');
+        }
+    }
+
+    // Remove friend
+    function removeFriend(id) {
+        const index = friends.findIndex(friend => friend.id === id);
+        if (index !== -1) {
+            friends.splice(index, 1);
+            updateFriendsList();
+            updateSplitAmount();
+        }
+    }
+
+    // Calculate and update split amount
+    function updateSplitAmount() {
+        const amount = parseFloat(billAmountInput.value);
+        if (isNaN(amount) || amount <= 0) {
+            splitAmountElement.textContent = '$0.00';
+        } else {
+            const totalPeople = friends.length + 1;
+            splitAmountElement.textContent = `$${(amount / totalPeople).toFixed(2)}`;
+        }
+        
+        const friendCount = friends.length;
+        splitDescriptionElement.textContent = `Split equally between you and ${friendCount} friend${friendCount !== 1 ? 's' : ''}`;
+    }
+
+    billAmountInput.addEventListener('input', updateSplitAmount);
+
+    // Form submission
+    billingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const billAmount = parseFloat(billAmountInput.value);
+        if (isNaN(billAmount) || billAmount <= 0) {
+            alert('Please enter a valid bill amount.');
+            return;
+        }
+        if (!deadlineDateInput.value) {
+            alert('Please set a payment deadline.');
+            return;
+        }
+        
+        const deadline = new Date(deadlineDateInput.value);
+        const description = document.getElementById('bill-description').value;
+        // Create bill object to store
+    const billData = {
+        amount: billAmount,
+        description: description,
+        deadline: deadline.toISOString(),
+        splitAmount: (billAmount / (friends.length + 1)).toFixed(2),
+        createdBy:  localStorage.getItem("userEmail"), // You need to implement this function to get current user email
+        friends: friends.map(friend => friend.email),
+        createdAt: new Date().toISOString(),
+        reminderSent: false
+    };
+    
+    // Save bill data to your database
+    saveBillToDatabase(billData);
+    
+    // Schedule email reminder
+    scheduleReminderEmail(billData);
+        alert(`Bill split successfully!\n\nAmount: $${billAmount}\nDescription: ${description}\nDeadline: ${deadline.toLocaleDateString()}\nSplit request sent to ${friends.length} friend${friends.length > 1 ? 's' : ''}.`);
+        closeModal();
+        
+        // Reset form
+        billingForm.reset();
+        friends.length = 0;
+        updateFriendsList();
+        updateSplitAmount();
+        updateDeadlineDisplay();
+    });
+    
+// 2. Function to save bill to database (you'll need a backend implementation)
+function saveBillToDatabase(billData) {
+    // Using fetch to send data to your backend API
+    fetch('http://localhost:5000/api/bills', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(billData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Bill saved successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error saving bill:', error);
+    });
+}
+
+// 3. Function to schedule reminder email
+function scheduleReminderEmail(billData) {
+    // This is a frontend function that tells the backend to schedule an email
+    fetch('http://localhost:5000/api/schedule-reminder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(billData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Reminder scheduled successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error scheduling reminder:', error);
+    });
+}
+
+</script>
+</body>
+</html>
