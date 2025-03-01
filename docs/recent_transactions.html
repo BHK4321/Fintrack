@@ -305,6 +305,7 @@
                     amount: parseFloat(amount),
                 };
                 transaction.id = await add(transaction);
+                console.log(transaction.id);
                 transactions.push(transaction);
                 updateTransactionTable();
                 updateChart();
