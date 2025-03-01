@@ -21,13 +21,7 @@ const { configDotenv } = require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-    origin: "https://bhk4321.github.io", // Allow requests from GitHub Pages
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
-app.use(express.json());
+app.use(cors());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -570,12 +564,11 @@ app.get(
 });
 
 app.post("/api/google-signin", async (req, res) => {
-    console.log("Google Sign-in API hit");
     try {
         const { token } = req.body;
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID,
+            audience: "YOUR_GOOGLE_CLIENT_ID",
         });
 
         const { email, name, picture } = ticket.getPayload();
@@ -587,16 +580,81 @@ app.post("/api/google-signin", async (req, res) => {
         }
 
         // User exists → Generate JWT
-        const authToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        const authToken = jwt.sign({ id: user._id }, "your_secret_key", {
             expiresIn: "7d",
         });
 
         res.json({ token: authToken, user });
 
     } catch (error) {
-        console.error("Google Sign-in Error:", error);
         res.status(400).json({ error: "Invalid Google token" });
     }
 });
 
+//Transactions
+
+//schema
+const transSchema = new mongoose.Schema({
+    date: Date,
+    description: String,
+    category: String,
+    amount: Number
+});
+
+const trans = mongoose.model('trans', transSchema);
+
+//create
+app.post('/api/transactions', async (req, res) => {
+    try {
+        const newtrans = new trans(req.body);
+        await newtrans.save();
+        res.status(201).json({id: newtrans._id});
+    } catch (error) {
+        console.error('Error saving transaction:', error);
+        res.status(500).json({ error: 'Failed to save transaction' });
+    }
+});
+
+//delete
+
+app.delete("/api/transactions/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedTransaction = await transactions.findByIdAndDelete(new mongoose.Types.ObjectId(id));
+
+        if (!deletedTransaction) {
+            return res.status(404).json({ success: false, message: "Transaction not found" });
+        }
+
+        res.json({ success: true, message: "Transaction deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error", error });
+    }
+});
+
+//Prompt
+// Define the transactions folder path
+const transactionsFolder = path.join(__dirname, "api", "transactions");
+
+// API route to fetch all transactions
+app.get("/api/get-transactions", (req, res) => {
+    let transactions = [];
+
+    fs.readdir(transactionsFolder, (err, files) => {
+        if (err) {
+            return res.status(500).json({ error: "Error reading transactions folder" });
+        }
+
+        files.forEach(file => {
+            if (file.endsWith(".json")) {
+                const filePath = path.join(transactionsFolder, file);
+                const rawData = fs.readFileSync(filePath, "utf8");
+                const transactionData = JSON.parse(rawData);
+                transactions.push(transactionData);
+            }
+        });
+
+        res.json(transactions); // Return all transactions
+    });
+});
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
