@@ -331,7 +331,7 @@ initialize();
     transactions.push(transaction);
     updateTransactionTable();
     updateChart();
-
+    localStorage.setItem("transactions" , transactions);
     // Clear form
     document.getElementById("transaction-date").value = "";
     document.getElementById("transaction-desc").value = "";
@@ -350,6 +350,7 @@ initialize();
                             updateTransactionTable();
                             updateChart();
                         }
+                        localStorage.setItem("transactions" , transactions);
                     });
                 });
             }
