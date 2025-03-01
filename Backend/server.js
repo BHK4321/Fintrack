@@ -564,6 +564,7 @@ app.get(
 });
 
 app.post("/api/google-signin", async (req, res) => {
+    console.log("Google Sign-in API hit");
     try {
         const { token } = req.body;
         const ticket = await client.verifyIdToken({
@@ -587,6 +588,7 @@ app.post("/api/google-signin", async (req, res) => {
         res.json({ token: authToken, user });
 
     } catch (error) {
+        console.error("Google Sign-in Error:", error);
         res.status(400).json({ error: "Invalid Google token" });
     }
 });
