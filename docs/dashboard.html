@@ -222,7 +222,7 @@
       </p>
     </div>
   </footer>
-  <script>
+ <script>
 document.addEventListener("DOMContentLoaded", async function () {
     let transactions = [];
 
@@ -271,6 +271,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             ]
         },
+      
         options: {
             responsive: true,
             maintainAspectRatio: false,
@@ -319,150 +320,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Fetch transactions and update the chart
     fetchTransactions();
-});
 
-    // Script to handle dashboard interactions
-    document.addEventListener('DOMContentLoaded', function() {
-      // Handle navigation
-      const navLinks = document.querySelectorAll('.nav-link');
-      
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          if (this.getAttribute('href') === '#') {
-            e.preventDefault();
-          }
-        });
-      });
+    // Animate dashboard elements on load
+    const elements = document.querySelectorAll('.summary-card, .chart-container, .transactions-container, .reminders-container, .budget-container, .feature-btn');
 
-      // Animate dashboard elements on load
-      const elements = document.querySelectorAll('.summary-card, .chart-container, .transactions-container, .reminders-container, .budget-container, .feature-btn');
-      
-      elements.forEach((element, index) => {
+    elements.forEach((element, index) => {
         setTimeout(() => {
-          element.style.opacity = '1';
-          element.style.transform = 'translateY(0)';
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
         }, 100 * index);
-      });
-
-      // Handle delete buttons for transactions
-      const deleteButtons = document.querySelectorAll('.btn-delete');
-      
-      deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const row = this.closest('tr');
-          // Add fade-out animation
-          row.style.transition = 'opacity 0.3s';
-          row.style.opacity = '0';
-          
-          // Remove the row after animation
-          setTimeout(() => {
-            row.remove();
-          }, 300);
-        });
-      });
-
-      // CSV Drag and Drop functionality
-      const importCsvBtn = document.getElementById('import-csv-btn');
-      const csvDropzone = document.getElementById('csv-dropzone');
-      const fileInput = document.getElementById('csv-file-input');
-      
-      // Toggle dropzone visibility
-      if (importCsvBtn) {
-        importCsvBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          csvDropzone.classList.toggle('active');
-        });
-      }
-
-      // Handle feature buttons
-      const billBtn = document.querySelector('.bill-btn');
-      const chatbotBtn = document.querySelector('.chatbot-btn');
-      const transactionBtn = document.querySelector('.transaction-btn');
-      
-      if (billBtn) {
-        billBtn.addEventListener('click', function() {
-          alert('Bills & Notifications section will open here');
-        });
-      }
-      
-      if (chatbotBtn) {
-        chatbotBtn.addEventListener('click', function() {
-          alert('Finance Assistant chatbot will open here');
-        });
-      }
-      
-      if (transactionBtn) {
-        transactionBtn.addEventListener('click', function() {
-          alert('Transactions section will open here');
-        });
-      }
-
-      // Handle file input when clicking on dropzone
-      if (csvDropzone) {
-        csvDropzone.addEventListener('click', function() {
-          fileInput.click();
-        });
-      }
-      
-      // Handle file selection
-      if (fileInput) {
-        fileInput.addEventListener('change', function() {
-          if (this.files.length > 0) {
-            handleFile(this.files[0]);
-          }
-        });
-      }
-      
-      // Drag over event
-      if (csvDropzone) {
-        csvDropzone.addEventListener('dragover', function(e) {
-          e.preventDefault();
-          this.classList.add('drag-over');
-        });
-        
-        // Drag leave event
-        csvDropzone.addEventListener('dragleave', function() {
-          this.classList.remove('drag-over');
-        });
-        
-        // Drop event
-        csvDropzone.addEventListener('drop', function(e) {
-          e.preventDefault();
-          this.classList.remove('drag-over');
-          
-          if (e.dataTransfer.files.length > 0) {
-            const file = e.dataTransfer.files[0];
-            if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
-              handleFile(file);
-            } else {
-              alert('Please upload a CSV file.');
-            }
-          }
-        });
-      }
-      
-      // Close dropzone when clicking outside
-      document.addEventListener('click', function(e) {
-        if (csvDropzone && !csvDropzone.contains(e.target) && e.target !== importCsvBtn) {
-          csvDropzone.classList.remove('active');
-        }
-      });
-      
-      // Function to handle the uploaded file
-      function handleFile(file) {
-        // Here you would normally process the CSV file
-        // For demo purposes, just show success message
-        alert(`File "${file.name}" uploaded successfully! In a real application, this data would be processed and added to your transactions.`);
-        if (csvDropzone) {
-          csvDropzone.classList.remove('active');
-        }
-        
-        // Reset file input
-        if (fileInput) {
-          fileInput.value = '';
-        }
-      }
     });
-  </script>
+
+});
+</script>
+
 </body>
 </html>
