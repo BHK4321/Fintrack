@@ -214,7 +214,7 @@
 
         // Call the function when the page loads
         fetchTransactions();
-
+localStorage.setItem("transactions" , transactions);
             // Initialize chart with responsive options
             const ctx = document.getElementById('category-chart').getContext('2d');
             let categoryChart = new Chart(ctx, {
