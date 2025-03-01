@@ -9,9 +9,8 @@ function googleSignIn() {
                 // Opens Google sign-in popup
 }
 function handleCredentialResponse(response) {
-             console.log("ok");
     const token = response.credential;
-
+             console.log(token);
     fetch("https://my-backend-api-erp6.onrender.com/api/google-signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
