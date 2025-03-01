@@ -629,16 +629,15 @@ app.get("/api/get-transactions", async (req, res) => {
 app.delete("/api/transactions/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedTransaction = await trans.findByIdAndDelete(id);
-
+        const deletedTransaction = await trans.findByIdAndDelete(id); // Use correct model name
         if (!deletedTransaction) {
             return res.status(404).json({ success: false, message: "Transaction not found" });
         }
-
         res.json({ success: true, message: "Transaction deleted successfully" });
     } catch (error) {
         console.error("Error deleting transaction:", error);
         res.status(500).json({ success: false, message: "Server error", error });
     }
 });
+
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
