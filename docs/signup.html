@@ -373,7 +373,7 @@
             const data2 = { ...formData };  // Creates a shallow copy
             delete data2.confirmpassword; // Only affects the copy, not the original
             try {
-                const checkEmail = await fetch(`http://localhost:5000/api/users/${data2.email}`, {
+                const checkEmail = await fetch(`https://my-backend-api.onrender.com/api/users/${data2.email}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json"
@@ -398,7 +398,7 @@
                     return;
                 }
 
-                const response = await fetch('http://localhost:5000/api/users', {
+                const response = await fetch('https://my-backend-api.onrender.com/api/users', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data2)
