@@ -568,7 +568,7 @@ app.post("/api/google-signin", async (req, res) => {
         const { token } = req.body;
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: "YOUR_GOOGLE_CLIENT_ID",
+            audience: process.env.GOOGLE_CLIENT_ID,
         });
 
         const { email, name, picture } = ticket.getPayload();
@@ -580,7 +580,7 @@ app.post("/api/google-signin", async (req, res) => {
         }
 
         // User exists → Generate JWT
-        const authToken = jwt.sign({ id: user._id }, "your_secret_key", {
+        const authToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
             expiresIn: "7d",
         });
 
