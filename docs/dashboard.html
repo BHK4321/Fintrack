@@ -55,23 +55,19 @@
     <div class="dashboard-summary">
       <div class="summary-card">
         <h3>Total Balance</h3>
-        <p class="amount">$5,280.45</p>
-        <p class="trend positive">↑ 8.3% from last month</p>
+        <p id = "balance" class="amount"></p>
       </div>
       <div class="summary-card">
         <h3>Monthly Income</h3>
-        <p class="amount">$3,750.00</p>
-        <p class="trend neutral">― Same as last month</p>
+        <p id = "income" class="amount"></p>
       </div>
       <div class="summary-card">
         <h3>Monthly Expenses</h3>
-        <p class="amount">$2,138.75</p>
-        <p class="trend negative">↑ 12.6% from last month</p>
+        <p id = "expense" class="amount"></p>
       </div>
       <div class="summary-card">
         <h3>Savings Rate</h3>
-        <p class="amount">43%</p>
-        <p class="trend negative">↓ 5% from last month</p>
+        <p id = "savings" class="amount"></p>
       </div>
     </div>
 
@@ -256,11 +252,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         const categoryData = {};
 
         transactions.forEach(transaction => {
+            sum += transaction;
             const category = transaction.category;
             const amount = Math.abs(transaction.amount);
             categoryData[category] = (categoryData[category] || 0) + amount;
         });
-
+       
         categoryChart.data.labels = Object.keys(categoryData);
         categoryChart.data.datasets[0].data = Object.values(categoryData);
         categoryChart.data.datasets[0].backgroundColor = [
