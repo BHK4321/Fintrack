@@ -64,8 +64,8 @@
       </div>
       
       <div class="flex items-start mb-6">
-        <label for="rememberMe" class="text-sm text-text-secondary">Remember me on this device</label>
         <input type="checkbox" id="rememberMe" name="remember-me" class="mr-2 mt-1">
+        <label for="remember-me" class="text-sm text-text-secondary">Remember me on this device</label>
       </div>
       
       <div class="relative my-8 border-t border-white/10 whitespace-nowrap">
@@ -136,10 +136,10 @@ try {
       alert("Invalid Email or Password");
       return;
     }else if(data.valid === 2){
-      alert("No User found! Please Sign-up first!");
+      alert("No User found! Sign-up first!");
       return;
     }
-    alert("Signed-in !");
+    alert("signed-in");
     localStorage.setItem("jwtToken", data.accessToken);
     console.log("jwtToken");
     localStorage.setItem("userEmail" , formData.email);
