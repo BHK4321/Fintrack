@@ -172,6 +172,11 @@
     </div>
   </footer>
 <script>
+  const gt = localStorage.getItem("monthlyincome");
+  const inc = document.getElementbyId("income");
+  const bal = document.getElementbyId("balance");
+  if(gt){ inc.innerText = `$${gt.toFixed(2)}`;}else {inc.innerText = '$0';}
+  if(gt){bal.innerText = `$${gt.toFixed(2)}`;}else {bal.innerText = '$0';}
 document.addEventListener("DOMContentLoaded", async function () {
     let transactions = [];
 
@@ -205,6 +210,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const exp = document.getElementById("expense");
         if (exp) {
             exp.innerText = `$${sum.toFixed(2)}`;
+            const sav = document.getElementbyId("savings");
+            let savings = gt - sum;
+            let savingsPercentage = (savings / gt) * 100;
+            if(gt){sav.innerText = `$${savingsPercentage.toFixed(2)}`;}else {sav.innerText ='0%';}
         } else {
             console.error("Expense element not found!");
         }
