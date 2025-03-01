@@ -1,386 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTrack - Transaction Manager</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --bg-primary: #f5f5f7;
-            --bg-secondary: #1a1a1a;
-            --text-primary: #000000;
-            --text-secondary: #86868b;
-            --accent-primary: #0066cc;
-            --accent-secondary: #66b3ff;
-            --success: #0080ff;
-            --danger: #ff453a;
-            --feature-card-bg: #003366;
-            --feature-card-hover: #004080;
-            --get-started-bg: #0080ff;
-            --border-radius: 12px;
-            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-        
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.5;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: #002b4d;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        
-        .logo {
-            font-size: 50px;
-            font-weight: 600;
-            margin-left: 100px;
-            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
-        }
-        
-        .nav-links {
-            display: flex;
-            margin-right: 30px;
-            gap: 24px;
-        }
-        
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: #ffffff;
-        }
-        
-        .nav-link.active {
-            color: #ffffff;
-        }
-        
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-        
-        .page-title {
-            font-size: 2.2rem;
-            color: var(--accent-primary);
-            margin-bottom: 30px;
-            font-weight: 600;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 15px;
-        }
-        
-        .card {
-            background: #ffffff;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .card-title {
-            font-size: 1.4rem;
-            color: var(--accent-primary);
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-weight: 600;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 12px;
-        }
-        
-        .transaction-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        label {
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--feature-card-bg);
-        }
-        
-        input, select {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: border 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-        
-        input:focus, select:focus {
-            border-color: var(--accent-primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(7, 122, 18, 0.1);
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-primary {
-            background-color: var(--get-started-bg);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            color: white;
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-        
-        .btn-danger:hover {
-            background-color: #e5185c;
-        }
-        
-        .transactions-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .transactions-table th {
-            background-color: var(--feature-card-bg);
-            text-align: left;
-            padding: 15px 12px;
-            font-weight: 600;
-            color: white;
-            border-bottom: 2px solid #dee2e6;
-        }
-        
-        .transactions-table td {
-            padding: 15px 12px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .transactions-table tr:hover {
-            background-color: rgba(183, 245, 198, 0.1);
-        }
-        
-        .amount {
-            font-weight: 600;
-        }
-        
-        .amount.positive {
-            color: var(--success);
-        }
-        
-        .amount.negative {
-            color: var(--danger);
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            background-color: white;
-            margin-bottom: 30px;
-        }
-        
-        .controls-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            align-items: flex-end;
-            margin-bottom: 25px;
-        }
-        
-        .search-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: flex-end;
-        }
-        
-        .search-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .date-search {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .csv-dropzone {
-            border: 2px dashed var(--accent-primary);
-            border-radius: 8px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: rgba(102, 179, 255, 0.05);
-            margin-bottom: 15px;
-        }
-        
-        .csv-dropzone:hover, .csv-dropzone.dragover {
-            border-color: var(--accent-primary);
-            background-color: rgba(102, 179, 255, 0.1);
-        }
-        
-        .chart-container {
-            height: 300px;
-            position: relative;
-            width: 100%;
-        }
-        
-        .csv-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        
-        footer {
-            background-color: var(--feature-card-bg);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-        
-        @media (max-width: 768px) {
-            .transaction-form {
-                grid-template-columns: 1fr;
-            }
-            
-            .controls-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .nav {
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            .nav-links {
-                margin-top: 15px;
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .logo {
-                margin-left: 0;
-                font-size: 36px;
-            }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate {
-            animation: fadeIn 0.8s ease forwards;
-        }
-        
-        .delay-1 {
-            animation-delay: 0.1s;
-        }
-        
-        .delay-2 {
-            animation-delay: 0.2s;
-        }
-        
-        .delay-3 {
-            animation-delay: 0.3s;
-        }
-
-        .video-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-
-        body {
-            position: relative;
-            background-color: transparent;
-        }
-
-        .nav {
-            background-color: #002b4d;
-        }
-
-        .card, .table-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .transactions-table th {
-            background-color: #003366;
-        }
-    </style>
+    <link rel="stylesheet" href="trans.css">
 </head>
+
 <body>
     <video class="video-bg" autoplay muted loop>
         <source src="Background.mp4" type="video/mp4">
@@ -441,7 +69,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Search and Sort Controls -->
         <div class="card animate delay-3">
             <h2 class="card-title">Filter & Sort</h2>
@@ -454,7 +81,7 @@
                             <option value="category">Category</option>
                         </select>
                     </div>
-                    
+
                     <div id="date-search" class="date-search">
                         <div class="search-group">
                             <label for="search-date-from">From</label>
@@ -465,7 +92,7 @@
                             <input type="date" id="search-date-to">
                         </div>
                     </div>
-                    
+
                     <div id="category-search" class="search-group" style="display: none;">
                         <label for="search-category">Category</label>
                         <select id="search-category">
@@ -481,13 +108,13 @@
                             <option value="Misc">Misc</option>
                         </select>
                     </div>
-                    
+
                     <div class="search-group">
                         <button class="btn btn-primary" id="search-btn">Search</button>
                         <button class="btn btn-secondary" id="reset-search-btn" style="margin-top: 10px;">Reset</button>
                     </div>
                 </div>
-                
+
                 <div class="search-group">
                     <label for="sort-by">Sort by</label>
                     <select id="sort-by">
@@ -518,6 +145,7 @@
             </table>
         </div>
 
+
         <div class="grid-container animate">
             <!-- CSV Import/Export -->
             <div class="card">
@@ -531,13 +159,6 @@
                     <button class="btn btn-secondary" id="export-csv-btn">Export CSV</button>
                 </div>
             </div>
-
-
-
-
-
-
-
             <!-- Pie Chart -->
             <div class="card">
                 <h2 class="card-title">Spending by Category</h2>
@@ -558,7 +179,34 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        async function fetchTransactions() {
+            try {
+                const response = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions");
+                const transactions = await response.json();
+                const tbody = document.getElementById("transaction-body");
+                tbody.innerHTML = "";
+                transactions.forEach(transaction => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                <td>${transaction.date}</td>
+                <td>${transaction.description}</td>
+                <td>${transaction.category}</td>
+                <td>${transaction.amount}</td>
+                <td><button class="delete-btn" data-id="${transaction._id}">Delete</button></td>
+            `;
+                    tbody.appendChild(row);
+                });
+
+                attachDeleteListeners(); // Attach event listeners to delete buttons
+            } catch (error) {
+                console.error("Error fetching transactions:", error);
+            }
+        }
+
+        // Call the function when the page loads
+        fetchTransactions();
+
+        document.addEventListener("DOMContentLoaded", function () {
             // DOM Elements
             const transactionBody = document.getElementById("transaction-body");
             const addTransactionBtn = document.getElementById("add-transaction-btn");
@@ -572,11 +220,11 @@
             const searchBtn = document.getElementById("search-btn");
             const resetSearchBtn = document.getElementById("reset-search-btn");
             const sortBySelect = document.getElementById("sort-by");
-            
+
             // Store all transactions
             let transactions = [];
             let filteredTransactions = [];
-            
+
             // Initialize chart with responsive options
             const ctx = document.getElementById('category-chart').getContext('2d');
             let categoryChart = new Chart(ctx, {
@@ -607,7 +255,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     const label = context.label || '';
                                     const value = context.raw || 0;
                                     return `${label}: $${value.toFixed(2)}`;
@@ -617,9 +265,9 @@
                     }
                 }
             });
-            
+
             // Toggle search type
-            searchTypeSelect.addEventListener("change", function() {
+            searchTypeSelect.addEventListener("change", function () {
                 if (this.value === "date") {
                     dateSearch.style.display = "flex";
                     categorySearch.style.display = "none";
@@ -628,9 +276,28 @@
                     categorySearch.style.display = "block";
                 }
             });
-            
+            async function add(transaction) {
+                const resp = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(transaction)
+                });
+                const data = resp.json();
+                return data.id;
+            }
+            async function del(id) {
+                const resp = await fetch(`https://my-backend-api-erp6.onrender.com/api/transactions/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(id)
+                });
+            }
             // Add transaction
-            addTransactionBtn.addEventListener("click", function() {
+            addTransactionBtn.addEventListener("click", function () {
                 const date = document.getElementById("transaction-date").value;
                 const description = document.getElementById("transaction-desc").value;
                 const category = document.getElementById("transaction-category").value;
@@ -645,25 +312,26 @@
                     date: date,
                     description: description,
                     category: category,
-                    amount: parseFloat(amount)
+                    amount: parseFloat(amount),
                 };
-                
+                transaction.id = add(transaction);
                 transactions.push(transaction);
                 updateTransactionTable();
                 updateChart();
-                
                 // Clear form
                 document.getElementById("transaction-date").value = "";
                 document.getElementById("transaction-desc").value = "";
                 document.getElementById("transaction-amount").value = "";
             });
-            
+
             // Delete transaction
             function attachDeleteListeners() {
                 document.querySelectorAll(".delete-btn").forEach((btn, index) => {
-                    btn.addEventListener("click", function() {
+                    btn.addEventListener("click", function () {
                         const currentTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
                         const transactionIndex = transactions.indexOf(currentTransactions[index]);
+                        const trans = transactions[transactionIndex];
+                        del(trans.id);
                         if (transactionIndex > -1) {
                             transactions.splice(transactionIndex, 1);
                             updateTransactionTable();
@@ -672,17 +340,17 @@
                     });
                 });
             }
-            
+
             // Update transaction table
             function updateTransactionTable() {
                 transactionBody.innerHTML = "";
-                
+
                 const displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
-                
+
                 // Sort transactions
                 const sortedTransactions = [...displayTransactions];
                 const sortOption = sortBySelect.value;
-                
+
                 if (sortOption === "date-asc") {
                     sortedTransactions.sort((a, b) => new Date(a.date) - new Date(b.date));
                 } else if (sortOption === "date-desc") {
@@ -692,12 +360,11 @@
                 } else if (sortOption === "amount-desc") {
                     sortedTransactions.sort((a, b) => b.amount - a.amount);
                 }
-                
+
                 sortedTransactions.forEach(transaction => {
                     const row = document.createElement("tr");
                     const amountValue = transaction.amount;
                     const type = amountValue >= 0 ? "positive" : "negative";
-                    
                     row.innerHTML = `
                         <td>${transaction.date}</td>
                         <td>${transaction.description}</td>
@@ -705,30 +372,29 @@
                         <td class="amount ${type}">${amountValue >= 0 ? "+" : ""}$${Math.abs(amountValue).toFixed(2)}</td>
                         <td><button class="btn btn-danger delete-btn">Delete</button></td>
                     `;
-                    
+
                     transactionBody.appendChild(row);
                 });
-                
                 attachDeleteListeners();
             }
-            
+
             // Update chart
             function updateChart() {
                 // Group by category and sum amounts
                 const categoryData = {};
-                
+
                 transactions.forEach(transaction => {
                     // Include all transaction types
                     const category = transaction.category;
                     const amount = Math.abs(transaction.amount);
-                    
+
                     if (categoryData[category]) {
                         categoryData[category] += amount;
                     } else {
                         categoryData[category] = amount;
                     }
                 });
-                
+
                 // Check if we have any data to display
                 if (Object.keys(categoryData).length === 0) {
                     // If no data, show a placeholder
@@ -738,7 +404,7 @@
                 } else {
                     const labels = Object.keys(categoryData);
                     const data = Object.values(categoryData);
-                    
+
                     // Update chart data
                     categoryChart.data.labels = labels;
                     categoryChart.data.datasets[0].data = data;
@@ -747,27 +413,27 @@
                         '#e0e0e0', '#86868b', '#6c757d', '#003366', '#002b4d'
                     ].slice(0, labels.length);
                 }
-                
+
                 // Update the chart
                 categoryChart.update();
             }
-            
+
             // Sort transactions
             sortBySelect.addEventListener("change", updateTransactionTable);
-            
+
             // Search transactions
-            searchBtn.addEventListener("click", function() {
+            searchBtn.addEventListener("click", function () {
                 const searchType = searchTypeSelect.value;
-                
+
                 if (searchType === "date") {
                     const fromDate = document.getElementById("search-date-from").value;
                     const toDate = document.getElementById("search-date-to").value;
-                    
+
                     if (!fromDate && !toDate) {
                         alert("Please enter at least one date for searching.");
                         return;
                     }
-                    
+
                     filteredTransactions = transactions.filter(transaction => {
                         if (fromDate && toDate) {
                             return transaction.date >= fromDate && transaction.date <= toDate;
@@ -779,101 +445,101 @@
                     });
                 } else {
                     const category = document.getElementById("search-category").value;
-                    
+
                     if (!category) {
                         filteredTransactions = [];
                         updateTransactionTable();
                         return;
                     }
-                    
-                    filteredTransactions = transactions.filter(transaction => 
+
+                    filteredTransactions = transactions.filter(transaction =>
                         transaction.category === category
                     );
                 }
-                
+
                 updateTransactionTable();
             });
-            
+
             // Reset search
-            resetSearchBtn.addEventListener("click", function() {
+            resetSearchBtn.addEventListener("click", function () {
                 document.getElementById("search-date-from").value = "";
                 document.getElementById("search-date-to").value = "";
                 document.getElementById("search-category").value = "";
                 filteredTransactions = [];
                 updateTransactionTable();
             });
-            
+
             // CSV file dropzone
-            csvDropzone.addEventListener("click", function() {
+            csvDropzone.addEventListener("click", function () {
                 fileInput.click();
             });
-            
-            csvDropzone.addEventListener("dragover", function(e) {
+
+            csvDropzone.addEventListener("dragover", function (e) {
                 e.preventDefault();
                 csvDropzone.classList.add("dragover");
             });
-            
-            csvDropzone.addEventListener("dragleave", function() {
+
+            csvDropzone.addEventListener("dragleave", function () {
                 csvDropzone.classList.remove("dragover");
             });
-            
-            csvDropzone.addEventListener("drop", function(e) {
+
+            csvDropzone.addEventListener("drop", function (e) {
                 e.preventDefault();
                 csvDropzone.classList.remove("dragover");
-                
+
                 if (e.dataTransfer.files.length) {
                     fileInput.files = e.dataTransfer.files;
                 }
             });
-            
+
             // Import CSV
-            importCsvBtn.addEventListener("click", function() {
+            importCsvBtn.addEventListener("click", function () {
                 const file = fileInput.files[0];
                 if (!file) {
                     alert("Please select a CSV file.");
                     return;
                 }
-                
+
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const csvData = e.target.result;
                     const lines = csvData.split("\n");
-                    
+
                     // Skip header row
                     for (let i = 1; i < lines.length; i++) {
                         const line = lines[i].trim();
                         if (!line) continue;
-                        
+
                         const fields = line.split(",");
                         if (fields.length < 4) continue;
-                        
+
                         const transaction = {
                             date: fields[0],
                             description: fields[1],
                             category: fields[2],
                             amount: parseFloat(fields[3].replace(/[^-0-9.]/g, ""))
                         };
-                        
+                        transaction.id = add(transaction);
                         transactions.push(transaction);
                     }
-                    
+
                     updateTransactionTable();
                     updateChart();
                     alert("CSV file imported successfully!");
                 };
-                
+
                 reader.readAsText(file);
             });
-            
+
             // Export CSV
-            exportCsvBtn.addEventListener("click", function() {
+            exportCsvBtn.addEventListener("click", function () {
                 if (transactions.length === 0) {
                     alert("No transactions to export.");
                     return;
                 }
-                
+
                 let csvContent = "data:text/csv;charset=utf-8,Date,Description,Category,Amount\n";
-                
+
                 transactions.forEach(transaction => {
                     const row = [
                         transaction.date,
@@ -881,10 +547,10 @@
                         transaction.category,
                         transaction.amount.toFixed(2)
                     ].join(",");
-                    
+
                     csvContent += row + "\n";
                 });
-                
+
                 const encodedUri = encodeURI(csvContent);
                 const link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
@@ -893,60 +559,9 @@
                 link.click();
                 document.body.removeChild(link);
             });
-
-
-
-
-
-
-
-            
-            
-            // Show initial placeholder chart
             updateChart();
-            
-            // Add sample transaction for testing
-            if (transactions.length === 0) {
-                // Add some sample data for initial testing
-                const sampleData = [
-                    {
-                        date: "2025-02-15",
-                        description: "Grocery shopping",
-                        category: "Food & Dining",
-                        amount: -85.42
-                    },
-                    {
-                        date: "2025-02-16",
-                        description: "Gas station",
-                        category: "Transportation",
-                        amount: -45.00
-                    },
-                    {
-                        date: "2025-02-20",
-                        description: "Monthly salary",
-                        category: "Income",
-                        amount: 3500.00
-                    }
-                ];
-                
-                sampleData.forEach(item => transactions.push(item));
-                updateTransactionTable();
-                updateChart();
-            }
         });
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
-</html>
 
+</html>
