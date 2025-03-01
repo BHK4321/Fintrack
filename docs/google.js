@@ -1,11 +1,12 @@
-        console.log("ok");
+
 function googleSignIn() {
     google.accounts.id.initialize({
         client_id: "132007011528-thn7vlbhj76ke4krvmmpnc9vvntbobjv.apps.googleusercontent.com",
         callback: handleCredentialResponse
     });
 
-    google.accounts.id.prompt(); // Opens Google sign-in popup
+    google.accounts.id.prompt();
+                console.log("ok");// Opens Google sign-in popup
 }
 function handleCredentialResponse(response) {
     const token = response.credential;
