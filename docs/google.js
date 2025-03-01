@@ -1,5 +1,6 @@
 
 function googleSignIn() {
+    console.log("ok");
     google.accounts.id.initialize({
         client_id: "132007011528-thn7vlbhj76ke4krvmmpnc9vvntbobjv.apps.googleusercontent.com",
         callback: handleCredentialResponse
