@@ -171,7 +171,7 @@
       </p>
     </div>
   </footer>
- <script>
+<script>
 document.addEventListener("DOMContentLoaded", async function () {
     let transactions = [];
 
@@ -179,9 +179,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         try {
             const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
             });
 
             if (!response.ok) {
@@ -189,9 +187,26 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             transactions = await response.json();
-            updateChart(); // Call updateChart only after data is fetched
+            updateChart();
+            updateTotalExpenses();
         } catch (error) {
             console.error("Error fetching transactions:", error);
+        }
+    }
+
+    function updateTotalExpenses() {
+        if (!transactions.length) return;
+
+        let sum = 0;
+        transactions.forEach(transaction => {
+            sum += Math.abs(transaction.amount); // Ensure we only sum amounts
+        });
+
+        const exp = document.getElementById("expense");
+        if (exp) {
+            exp.innerText = `$${sum.toFixed(2)}`;
+        } else {
+            console.error("Expense element not found!");
         }
     }
 
@@ -220,17 +235,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             ]
         },
-      
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: "right",
-                    labels: {
-                        boxWidth: 12,
-                        font: { size: 11 }
-                    }
+                    labels: { boxWidth: 12, font: { size: 11 } }
                 },
                 tooltip: {
                     callbacks: {
@@ -242,23 +253,17 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
     });
-   let sum = 0;
+
     function updateChart() {
-        if (!transactions.length) {
-            console.warn("No transaction data available.");
-            return;
-        }
+        if (!transactions.length) return;
 
         const categoryData = {};
-
         transactions.forEach(transaction => {
-            sum += transaction;
             const category = transaction.category;
             const amount = Math.abs(transaction.amount);
             categoryData[category] = (categoryData[category] || 0) + amount;
         });
-       const exp = document.getElementById("expense");
-        exp.innerText = `$${sum.toFixed(2)}`;
+
         categoryChart.data.labels = Object.keys(categoryData);
         categoryChart.data.datasets[0].data = Object.values(categoryData);
         categoryChart.data.datasets[0].backgroundColor = [
@@ -269,21 +274,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         categoryChart.update();
     }
 
-    // Fetch transactions and update the chart
-    fetchTransactions();
-
-    // Animate dashboard elements on load
-    const elements = document.querySelectorAll('.summary-card, .chart-container, .transactions-container, .reminders-container, .budget-container, .feature-btn');
-
-    elements.forEach((element, index) => {
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }, 100 * index);
-    });
-
-});
-   document.addEventListener("DOMContentLoaded", async function () {
     async function fetchUpcomingBills() {
         try {
             const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-upcoming-bills");
@@ -300,14 +290,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function displayUpcomingBills(bills) {
         const billsContainer = document.querySelector(".reminders-list");
-
         if (!billsContainer) {
             console.error("Reminders container not found!");
             return;
         }
 
         billsContainer.innerHTML = ""; // Clear existing content
-
         if (bills.length === 0) {
             billsContainer.innerHTML = "<p>No upcoming bills!</p>";
             return;
@@ -316,11 +304,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const today = new Date();
 
         bills.forEach(bill => {
-            const dueDate = new Date(bill.deadline); // Correct field name
+            const dueDate = new Date(bill.deadline);
             const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
 
-            // Show only bills scheduled for the future
-            if (daysUntilDue >= 0) {
+            if (daysUntilDue >= 0) {  // Ensure only future bills are shown
                 const billElement = document.createElement("div");
                 billElement.classList.add("reminder");
                 billElement.innerHTML = `
@@ -340,9 +327,21 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
+    // Fetch data on page load
+    fetchTransactions();
     fetchUpcomingBills();
+
+    // Animate dashboard elements on load
+    const elements = document.querySelectorAll('.summary-card, .chart-container, .transactions-container, .reminders-container, .budget-container, .feature-btn');
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, 100 * index);
+    });
 });
 </script>
+
 
 </body>
 </html>
