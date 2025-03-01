@@ -1,7 +1,7 @@
 
 async function handleUserAccess() {
-    const email = localStorage.getItem("userEmail");
-    const token = localStorage.getItem("jwtToken");
+    let email = localStorage.getItem("userEmail");
+    let token = localStorage.getItem("jwtToken");
     if (typeof email === "undefined"){
         localStorage.setItem("userEmail" , null);
     }
