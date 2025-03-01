@@ -1,6 +1,6 @@
 
 function googleSignIn() {
-    console.log("ok");
+
     google.accounts.id.initialize({
         client_id: "132007011528-thn7vlbhj76ke4krvmmpnc9vvntbobjv.apps.googleusercontent.com",
         callback: handleCredentialResponse
@@ -10,8 +10,10 @@ function googleSignIn() {
                 // Opens Google sign-in popup
 }
 function handleCredentialResponse(response) {
+        console.log("ok");
     const token = response.credential;
              console.log(token);
+        console.log("ok");
     fetch("https://my-backend-api-erp6.onrender.com/api/google-signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
