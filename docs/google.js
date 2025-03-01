@@ -6,7 +6,7 @@ function googleSignIn() {
     });
 
     google.accounts.id.prompt();
-                console.log("ok");// Opens Google sign-in popup
+                // Opens Google sign-in popup
 }
 function handleCredentialResponse(response) {
     const token = response.credential;
@@ -18,6 +18,7 @@ function handleCredentialResponse(response) {
     })
     .then(res => res.json())
     .then(data => {
+        console.log(data.status);
         if (data.status === "new_user") {
             // Redirect user to sign-up page
             alert("Please Sign-up first");
