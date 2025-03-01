@@ -1,5 +1,5 @@
 
-function googleSignIn() {
+async function googleSignIn() {
 
     google.accounts.id.initialize({
         client_id: "132007011528-thn7vlbhj76ke4krvmmpnc9vvntbobjv.apps.googleusercontent.com",
@@ -9,7 +9,7 @@ function googleSignIn() {
     google.accounts.id.prompt();
                 // Opens Google sign-in popup
 }
-function handleCredentialResponse(response) {
+async function handleCredentialResponse(response) {
         console.log("ok");
     const token = response.credential;
              console.log(token);
