@@ -5,10 +5,10 @@ async function handleUserAccess() {
     console.log(email);
     console.log(token);
     if (typeof email === "undefined"){
-        localStorage.setItem("userEmail" , null);
+        localStorage.setItem("userEmail" , "");
     }
     if (typeof token === "undefined"){
-        localStorage.setItem("jwtToken" , null);
+        localStorage.setItem("jwtToken" , "");
     }
     email = localStorage.getItem("userEmail");
     token = localStorage.getItem("jwtToken");
