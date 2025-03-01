@@ -3,7 +3,7 @@ async function secured(){
     const email = localStorage.getItem("userEmail");
     const token = localStorage.getItem("resetToken");
     console.log(token);
-    const userResp = await fetch(`http://localhost:5000/api/auth/check/${email}`, {
+    const userResp = await fetch(`https://my-backend-api.onrender.com/api/auth/check/${email}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
