@@ -18,7 +18,6 @@ function handleCredentialResponse(response) {
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data.status);
         if (data.status === "new_user") {
             // Redirect user to sign-up page
             alert("Please Sign-up first");
@@ -34,6 +33,7 @@ function handleCredentialResponse(response) {
         }
     })
     .catch(error => {
+         console.log(error);
         console.error("Login Error:", error);
     });
 }
