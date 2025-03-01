@@ -9,6 +9,7 @@ function googleSignIn() {
                 // Opens Google sign-in popup
 }
 function handleCredentialResponse(response) {
+             console.log("ok");
     const token = response.credential;
 
     fetch("https://my-backend-api-erp6.onrender.com/api/google-signin", {
@@ -33,7 +34,6 @@ function handleCredentialResponse(response) {
         }
     })
     .catch(error => {
-         console.log(error);
         console.error("Login Error:", error);
     });
 }
