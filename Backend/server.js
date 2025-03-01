@@ -21,12 +21,13 @@ const { configDotenv } = require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors(
+app.use(cors({
     origin: "https://bhk4321.github.io", // Allow requests from GitHub Pages
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization"
-));
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
+app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
