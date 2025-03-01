@@ -398,6 +398,21 @@ app.post('/api/schedule-reminder', (req, res) => {
     res.status(200).json({ message: 'Reminder scheduled' });
 });
 
+//dashboard
+app.get("/api/get-upcoming-bills", async (req, res) => {
+    try {
+        const today = new Date();
+        const bills = await Bill.find({ dueDate: { $gte: today } }) // Only future bills
+            .sort({ dueDate: 1 }) // Earliest due dates first
+            .limit(3); // Get only top 3 upcoming bills
+
+        res.json(bills);
+    } catch (error) {
+        console.error("Error fetching upcoming bills:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 // Function to send initial bill notifications
 async function sendBillNotifications(bill) {
     const transporter = createMailTransporter();
