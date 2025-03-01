@@ -14,7 +14,7 @@ async function handleUserAccess() {
     }
     try {
             console.log(email);
-            const Response = await fetch(`http://localhost:5000/api/users/${email}`, {
+            const Response = await fetch(`https://my-backend-api.onrender.com/api/users/${email}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`, // Attach the token
@@ -38,7 +38,7 @@ async function handleUserAccess() {
 }
     handleUserAccess();
    async function logout() {
-        const log = await fetch(`http://localhost:5000/api/logout`,{
+        const log = await fetch(`https://my-backend-api.onrender.com/api/logout`,{
              method : "POST",
              headers: {
                 "Content-Type": "application/json"
