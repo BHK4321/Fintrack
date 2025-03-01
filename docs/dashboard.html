@@ -243,11 +243,6 @@ async function fetchTransactions() {
 
         // Call the function when the page loads
         fetchTransactions();
-    if (!Array.isArray(transactions) || transactions.length === 0) {
-        console.warn("No transactions found in localStorage.");
-        return;
-    }
-
     const canvas = document.getElementById('category-chart');
     if (!canvas) {
         console.error("Canvas element for category-chart not found!");
