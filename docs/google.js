@@ -10,7 +10,7 @@ function googleSignIn() {
 function handleCredentialResponse(response) {
     const token = response.credential;
 
-    fetch("http://localhost:5000/api/google-signin", {
+    fetch("https://my-backend-api.onrender.com/api/google-signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
