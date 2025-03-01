@@ -315,28 +315,35 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
+        const today = new Date();
+
         bills.forEach(bill => {
-            const dueDate = new Date(bill.dueDate);
-            const today = new Date();
+            const dueDate = new Date(bill.deadline); // Correct field name
             const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
 
-            const billElement = document.createElement("div");
-            billElement.classList.add("reminder");
-            billElement.innerHTML = `
-                <div class="reminder-date">${dueDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
-                <div class="reminder-info">
-                    <h4>${bill.name}</h4>
-                    <p>$${bill.amount.toFixed(2)}</p>
-                </div>
-                <div class="reminder-status ${daysUntilDue <= 3 ? "due-soon" : ""}">Due in ${daysUntilDue} days</div>
-            `;
-            billsContainer.appendChild(billElement);
+            // Show only bills scheduled for the future
+            if (daysUntilDue >= 0) {
+                const billElement = document.createElement("div");
+                billElement.classList.add("reminder");
+                billElement.innerHTML = `
+                    <div class="reminder-date">${dueDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
+                    <div class="reminder-info">
+                        <h4>${bill.description}</h4>
+                        <p>$${bill.amount.toFixed(2)}</p>
+                    </div>
+                    <div class="reminder-status ${daysUntilDue <= 3 ? "due-soon" : ""}">Due in ${daysUntilDue} days</div>
+                `;
+                billsContainer.appendChild(billElement);
+            }
         });
+
+        if (billsContainer.innerHTML === "") {
+            billsContainer.innerHTML = "<p>No upcoming bills!</p>";
+        }
     }
 
     fetchUpcomingBills();
 });
-
 </script>
 
 </body>
