@@ -179,33 +179,6 @@
     </footer>
 
     <script>
-        async function fetchTransactions() {
-            try {
-                const response = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions");
-                const transactions = await response.json();
-                const tbody = document.getElementById("transaction-body");
-                tbody.innerHTML = "";
-                transactions.forEach(transaction => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                <td>${transaction.date}</td>
-                <td>${transaction.description}</td>
-                <td>${transaction.category}</td>
-                <td>${transaction.amount}</td>
-                <td><button class="delete-btn" data-id="${transaction._id}">Delete</button></td>
-            `;
-                    tbody.appendChild(row);
-                });
-
-                attachDeleteListeners(); // Attach event listeners to delete buttons
-            } catch (error) {
-                console.error("Error fetching transactions:", error);
-            }
-        }
-
-        // Call the function when the page loads
-        fetchTransactions();
-
         document.addEventListener("DOMContentLoaded", function () {
             // DOM Elements
             const transactionBody = document.getElementById("transaction-body");
@@ -224,6 +197,23 @@
             // Store all transactions
             let transactions = [];
             let filteredTransactions = [];
+          async function fetchTransactions() {
+             try {
+                const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions",{
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const trans = await response.json();
+                transactions = trans.transactions;
+            } catch (error) {
+                console.error("Error fetching transactions:", error);
+            }
+        }
+
+        // Call the function when the page loads
+        fetchTransactions();
 
             // Initialize chart with responsive options
             const ctx = document.getElementById('category-chart').getContext('2d');
