@@ -274,7 +274,7 @@
                     },
                     body: JSON.stringify(transaction)
                 });
-                const data = resp.json();
+                const data = await resp.json();
                 return data.id;
             }
             async function del(id) {
