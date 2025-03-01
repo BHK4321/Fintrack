@@ -8,6 +8,8 @@ async function handleUserAccess() {
     if (typeof token === "undefined"){
         localStorage.setItem("jwtToken" , null);
     }
+    const email = localStorage.getItem("userEmail");
+    const token = localStorage.getItem("jwtToken");
     if (!email || !token) {
         document.getElementById("auth-link").style.display = "block";
         return;// No email or token found, user is not logged in
@@ -22,6 +24,7 @@ async function handleUserAccess() {
                 }
             });
             const data = await Response.json();
+            console.log(data.valid);
             if(data.valid === 5){
                 alert("Server error! Try again later!");
                 return;
