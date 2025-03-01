@@ -593,34 +593,43 @@ app.post("/api/google-signin", async (req, res) => {
 
 //Transactions
 
-//schema
+// Define Schema and Model
 const transSchema = new mongoose.Schema({
     date: Date,
     description: String,
     category: String,
     amount: Number
 });
+const trans = mongoose.model("trans", transSchema);
 
-const trans = mongoose.model('trans', transSchema);
-
-//create
-app.post('/api/transactions', async (req, res) => {
+// Create Transaction (POST)
+app.post("/api/transactions", async (req, res) => {
     try {
         const newtrans = new trans(req.body);
         await newtrans.save();
-        res.status(201).json({id: newtrans._id});
+        res.status(201).json({ id: newtrans._id });
     } catch (error) {
-        console.error('Error saving transaction:', error);
-        res.status(500).json({ error: 'Failed to save transaction' });
+        console.error("Error saving transaction:", error);
+        res.status(500).json({ error: "Failed to save transaction" });
     }
 });
 
-//delete
+// Fetch All Transactions (GET)
+app.get("/api/get-transactions", async (req, res) => {
+    try {
+        const transactions = await trans.find(); // Fetch from MongoDB
+        res.json(transactions);
+    } catch (error) {
+        console.error("Error fetching transactions:", error);
+        res.status(500).json({ error: "Error fetching transactions" });
+    }
+});
 
+// Delete Transaction by ID (DELETE)
 app.delete("/api/transactions/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedTransaction = await transactions.findByIdAndDelete(new mongoose.Types.ObjectId(id));
+        const deletedTransaction = await trans.findByIdAndDelete(id);
 
         if (!deletedTransaction) {
             return res.status(404).json({ success: false, message: "Transaction not found" });
@@ -628,33 +637,8 @@ app.delete("/api/transactions/:id", async (req, res) => {
 
         res.json({ success: true, message: "Transaction deleted successfully" });
     } catch (error) {
+        console.error("Error deleting transaction:", error);
         res.status(500).json({ success: false, message: "Server error", error });
     }
-});
-
-//Prompt
-// Define the transactions folder path
-const transactionsFolder = path.join(__dirname, "api", "transactions");
-
-// API route to fetch all transactions
-app.get("/api/get-transactions", (req, res) => {
-    let transactions = [];
-
-    fs.readdir(transactionsFolder, (err, files) => {
-        if (err) {
-            return res.status(500).json({ error: "Error reading transactions folder" });
-        }
-
-        files.forEach(file => {
-            if (file.endsWith(".json")) {
-                const filePath = path.join(transactionsFolder, file);
-                const rawData = fs.readFileSync(filePath, "utf8");
-                const transactionData = JSON.parse(rawData);
-                transactions.push(transactionData);
-            }
-        });
-
-        res.json(transactions); // Return all transactions
-    });
 });
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
