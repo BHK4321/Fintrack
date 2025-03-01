@@ -197,20 +197,20 @@
             // Store all transactions
             let transactions = [];
             let filteredTransactions = [];
-          async function fetchTransactions() {
-             try {
-                const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions",{
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                const trans = await response.json();
-                transactions = trans.transactions;
-            } catch (error) {
-                console.error("Error fetching transactions:", error);
-            }
-        }
+         async function fetchTransactions() {
+    try {
+        const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const trans = await response.json();
+        transactions = trans; // Fix: store array correctly
+    } catch (error) {
+        console.error("Error fetching transactions:", error);
+    }
+}
 
         // Call the function when the page loads
         fetchTransactions();
@@ -266,55 +266,77 @@
                     categorySearch.style.display = "block";
                 }
             });
-            async function add(transaction) {
-                const resp = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(transaction)
-                });
-                const data = await resp.json();
-                return data.id;
-            }
+           async function add(transaction) {
+    const resp = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transaction),
+    });
+
+    if (!resp.ok) {
+        console.error("Error adding transaction:", await resp.json());
+        return null; // Prevent pushing invalid data
+    }
+
+    const data = await resp.json();
+    return data.id || null; // Ensure id exists
+}
+
             async function del(id) {
-                const resp = await fetch(`https://my-backend-api-erp6.onrender.com/api/transactions/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(id)
-                });
-            }
+    const resp = await fetch(`https://my-backend-api-erp6.onrender.com/api/transactions/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (!resp.ok) {
+        console.error("Error deleting transaction:", await resp.json());
+    }
+}
+            async function initialize() {
+    await fetchTransactions(); // Fetch transactions before setting up chart
+    updateTransactionTable();
+    updateChart();
+}
+initialize();
             // Add transaction
             addTransactionBtn.addEventListener("click", async function () {
-                const date = document.getElementById("transaction-date").value;
-                const description = document.getElementById("transaction-desc").value;
-                const category = document.getElementById("transaction-category").value;
-                const amount = document.getElementById("transaction-amount").value;
+    const date = document.getElementById("transaction-date").value;
+    const description = document.getElementById("transaction-desc").value;
+    const category = document.getElementById("transaction-category").value;
+    const amount = document.getElementById("transaction-amount").value;
 
-                if (!date || !description || !amount) {
-                    alert("Please fill in all fields.");
-                    return;
-                }
+    if (!date || !description || !amount) {
+        alert("Please fill in all fields.");
+        return;
+    }
 
-                const transaction = {
-                    date: date,
-                    description: description,
-                    category: category,
-                    amount: parseFloat(amount),
-                };
-                transaction.id = await add(transaction);
-                console.log(transaction.id);
-                transactions.push(transaction);
-                updateTransactionTable();
-                updateChart();
-                // Clear form
-                document.getElementById("transaction-date").value = "";
-                document.getElementById("transaction-desc").value = "";
-                document.getElementById("transaction-amount").value = "";
-            });
+    const transaction = {
+        date: date,
+        description: description,
+        category: category,
+        amount: parseFloat(amount),
+    };
 
+    const id = await add(transaction);
+    if (!id) {
+        alert("Failed to add transaction.");
+        return;
+    }
+
+    transaction.id = id;
+    transactions.push(transaction);
+    updateTransactionTable();
+    updateChart();
+
+    // Clear form
+    document.getElementById("transaction-date").value = "";
+    document.getElementById("transaction-desc").value = "";
+    document.getElementById("transaction-amount").value = "";
+});
             // Delete transaction
             function attachDeleteListeners() {
                 document.querySelectorAll(".delete-btn").forEach((btn, index) => {
