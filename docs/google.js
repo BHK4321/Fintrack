@@ -1,4 +1,4 @@
-
+        console.log("ok");
 function googleSignIn() {
     google.accounts.id.initialize({
         client_id: "132007011528-thn7vlbhj76ke4krvmmpnc9vvntbobjv.apps.googleusercontent.com",
@@ -17,7 +17,6 @@ function handleCredentialResponse(response) {
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data.status);
         if (data.status === "new_user") {
             // Redirect user to sign-up page
             alert("Please Sign-up first");
