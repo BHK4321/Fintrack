@@ -209,6 +209,28 @@ app.get("/api/auth/check/:email", async (req, res) => {
         return res.status(500).json({ valid: 6, message: "Server error" });
     }
 });
+app.get("/api/auth/check2/:email", async (req, res) => {
+    try {
+        const { email } = req.params;
+        const {password , username} = req.body;
+        try {
+            // Fetch user by email
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(404).json({ valid: 0, message: "User not found!" });
+            }
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) return res.json({valid:1, error: "Invalid email or password" });
+            return res.status(200).json({ valid: 3, message: "User is authorized"});
+        } catch (err) {
+            return res.status(403).json({ valid: 5, message: "Invalid or expired token" });
+        }
+    } catch (error) {
+        console.error("Error checking authorization:", error);
+        return res.status(500).json({ valid: 6, message: "Server error" });
+    }
+});
 app.post("/api/users", async (req, res) => {
     try {
         const {username,
