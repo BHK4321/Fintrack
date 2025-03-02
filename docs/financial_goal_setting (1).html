@@ -251,6 +251,33 @@
   </div>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+   async function fetchTransactionSummary() {
+    try {
+        const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        const transactions = await response.json();
+
+        let totalAmount = 0;
+        let transactionList = "";
+        const currentMonth = new Date().getMonth();
+
+        transactions.forEach(transaction => {
+            const transDate = new Date(transaction.date);
+            if (transDate.getMonth() === currentMonth) {
+                totalAmount += transaction.amount;
+                transactionList += `📌 ${transaction.date.split("T")[0]} - ${transaction.category}: ₹${transaction.amount}\n`;
+            }
+        });
+
+        return `Here’s your transaction history for this month:\nTotal Spent: ₹${totalAmount}\n\n${transactionList || "No transactions found this month."}`;
+    } catch (error) {
+        console.error("Error fetching transaction summary:", error);
+        return "Transaction data is unavailable at the moment.";
+    }
+}
+
     const goalsTab = document.getElementById("goals-tab");
     const dashboardTab = document.getElementById("dashboard-tab");
     const goalsSection = document.getElementById("goals-section");
@@ -275,7 +302,7 @@
     // Form submission event
     createGoalButton.addEventListener("click", function(e) {
       e.preventDefault(); // Prevent actual form submission
-  
+   
       // Fetch latest input values dynamically
       const goalName = document.getElementById("goal-name").value || "a goal";
       const goalCategory = document.getElementById("goal-category").value || "General";
@@ -286,66 +313,75 @@
       showAssistantPopup(goalName, goalAmount, goalDeadline, initialDeposit);
     });
   
-    function showAssistantPopup(goalName, goalAmount, goalDeadline, initialDeposit) {
-      const popupOverlay = document.createElement("div");
-      popupOverlay.className = "assistant-overlay";
-  
-      const popupContent = document.createElement("div");
-      popupContent.className = "assistant-popup";
-  
-      // Create header with close button
-      const popupHeader = document.createElement("div");
-      popupHeader.className = "assistant-header";
-  
-      const popupTitle = document.createElement("h3");
-      popupTitle.textContent = "FinTrack Personal Assistant";
-  
-      const closeButton = document.createElement("button");
-      closeButton.innerHTML = "&times;";
-      closeButton.className = "assistant-close";
-      closeButton.onclick = () => document.body.removeChild(popupOverlay);
-  
-      popupHeader.appendChild(popupTitle);
-      popupHeader.appendChild(closeButton);
-  
-      // Create assistant content
-      const assistantContent = document.createElement("div");
-      assistantContent.className = "assistant-content";
-  
-      const assistantMessage = document.createElement("p");
-      assistantMessage.textContent = "Need help setting financial goals? Here’s a template you can use to describe your goal in detail:";
-  
-      const promptBox = document.createElement("div");
-      promptBox.className = "prompt-box";
-  
-      const promptText = document.createElement("pre");
-      promptText.textContent = `I want to save for ${goalName} with a target amount of ₹${goalAmount}. 
-  I’d like to reach this goal by ${goalDeadline}. 
-  My initial savings deposit is ₹${initialDeposit}. 
-  Is this goal realistic, and what strategy would you recommend?`;
-  
-      const copyButton = document.createElement("button");
-      copyButton.className = "copy-prompt-btn";
-      copyButton.textContent = "Copy to Clipboard";
-      copyButton.onclick = () => {
-        navigator.clipboard.writeText(promptText.textContent)
-          .then(() => {
+    async function showAssistantPopup(goalName, goalAmount, goalDeadline, initialDeposit) {
+    const popupOverlay = document.createElement("div");
+    popupOverlay.className = "assistant-overlay";
+
+    const popupContent = document.createElement("div");
+    popupContent.className = "assistant-popup";
+
+    // Create header with close button
+    const popupHeader = document.createElement("div");
+    popupHeader.className = "assistant-header";
+
+    const popupTitle = document.createElement("h3");
+    popupTitle.textContent = "FinTrack Personal Assistant";
+
+    const closeButton = document.createElement("button");
+    closeButton.innerHTML = "&times;";
+    closeButton.className = "assistant-close";
+    closeButton.onclick = () => document.body.removeChild(popupOverlay);
+
+    popupHeader.appendChild(popupTitle);
+    popupHeader.appendChild(closeButton);
+
+    // Create assistant content
+    const assistantContent = document.createElement("div");
+    assistantContent.className = "assistant-content";
+
+    const assistantMessage = document.createElement("p");
+    assistantMessage.textContent = "Need help setting financial goals? Here’s a template you can use:";
+
+    // Goal summary
+    const goalSummary = document.createElement("pre");
+    goalSummary.textContent = `I want to save for ${goalName} with a target amount of ₹${goalAmount}. 
+I’d like to reach this goal by ${goalDeadline}. 
+My initial savings deposit is ₹${initialDeposit}. 
+Is this goal realistic, and what strategy would you recommend?`;
+
+    const copyButton = document.createElement("button");
+    copyButton.className = "copy-prompt-btn";
+    copyButton.textContent = "Copy to Clipboard";
+    copyButton.onclick = () => {
+        navigator.clipboard.writeText(goalSummary.textContent).then(() => {
             copyButton.textContent = "Copied!";
             setTimeout(() => copyButton.textContent = "Copy to Clipboard", 2000);
-          });
-      };
-  
-      promptBox.appendChild(promptText);
-      promptBox.appendChild(copyButton);
-      assistantContent.appendChild(assistantMessage);
-      assistantContent.appendChild(promptBox);
-  
-      popupContent.appendChild(popupHeader);
-      popupContent.appendChild(assistantContent);
-      popupOverlay.appendChild(popupContent);
-  
-      document.body.appendChild(popupOverlay);
-    }
+        });
+    };
+
+    // Add transaction summary container
+    const transactionSummaryContainer = document.createElement("div");
+    transactionSummaryContainer.className = "transaction-summary";
+    transactionSummaryContainer.textContent = "Fetching transaction summary...";
+
+    // Fetch and update transaction summary
+    fetchTransactionSummary().then(summaryText => {
+        transactionSummaryContainer.textContent = summaryText;
+    });
+
+    // Append elements
+    assistantContent.appendChild(assistantMessage);
+    assistantContent.appendChild(goalSummary);
+    assistantContent.appendChild(copyButton);
+    assistantContent.appendChild(transactionSummaryContainer);
+
+    popupContent.appendChild(popupHeader);
+    popupContent.appendChild(assistantContent);
+    popupOverlay.appendChild(popupContent);
+
+    document.body.appendChild(popupOverlay);
+}
+
   });
   </script>
     <footer class="footer">
