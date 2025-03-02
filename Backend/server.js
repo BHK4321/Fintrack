@@ -76,6 +76,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 //schema
 const userSchema = new mongoose.Schema({
+    username : String,
     firstName: String,
     lastName: String,
     email: { type: String, unique: true, required: true},
@@ -210,7 +211,7 @@ app.get("/api/auth/check/:email", async (req, res) => {
 });
 app.post("/api/users", async (req, res) => {
     try {
-        const {
+        const {username,
  firstName, lastName, email, password, userage,Married,
   Spousename, Spouseage, Spousemonthlyincome,Children,
   monthlyincome,Primaryfinancialgoal,phone,Bankname,AccountNumber,
@@ -234,7 +235,7 @@ app.post("/api/users", async (req, res) => {
       const hashifsc = encrypt(ifscStr);
       const hashlink = encrypt(linkedCardStr);
       const hashup = encrypt(upiStr);
-        const newUser = new User({
+        const newUser = new User({username,
              firstName, lastName, email,password:hashedPassword,
              userage,Married,
   Spousename, Spouseage, Spousemonthlyincome : hashspouseincome,Children,
@@ -330,6 +331,7 @@ app.post("/api/forgot-password", async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+        
 // Reset Password Endpoint
 app.post("/api/reset-password", async (req, res) => {
     try {
@@ -512,7 +514,7 @@ async function sendReminderEmails(bill) {
     // Send to each friend
     for (const friendEmail of bill.friends) {
         const mailOptions = {
-            from: '"FinTrack Reminder" <noreply@fintrack.com>',
+            from: '"FinTrack Reminder" <noreply@bhaskarpandey787@gmail.com>',
             to: friendEmail,
             subject: `REMINDER: Payment due in 6 hour for ${bill.description}`,
             html: `
@@ -536,7 +538,7 @@ async function sendReminderEmails(bill) {
         }
     }
     const mailOptions = {
-        from: '"FinTrack Reminder" <noreply@fintrack.com>',
+        from: '"FinTrack Reminder" <noreply@bhaskarpandey787@gmail.com>',
         to: bill.createdBy,
         subject: `REMINDER: Payment due in 6 hour for ${bill.description}`,
         html: `
