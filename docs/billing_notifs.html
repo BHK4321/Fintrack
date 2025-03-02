@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinTrack - Split Bill with Friends</title>
   <link rel="stylesheet" href="all.css">
-  <link rel="stylesheet" href="backgroundstyle.css">
+  
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
     <style>
@@ -55,34 +55,109 @@
             top: 0;
             width: 2.5rem;
         }
+        /* Darker text for better visibility */
+        .text-gray-600 {
+            color: #4b5563 !important;
+        }
+        .text-gray-500 {
+            color: #374151 !important;
+        }
+        .text-xs {
+            color: #1f2937 !important;
+        }
     </style>
 </head>
 
 <body>
-  <video class="video-bg" autoplay muted loop>
-    <source src="Background.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <!-- Removed video background -->
+  
+ 
+  <link rel="stylesheet" href="hamburgr.css">
+  <link rel = "stylesheet" href = "dash.css"></link>
+
+
   <nav class="nav">
-    <div class="logo">FinTrack</div>
-    <div class="nav-links">
-      <a href="LearnMore.html" class="nav-link">Learn More</a>
-      <a href="#features" class="nav-link">Features</a>
-      <a href="#" class="nav-link">Dashboard</a>
-      <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
-      <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
-    </div>
+      <div class="hamburger-menu">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+      </div>
+      
+      <div class="sidebar-overlay"></div>
+      
+      <div class="sidebar">
+          <div class="sidebar-header">
+              <a href="profile.html" class="profile-link">
+                  <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
+              </a>
+              <div class="close-btn">&times;</div>
+          </div>
+          <div class="sidebar-content">
+              <a href="#">Home</a>
+              <a href="#">Dashboard</a>
+              <a href="#">Learn More</a>
+
+              
+              
+              
+              
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+              
+              
+              
+
+              
+
+
+              <a href="#">Contact Us</a>
+              <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+          </div>
+      </div>
+      
+      <script src="hmg.js"></script>
+  
+      <div class="logo">FinTrack</div>
+      <div class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="dashboard.html" class="nav-link">Dashboard</a>
+          <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
+      </div>
   </nav>
+
+
+
+  
+
+
+
+
+
+
+
   <script src="auth.js"></script>
-  <section class="hero bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-        <h1 class="text-3xl font-bold mb-6">Split Bills</h1>
-        <p class="mb-8 text-gray-600">Split bills with your friends and set payment deadlines.</p>
-        <button id="openBillingBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg flex items-center justify-center mx-auto">
-            <span id="dollar-icon" class="mr-2"></span>
-            Split New Bill
-        </button>
-    </div>
+
+
+  <style>
+    h1 {
+font-size: 2.5rem;
+margin-bottom: 10px;
+background: linear-gradient(to right, #2c5ce0, #ff5733); /* Adjust colors as needed */
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+ </style>
+
+
+
+  <section class="hero bg-gray-100 flex flex-col items-center justify-center p-2">
+  <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center my-8">
+    <h1 class="text-3xl font-bold mb-4">Split Bills</h1>
+    <p class="mb-6 text-gray-600">Split bills with your friends and set payment deadlines.</p>
+    <button id="openBillingBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg flex items-center justify-center mx-auto">
+      <span id="dollar-icon" class="mr-2"></span>
+      Split New Bill
+    </button>
+  </div>
 
     <!-- Billing Modal -->
     <div id="billingModal" class="modal fixed inset-0 z-50 flex items-center justify-center invisible">
@@ -215,24 +290,24 @@
   </section>
   <section class="features" id="features">
     <div class="section-header">
-      <h2>How It Works</h2>
-      <p class="subtitle">Simple steps to manage shared expenses.</p>
+       
+      <p style="color: rgb(43, 41, 41);" class="subtitle">Simple steps to manage shared expenses.</p>
     </div>
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">📝</div>
-        <h3 class="feature-title">Create a Split</h3>
-        <p class="feature-desc">Enter bill details and add friends to split with.</p>
+        <h3  style="color: rgb(0, 0, 0);" class="feature-title">Create a Split</h3>
+        <p  style="color: rgb(101, 99, 99);" class="feature-desc">Enter bill details and add friends to split with.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">✉️</div>
-        <h3 class="feature-title">Send Requests</h3>
-        <p class="feature-desc">Friends receive notifications with their due amounts.</p>
+        <h3   style="color: rgb(0, 0, 0);" class="feature-title">Send Requests</h3>
+        <p  style="color: rgb(101, 99, 99);" class="feature-desc">Friends receive notifications with their due amounts.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">✅</div>
-        <h3 class="feature-title">Track Payments</h3>
-        <p class="feature-desc">Monitor who has paid and send reminders if needed.</p>
+        <h3   style="color: rgb(0, 0, 0);" class="feature-title">Track Payments</h3>
+        <p   style="color: rgb(101, 99, 99);" class="feature-desc">Monitor who has paid and send reminders if needed.</p>
       </div>
     </div>
   </section>
@@ -248,6 +323,7 @@
           <li><a href="#">Roadmap</a></li>
         </ul>
       </div>
+      
       <div class="footer-column">
         <h4>Company</h4>
         <ul>
@@ -255,11 +331,40 @@
           <li><a href="#">Careers</a></li>
           <li><a href="#">Press Kit</a></li>
           <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
         </ul>
       </div>
+      
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Financial Guides</a></li>
+          <li><a href="#">API Documentation</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Connect With Us</h4>
+        <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+        <div class="social-icons">
+          <a href="#" class="social-icon">X</a>
+          <a href="#" class="social-icon">F</a>
+          <a href="#" class="social-icon">I</a>
+          <a href="#" class="social-icon">L</a>
+        </div>
+      </div>
     </div>
+    
     <div class="footer-bottom">
       <p>© 2025 FinTrack. All rights reserved.</p>
+      <p style="margin-top: 8px;">
+        <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+        <a href="#" style="margin-right: 16px;">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </p>
     </div>
   </footer>
 
@@ -477,7 +582,7 @@
 // 2. Function to save bill to database (you'll need a backend implementation)
 function saveBillToDatabase(billData) {
     // Using fetch to send data to your backend API
-    fetch('https://my-backend-api-erp6.onrender.com/api/bills', {
+    fetch('http://localhost:5000/api/bills', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -496,7 +601,7 @@ function saveBillToDatabase(billData) {
 // 3. Function to schedule reminder email
 function scheduleReminderEmail(billData) {
     // This is a frontend function that tells the backend to schedule an email
-    fetch('https://my-backend-api-erp6.onrender.com/api/schedule-reminder', {
+    fetch('http://localhost:5000/api/schedule-reminder', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -515,3 +620,4 @@ function scheduleReminderEmail(billData) {
 </script>
 </body>
 </html>
+
