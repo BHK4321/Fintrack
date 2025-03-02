@@ -353,8 +353,40 @@
         <source src="Background.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    
+    <link rel="stylesheet" href="vvvg.css">
+    <link rel="stylesheet" href="hamburgr.css">
+    <link rel = "stylesheet" href = "dash.css"></link>
+
+
     <nav class="nav">
+
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        
+        <div class="sidebar-overlay"></div>
+        
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="profile.html" class="profile-link">
+                    <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
+                </a>
+                <div class="close-btn">&times;</div>
+            </div>
+            <div class="sidebar-content">
+                <a href="#">Home</a>
+                
+                <a href="#">Dashboard</a>
+                <a href="#">Learn More</a>
+                <a href="#">Contact Us</a>
+                <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+            </div>
+        </div>
+        
+          <script src="hmg.js"></script>
+
         <div class="logo">FinTrack</div>
         <div class="nav-links">
             <a href="index.html" class="nav-link">Home</a>
@@ -363,58 +395,30 @@
             <a href="#" class="nav-link">Features</a>
             <a href="#" class="nav-link">Settings</a>
             <a href="support.html" class="nav-link active">Support</a>
-            <a href="signin.html" class="nav-link">Sign Out</a>
+            <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
         </div>
     </nav>
-
+<script src = "auth.js"></script>
     <main class="support-page animate">
-        <h1 class="page-title animate delay-1">Customer Support</h1>
-
+        <div class="dashboard-header">
+            <h1>Customer Support</h1>
+            
+          </div>
         <!-- Contact Form Section -->
         <div class="card animate delay-2">
             <h2 class="card-title">Get in Touch</h2>
-            <p>Having trouble with FinTrack? We're here to help! Fill out the form below and we'll get back to you as soon as possible.</p>
-            
+            <p style="color: black;">
+                Having trouble with FinTrack? We're here to help! Fill out the form below and we'll get back to you as soon as possible.
+              </p>
             <div class="server-info">
                 <div class="server-icon">📧</div>
                 <div>
-                    <strong>Server Email</strong>
-                    <p>For direct inquiries: <a href="mailto:bhaskar.pandey.ece23@itbhu.ac.in">bhaskar.pandey.ece23@itbhu.ac.in</a></p>
+                    <strong  style="color: black;">Server Email</strong>
+                    <p style="color: black;">For direct inquiries: <a href="mailto:bhaskar.pandey.ece23@itbhu.ac.in">bhaskar.pandey.ece23@itbhu.ac.in</a></p>
                 </div>
             </div>
             
-            <form class="contact-form">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" placeholder="Enter your name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <select id="subject">
-                        <option value="">Select a subject</option>
-                        <option value="account">Account Issues</option>
-                        <option value="transactions">Transaction Problems</option>
-                        <option value="feature">Feature Request</option>
-                        <option value="bug">Bug Report</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" placeholder="Describe your issue in detail"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Submit Request</button>
-                </div>
-            </form>
+           
         </div>
 
         <!-- Meet the Team Section -->
@@ -427,21 +431,21 @@
                     <div class="dev-avatar">BP</div>
                     <h3 class="dev-name">Bhaskar Pandey</h3>
                     <a href="mailto:bhaskar.pandey.ece23@itbhu.ac.in" class="dev-email">bhaskar.pandey.ece23@itbhu.ac.in</a>
-                    <p>Lead Developer</p>
+                    <p style="color: black;">Backend Developer</p>
                 </div>
                 
                 <div class="developer-card">
                     <div class="dev-avatar">PV</div>
                     <h3 class="dev-name">Prashant Dev Verma</h3>
-                    <a href="mailto:prashant.devverma.ece23@itbhu.ac.in" class="dev-email">prashant.devverma.ece23@itbhu.ac.in</a>
-                    <p>Frontend Developer</p>
+                    <a href="mailto:prashant.devverma.cd.ece23@itbhu.ac.in" class="dev-email">prashant.devverma.cd.ece23@itbhu.ac.in</a>
+                    <p style="color: black;">Frontend Developer</p>
                 </div>
                 
                 <div class="developer-card">
                     <div class="dev-avatar">AR</div>
                     <h3 class="dev-name">Aynikal Noha Riju</h3>
                     <a href="mailto:aynikal.nohariju.ece23@itbhu.ac.in" class="dev-email">aynikal.nohariju.ece23@itbhu.ac.in</a>
-                    <p>Backend Developer</p>
+                    <p style="color: black;">Frontend Developer</p>
                 </div>
             </div>
         </div>
@@ -452,39 +456,124 @@
             
             <div class="faq-item">
                 <div class="faq-question">How do I reset my password?</div>
-                <div class="faq-answer">To reset your password, click on the "Forgot Password" link on the sign-in page. You'll receive an email with instructions to create a new password.</div>
+                <div  style="color:rgb(84, 82, 82);" class="faq-answer">To reset your password, click on the "Forgot Password" link on the sign-in page. You'll receive an email with instructions to create a new password.</div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question">How can I export my transaction data?</div>
-                <div class="faq-answer">You can export your transaction data by going to the Transactions page and clicking on the "Export CSV" button. This will download all your transactions in a CSV file format.</div>
+                <div  style="color: rgb(84, 82, 82);" class="faq-answer">You can export your transaction data by going to the Transactions page and clicking on the "Export CSV" button. This will download all your transactions in a CSV file format.</div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question">Is my financial data secure?</div>
-                <div class="faq-answer">Yes, your financial data is encrypted and stored securely. We use industry-standard security protocols to ensure your information is protected at all times.</div>
+                <div  style="color:  rgb(84, 82, 82);" class="faq-answer">Yes, your financial data is encrypted and stored securely. We use industry-standard security protocols to ensure your information is protected at all times.</div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question">How do I categorize my transactions?</div>
-                <div class="faq-answer">When adding a new transaction, you can select a category from the dropdown menu. You can also edit the category of existing transactions by clicking on the transaction and selecting a new category.</div>
+                <div style="color:  rgb(84, 82, 82);" class="faq-answer">When adding a new transaction, you can select a category from the dropdown menu. You can also edit the category of existing transactions by clicking on the transaction and selecting a new category.</div>
             </div>
             
-            <div class="faq-item">
-                <div class="faq-question">Can I use FinTrack on my mobile device?</div>
-                <div class="faq-answer">Yes, FinTrack is fully responsive and works on all devices including smartphones and tablets. Simply access the website from your mobile browser.</div>
-            </div>
+           
         </div>
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2025 FinTrack. All rights reserved.</p>
-        <p class="mt-2">
-            <a href="#" class="mr-4 hover:underline">Privacy Policy</a>
-            <a href="#" class="mr-4 hover:underline">Terms of Service</a>
-            <a href="#" class="hover:underline">Cookie Settings</a>
-        </p>
-    </footer>
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+    </div>
+  </section>
+  
+  <!-- <section class="cta">
+    <h2>Ready to Transform Your Finances?</h2>
+    <p class="subtitle">Join thousands of users who have already taken control of their financial future.</p>
+    <a href="#" class="btn btn-primary">Get Started Now</a>
+  </section> -->
+  
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Mobile App</a></li>
+          <li><a href="#">Browser Extension</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Financial Guides</a></li>
+          <li><a href="#">API Documentation</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Connect With Us</h4>
+        <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+        <div class="social-icons">
+          <a href="#" class="social-icon">X</a>
+          <a href="#" class="social-icon">F</a>
+          <a href="#" class="social-icon">I</a>
+          <a href="#" class="social-icon">L</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2025 FinTrack. All rights reserved.</p>
+      <p style="margin-top: 8px;">
+        <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+        <a href="#" style="margin-right: 16px;">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </p>
+    </div>
+  </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -515,7 +604,7 @@
                 
                 // Simulate form submission
                 alert('Thank you for your message! Our team will get back to you shortly.');
-                
+                window.location.href="mailto:bhaskar.pandey.ece23@itbhu.ac.in";
                 // Reset form
                 contactForm.reset();
             });
