@@ -277,7 +277,7 @@ async function fetchTransactions() {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(transaction , email : localStorage.getItem("userEmail")),
+        body: JSON.stringify({transaction , email : localStorage.getItem("userEmail")}),
     });
 
     if (!resp.ok) {
