@@ -316,6 +316,7 @@
             body: JSON.stringify(updatedData) // Pass the updated user data
         });
        const data = await response;
+      console.log(data.valid);
         if (data.valid == 0) {
             alert("Username already exists!");
           return;
