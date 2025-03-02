@@ -338,61 +338,45 @@ initialize();
     document.getElementById("transaction-desc").value = "";
     document.getElementById("transaction-amount").value = "";
 });
-            // Delete transaction
-         async function attachDeleteListeners() {
-    document.querySelectorAll(".delete-btn").forEach(btn => {
-        btn.addEventListener("click", async function () {
-            const id = this.id; // Store transaction ID
-            console.log(id);
-            await del(id); // Delete from backend
-
-            // Remove from transactions array
-            transactions = transactions.filter(transaction => transaction.id !== id);
-            filteredTransactions = filteredTransactions.filter(transaction => transaction.id !== id);
-
-            updateTransactionTable();
-            updateChart();
-        });
-    });
-}
-
+        function attachDeleteListeners() {
+                document.querySelectorAll(".delete-btn").forEach((btn, index) => {
+                    btn.addEventListener("click", function () {
+                        const currentTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
+                        const transactionIndex = transactions.indexOf(currentTransactions[index]);
+                        const trans = transactions[transactionIndex];
+                        del(trans.id);
+                        if (transactionIndex > -1) {
+                            transactions.splice(transactionIndex, 1);
+                            updateTransactionTable();
+                            updateChart();
+                        }
+                    });
+                });
+            }
 
             // Update transaction table
             function updateTransactionTable() {
-                transactionBody.innerHTML = "";
+    transactionBody.innerHTML = ""; // Clear table
 
-                const displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
+    const displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
 
-                // Sort transactions
-                const sortedTransactions = [...displayTransactions];
-                const sortOption = sortBySelect.value;
+    displayTransactions.forEach(transaction => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${transaction.date}</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.category}</td>
+            <td>${transaction.amount.toFixed(2)}</td>
+            <td>
+                <button class="btn btn-danger delete-btn" data-id="${transaction.id}">Delete</button>
+            </td>
+        `;
+        transactionBody.appendChild(row);
+    });
 
-                if (sortOption === "date-asc") {
-                    sortedTransactions.sort((a, b) => new Date(a.date) - new Date(b.date));
-                } else if (sortOption === "date-desc") {
-                    sortedTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-                } else if (sortOption === "amount-asc") {
-                    sortedTransactions.sort((a, b) => a.amount - b.amount);
-                } else if (sortOption === "amount-desc") {
-                    sortedTransactions.sort((a, b) => b.amount - a.amount);
-                }
+    attachDeleteListeners(); // Reattach event listeners
+}
 
-                sortedTransactions.forEach(transaction => {
-                    const row = document.createElement("tr");
-                    const amountValue = transaction.amount;
-                    const type = amountValue >= 0 ? "positive" : "negative";
-                    row.innerHTML = `
-                        <td>${transaction.date}</td>
-                        <td>${transaction.description}</td>
-                        <td>${transaction.category}</td>
-                        <td class="amount ${type}">${amountValue >= 0 ? "+" : ""}$${Math.abs(amountValue).toFixed(2)}</td>
-                        <td><button class="btn btn-danger delete-btn">Delete</button></td>
-                    `;
-
-                    transactionBody.appendChild(row);
-                });
-                attachDeleteListeners();
-            }
 
             // Update chart
             function updateChart() {
