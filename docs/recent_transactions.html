@@ -199,9 +199,6 @@ async function fetchTransactions() {
             transaction.id = transaction._id; // Ensure ID assignment
             transactions.push(transaction);
         });
-
-        updateTransactionTable();
-        updateChart();
     } catch (error) {
         console.error("Error fetching transactions:", error);
     }
@@ -305,7 +302,7 @@ async function fetchTransactions() {
         console.error("Error deleting transaction:", await resp.json());
     }
 }
-            async function initialize() {
+async function initialize() {
     await fetchTransactions(); // Fetch transactions before setting up chart
     updateTransactionTable();
     updateChart();
