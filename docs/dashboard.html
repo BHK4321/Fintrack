@@ -184,13 +184,13 @@
     </div>
   </footer>
 <script>
-   const gt = localStorage.getItem("monthlyincome");
+document.addEventListener("DOMContentLoaded", async function () {
+    let transactions = [];
+    const gt = localStorage.getItem("monthlyincome");
    const inc = document.getElementbyId("income");
    const bal = document.getElementbyId("balance");
    inc.innerText = `$${gt.toFixed(2)}`;
    bal.innerText = `$${gt.toFixed(2)}`;
-document.addEventListener("DOMContentLoaded", async function () {
-    let transactions = [];
             // Store all transactions
 async function fetchTransactions() {
     try {
