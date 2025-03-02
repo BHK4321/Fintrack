@@ -187,20 +187,26 @@ async function fetchTransactions() {
     try {
         const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
         });
+
+        if (!response.ok) throw new Error("Failed to fetch transactions.");
+
         const trans = await response.json();
+        transactions = []; // Clear existing transactions
+
         trans.forEach(transaction => {
-            const gt = transaction._id;
-            transaction.id = gt;
+            transaction.id = transaction._id; // Ensure ID assignment
             transactions.push(transaction);
-                });
+        });
+
+        updateTransactionTable();
+        updateChart();
     } catch (error) {
         console.error("Error fetching transactions:", error);
     }
 }
+
 
         // Call the function when the page loads
         fetchTransactions();
@@ -341,20 +347,21 @@ initialize();
 });
             // Delete transaction
             function attachDeleteListeners() {
-                document.querySelectorAll(".delete-btn").forEach((btn, index) => {
-                    btn.addEventListener("click", function () {
-                        const currentTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
-                        const transactionIndex = transactions.indexOf(currentTransactions[index]);
-                        const trans = transactions[transactionIndex];
-                        del(trans.id);
-                        if (transactionIndex > -1) {
-                            transactions.splice(transactionIndex, 1);
-                            updateTransactionTable();
-                            updateChart();
-                        }
-                    });
-                });
-            }
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", async function () {
+            const id = this.getAttribute("data-id"); // Store transaction ID
+            await del(id); // Delete from backend
+
+            // Remove from transactions array
+            transactions = transactions.filter(transaction => transaction.id !== id);
+            filteredTransactions = filteredTransactions.filter(transaction => transaction.id !== id);
+
+            updateTransactionTable();
+            updateChart();
+        });
+    });
+}
+
 
             // Update transaction table
             function updateTransactionTable() {
