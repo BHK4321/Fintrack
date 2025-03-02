@@ -172,7 +172,7 @@
     </div>
   </footer>
 <script>
-  const gt = localStorage.getItem("monthlyincome");
+  // const gt = localStorage.getItem("monthlyincome");
   // const inc = document.getElementbyId("income");
   // const bal = document.getElementbyId("balance");
   // if(gt){ inc.innerText = `$${gt.toFixed(2)}`;}else {inc.innerText = '$0';}
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Error fetching transactions:", error);
         }
     }
-
+    
     function updateTotalExpenses() {
         if (!transactions.length) return;
 
@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         categoryChart.update();
     }
-
+    
     async function fetchUpcomingBills() {
         try {
             const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-upcoming-bills");
