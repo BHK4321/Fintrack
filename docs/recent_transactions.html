@@ -188,6 +188,9 @@ async function fetchTransactions() {
         const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
+            body:{
+                userEmail : localStorage.getItem("userEmail");
+            }
         });
 
         if (!response.ok) throw new Error("Failed to fetch transactions.");
@@ -274,7 +277,7 @@ async function fetchTransactions() {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(transaction),
+        body: JSON.stringify(transaction , email : localStorage.getItem("userEmail")),
     });
 
     if (!resp.ok) {
