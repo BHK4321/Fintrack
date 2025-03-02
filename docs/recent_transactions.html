@@ -342,7 +342,7 @@ initialize();
          async function attachDeleteListeners() {
     document.querySelectorAll(".delete-btn").forEach(btn => {
         btn.addEventListener("click", async function () {
-            const id = this.getAttribute("data-id"); // Store transaction ID
+            const id = this.id; // Store transaction ID
             console.log(id);
             await del(id); // Delete from backend
 
