@@ -7,52 +7,87 @@
   <link rel="stylesheet" href="vvvg.css">
   <link rel="stylesheet" href="hamburgr.css">
 </head>
-<body>
-    <nav class = "nav">
-    <div class="hamburger-menu">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-</div>
+<body style="background-color: white;">
 
-<div class="sidebar-overlay"></div>
+  <link rel="stylesheet" href="vvvg.css">
+  <link rel="stylesheet" href="hamburgr.css">
+  <link rel = "stylesheet" href = "dash.css"></link>
 
-<div class="sidebar">
-    <div class="sidebar-header">
-        <a href="profile.html" class="profile-link">
-            <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
-        </a>
-        <div class="close-btn">&times;</div>
-    </div>
-    <div class="sidebar-content">
-        <a href="#">Home</a>
-        <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Learn More</a>
-        <a href="#">Contact Us</a>
-        <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
-    </div>
-</div>
 
-  <script src="hmg.js"></script>
+  <nav class="nav">
+      <div class="hamburger-menu">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+      </div>
+      
+      <div class="sidebar-overlay"></div>
+      
+      <div class="sidebar">
+          <div class="sidebar-header">
+              <a href="profile.html" class="profile-link">
+                  <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
+              </a>
+              <div class="close-btn">&times;</div>
+          </div>
+          <div class="sidebar-content">
+              <a href="#">Home</a>
+              <a href="#">Dashboard</a>
+              <a href="#">Learn More</a>
 
+              
+              
+              
+              
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+              
+              
+              
+
+              
+
+
+              <a href="#">Contact Us</a>
+              <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+          </div>
+      </div>
+      
+      <script src="hmg.js"></script>
+  
       <div class="logo">FinTrack</div>
       <div class="nav-links">
-        <a href="LearnMore.html" class="nav-link">Learn More</a>
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#" class="nav-link">Dashboard</a>
-        <!-- <a href="signin.html" id = "auth-link" style = "display: none;"class="nav-link">Sign In</a> -->
-        <!-- <a href="#" id = "logout-btn" style = "display: none;" class="nav-link" onclick="logout()">Log Out</a> -->
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="dashboard.html" class="nav-link">Dashboard</a>
+          <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
       </div>
-    </nav>
-      <script src = "auth.js"></script>
-    <section class="hero">
+  </nav>
+
+
+
+  
+<script src = "auth.js"></script>
+
+
+<style>
+  h1 {
+font-size: 2.5rem;
+margin-bottom: 10px;
+background: linear-gradient(to right, #2c5ce0, #ff5733); /* Adjust colors as needed */
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+</style>
+
+
+
+    <section style="background-color: white;" class="hero">
       <h1 class="animate">Take Control of Your Finances</h1>
       <p class="sub animate delay-1">Intelligent tools to track, analyze, and optimize your personal finances with beautiful visualizations and actionable insights.</p>
       <br>
       <div class="animate delay-2">
         <a href="#" class="btn btn-primary">Get Started</a>
-        <button onclick="window.location.href = 'LearnMore.html'" class="btn btn-secondary">Learn More</button>
+       <button onclick="window.location.href = 'learn-more-html.html'" class="btn bg-gray-900 text-white hover:bg-gray-600">Learn More</button>
+
       </div>
       
       <div class="dashboard-preview animate delay-3">
