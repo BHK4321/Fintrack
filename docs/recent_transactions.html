@@ -199,8 +199,9 @@ async function fetchTransactions() {
         transactions = []; // Clear existing transactions
 
         trans.forEach(transaction => {
-            transaction.id = transaction._id; // Ensure ID assignment
-            transactions.push(transaction);
+            const { userEmail, ...transactionWithoutEmail } = transaction; // Remove userEmail
+            transactionWithoutEmail.id = transactionWithoutEmail._id; // Ensure ID assignment
+            transactions.push(transactionWithoutEmail);
         });
     } catch (error) {
         console.error("Error fetching transactions:", error);
