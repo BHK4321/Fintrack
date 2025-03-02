@@ -265,7 +265,6 @@
     </div>
   </footer>
   <script>
-    document.addEventListener('DOMContentLoaded', async function() {
       const marriedCheckbox = document.getElementById('Married');
     const spouseInfoDiv = document.getElementById('spouseInfo');
 
@@ -281,7 +280,15 @@
     toggleSpouseInfo();
     // Add event listener to checkbox
     marriedCheckbox.addEventListener('change', toggleSpouseInfo);
-     const updateUserInfo = async (email, token, updatedData) => {
+     async function updateUserInfo(){
+       const email = localStorage.getItem("userEmail");
+       const token = localStorage.getItem("jwtToken");
+       const updatedData = {
+     username : 
+    name: "New Name",
+    profileImage: "https://example.com/new-image.jpg",
+    phone: "1234567890"
+};
     try {
         const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/users/${email}`, {
             method: "PUT", // or PATCH if you are updating partial data
@@ -298,21 +305,7 @@
     } catch (error) {
         console.error("Error updating user info:", error);
     }
-};
-
-// Example usage:
-const email = localStorage.getItem("userEmail");
-const token = localStorage.getItem("jwtToken"); 
-const updatedData = {
-    username : 
-    name: "New Name",
-    profileImage: "https://example.com/new-image.jpg",
-    phone: "1234567890"
-};
-
-updateUserInfo(email, token, updatedData);
-      
-    });
+}
   </script>
 </body>
 </html>
