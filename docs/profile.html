@@ -280,59 +280,62 @@
     toggleSpouseInfo();
     // Add event listener to checkbox
     marriedCheckbox.addEventListener('change', toggleSpouseInfo);
-     async function updateUserInfo(){
-       console.log("ok");
-       const email = localStorage.getItem("userEmail");
-       const token = localStorage.getItem("jwtToken");
-     const updatedData = {
+async function updateUserInfo() {
+    console.log("Updating user info...");
+
+    const email = localStorage.getItem("userEmail");
+    const token = localStorage.getItem("jwtToken");
+
+    const updatedData = {
         username: document.getElementById("username").value,
         firstName: document.getElementById("firstName").value,
         lastName: document.getElementById("lastName").value,
-        email: email, // Keeping it for reference, backend will ignore update
-        password: "", // Keeping it empty, backend will ignore
+        email: email,
+        password: "", // Backend will ignore
         userage: parseInt(document.getElementById("userage").value) || null,
         Married: document.getElementById("Married").checked,
         Spousename: document.getElementById("Spousename").value,
         Spouseage: parseInt(document.getElementById("Spouseage").value) || null,
-        Spousemonthlyincome: document.getElementById("Spousemonthlyincome").value,
+        Spousemonthlyincome: parseFloat(document.getElementById("Spousemonthlyincome").value) || 0,
         Children: parseInt(document.getElementById("Children").value) || null,
-        monthlyincome: document.getElementById("monthlyincome").value,
+        monthlyincome: parseFloat(document.getElementById("monthlyincome").value) || 0,
         Primaryfinancialgoal: document.getElementById("Primaryfinancialgoal").value,
         phone: document.getElementById("phone").value,
         Bankname: document.getElementById("Bankname").value,
         AccountNumber: document.getElementById("AccountNumber").value,
         IFSCCode: document.getElementById("IFSCCode").value,
         LinkedCard: document.getElementById("LinkedCard").value,
-        rememberMe: false, // Default value, backend will ignore
         recievepermission: document.getElementById("recievepermission").checked,
         UPIID: document.getElementById("UPIID").value
     };
+
     try {
-             console.log("ok");
         const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/update/${email}`, {
-            method: "PUT", // or PATCH if you are updating partial data
+            method: "PUT",
             headers: {
-                "Authorization": `Bearer ${token}`, // Attach the token
+                "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(updatedData) // Pass the updated user data
+            body: JSON.stringify(updatedData)
         });
-       const data = await response;
-      console.log(data.valid);
-        if (data.valid == 0) {
+
+        const data = await response.json(); // Fix: Parse JSON response
+
+        if (data.valid === 0) {
             alert("Username already exists!");
-          return;
+            return;
         }
-        if(data.valid == 3) {
-          alert("Updated Info!");
-          localStorage.setItem("monthlyincome" , document.getElementById("monthlyincome").value);
-          localStorage.setItem("username" , document.getElementById("username").value);
-          window.location.href = document.referrer;
+        if (data.valid === 3) {
+            alert("Updated Info!");
+            localStorage.setItem("monthlyincome", updatedData.monthlyincome);
+            localStorage.setItem("username", updatedData.username);
+            window.location.href = document.referrer;
         }
     } catch (error) {
         console.error("Error updating user info:", error);
     }
 }
+
   </script>
 </body>
 </html>
