@@ -144,8 +144,6 @@
                 </tbody>
             </table>
         </div>
-
-
         <div class="grid-container animate">
             <!-- CSV Import/Export -->
             <div class="card">
@@ -192,9 +190,8 @@ async function fetchTransactions() {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
-
+        console.log("ok");
         if (!response.ok) throw new Error("Failed to fetch transactions.");
-
         const trans = await response.json();
         transactions = []; // Clear existing transactions
 
@@ -272,7 +269,7 @@ async function fetchTransactions() {
                     categorySearch.style.display = "block";
                 }
             });
-           async function add(transaction) {
+async function add(transaction) {
     const resp = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions", {
         method: "POST",
         headers: {
