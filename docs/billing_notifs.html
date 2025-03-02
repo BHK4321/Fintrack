@@ -477,7 +477,7 @@
 // 2. Function to save bill to database (you'll need a backend implementation)
 function saveBillToDatabase(billData) {
     // Using fetch to send data to your backend API
-    fetch('http://localhost:5000/api/bills', {
+    fetch('https://my-backend-api-erp6.onrender.com/api/bills', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -496,7 +496,7 @@ function saveBillToDatabase(billData) {
 // 3. Function to schedule reminder email
 function scheduleReminderEmail(billData) {
     // This is a frontend function that tells the backend to schedule an email
-    fetch('http://localhost:5000/api/schedule-reminder', {
+    fetch('https://my-backend-api-erp6.onrender.com/api/schedule-reminder', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
