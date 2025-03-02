@@ -6,25 +6,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTrack - Transaction Manager</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+
+
+
+
     <link rel="stylesheet" href="trans.css">
+    <style>
+        /* Inline styles for the new layout */
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .search-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+            align-items: flex-end;
+        }
+
+        .search-buttons-container {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .sort-container {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .search-buttons-container {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
 </head>
-//l
+
 <body>
-    <video class="video-bg" autoplay muted loop>
-        <source src="Background.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+   
+
+
+    <link rel="stylesheet" href="vvvg.css">
+    <link rel="stylesheet" href="hamburgr.css">
+    <link rel = "stylesheet" href = "dash.css"></link>
+
     <nav class="nav">
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        
+        <div class="sidebar-overlay"></div>
+        
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="profile.html" class="profile-link">
+                    <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
+                </a>
+                <div class="close-btn">&times;</div>
+            </div>
+            <div class="sidebar-content">
+                <a href="#">Home</a>
+                <a href="#">Dashboard</a>
+                <a href="#">Learn More</a>
+
+                
+                
+                
+                
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                
+                
+                
+
+                
+
+
+                <a href="#">Contact Us</a>
+                <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+            </div>
+        </div>
+        
+        <script src="hmg.js"></script>
+    
         <div class="logo">FinTrack</div>
         <div class="nav-links">
             <a href="index.html" class="nav-link">Home</a>
             <a href="dashboard.html" class="nav-link">Dashboard</a>
-            <a href="transactions.html" class="nav-link active">Transactions</a>
-            <a href="#" class="nav-link">Features</a>
-            <a href="#" class="nav-link">Settings</a>
-            <a href="signin.html" class="nav-link">Sign Out</a>
+            <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
         </div>
     </nav>
+
+    <script src = "auth.js"></script>
+
+
+
+    <style>
+       h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, #2c5ce0, #ff5733); /* Adjust colors as needed */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+    </style>
 
     <main class="transactions-page animate">
         <h1 class="page-title animate delay-1">Transaction Manager</h1>
@@ -108,21 +203,25 @@
                             <option value="Misc">Misc</option>
                         </select>
                     </div>
+                    <!-- Search and reset buttons  -->
+                    <div class="search-buttons-container">
+                        <button class="btn btn-primary" id="search-btn" style="width: 100px;">Search</button>
+                        <button class="btn btn-secondary" id="reset-search-btn" style="background-color: grey; width: 100px;">Reset</button>
 
-                    <div class="search-group">
-                        <button class="btn btn-primary" id="search-btn">Search</button>
-                        <button class="btn btn-secondary" id="reset-search-btn" style="margin-top: 10px;">Reset</button>
+                       
                     </div>
                 </div>
 
-                <div class="search-group">
-                    <label for="sort-by">Sort by</label>
-                    <select id="sort-by">
-                        <option value="date-asc">Date (Oldest First)</option>
-                        <option value="date-desc">Date (Newest First)</option>
-                        <option value="amount-asc">Amount (Low to High)</option>
-                        <option value="amount-desc">Amount (High to Low)</option>
-                    </select>
+                <div class="sort-container">
+                    <div class="search-group">
+                        <label for="sort-by">Sort by</label>
+                        <select id="sort-by">
+                            <option value="date-asc">Date (Oldest First)</option>
+                            <option value="date-desc">Date (Newest First)</option>
+                            <option value="amount-asc">Amount (Low to High)</option>
+                            <option value="amount-desc">Amount (High to Low)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,6 +243,8 @@
                 </tbody>
             </table>
         </div>
+
+
         <div class="grid-container animate">
             <!-- CSV Import/Export -->
             <div class="card">
@@ -154,7 +255,7 @@
                 </div>
                 <div class="csv-buttons">
                     <button class="btn btn-primary" id="import-csv-btn">Import CSV</button>
-                    <button class="btn btn-secondary" id="export-csv-btn">Export CSV</button>
+                    <button class="btn btn-secondary" id="export-csv-btn" style="background-color: grey;">Export CSV</button>
                 </div>
             </div>
             <!-- Pie Chart -->
@@ -168,15 +269,64 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2025 FinTrack. All rights reserved.</p>
-        <p class="mt-2">
-            <a href="#" class="mr-4 hover:underline" style="color: white; margin-right: 15px;">Privacy Policy</a>
-            <a href="#" class="mr-4 hover:underline" style="color: white; margin-right: 15px;">Terms of Service</a>
-            <a href="#" class="hover:underline" style="color: white;">Cookie Settings</a>
-        </p>
-    </footer>
+        <div class="footer-content">
+          <div class="footer-column">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Mobile App</a></li>
+              <li><a href="#">Browser Extension</a></li>
+              <li><a href="#">Roadmap</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Press Kit</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Community</a></li>
+              <li><a href="#">Financial Guides</a></li>
+              <li><a href="#">API Documentation</a></li>
+              <li><a href="#">Security</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Connect With Us</h4>
+            <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+            <div class="social-icons">
+              <a href="#" class="social-icon">X</a>
+              <a href="#" class="social-icon">F</a>
+              <a href="#" class="social-icon">I</a>
+              <a href="#" class="social-icon">L</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>© 2025 FinTrack. All rights reserved.</p>
+          <p style="margin-top: 8px;">
+            <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+            <a href="#" style="margin-right: 16px;">Terms of Service</a>
+            <a href="#">Cookie Settings</a>
+          </p>
+        </div>
+      </footer>
 
-    <script>
+   
+      <script>
         let transactions = [];
         let filteredTransactions = [];
         
