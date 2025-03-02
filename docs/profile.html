@@ -58,8 +58,16 @@
       <a href="#" class="nav-link hover:text-primary transition-colors" onclick="logout()">Log Out</a>
     </div>
   </nav>
-
+  
   <main class="container mx-auto px-4 py-8 max-w-6xl">
+    <!-- Profile Picture Upload -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700">Profile Picture</label>
+            <div class="mt-2 flex items-center">
+                <img id="profilePreview" class="h-16 w-16 rounded-full border" src="https://via.placeholder.com/64" alt="Profile Image">
+                <input type="file" id="profileImage" class="ml-4" accept="image/*" onchange="previewImage(event)">
+            </div>
+        </div>
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-800">Profile Settings</h1>
       <p class="text-gray-600">Manage your personal and financial information</p>
