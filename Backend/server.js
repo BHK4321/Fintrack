@@ -664,7 +664,8 @@ const transSchema = new mongoose.Schema({
     date: Date,
     description: String,
     category: String,
-    amount: Number
+    amount: Number,
+    email :String
 });
 const trans = mongoose.model("trans", transSchema);
 
@@ -672,6 +673,7 @@ const trans = mongoose.model("trans", transSchema);
 app.post("/api/transactions", async (req, res) => {
     try {
         const newtrans = new trans(req.body);
+        
         await newtrans.save();
         res.status(201).json({ id: newtrans._id });
     } catch (error) {
@@ -682,8 +684,9 @@ app.post("/api/transactions", async (req, res) => {
 
 // Fetch All Transactions (GET)
 app.get("/api/get-transactions", async (req, res) => {
+    const {userEmail} = req.body;
     try {
-        const transactions = await trans.find(); // Fetch from MongoDB
+        const transactions = await trans.find({userEmail}); // Fetch from MongoDB
         res.json(transactions);
     } catch (error) {
         console.error("Error fetching transactions:", error);
