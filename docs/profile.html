@@ -308,6 +308,7 @@
         UPIID: document.getElementById("UPIID").value
     };
     try {
+             console.log("ok");
         const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/update/${email}`, {
             method: "PUT", // or PATCH if you are updating partial data
             headers: {
