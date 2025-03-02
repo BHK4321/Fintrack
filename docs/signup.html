@@ -24,54 +24,163 @@
             }
         }
     </script>
-    <link rel="stylesheet" href="all.css">
+    <link rel="stylesheet" href="vvvg.css">
+    <link rel="stylesheet" href="hamburgr.css">
+    <!-- <link rel="stylesheet" href="all.css"> -->
+    <style>
+        .sidebar {
+          height: 100vh; /* Set the sidebar height to 100% of viewport height */
+          position: fixed;
+          top: 0;
+          left: 0;
+          overflow-y: auto;
+          transform: translateX(-100%); /* Start with sidebar off-screen */
+          transition: transform 0.3s ease-in-out;
+        }
+        
+        .sidebar.active {
+          transform: translateX(0); /* Bring sidebar on-screen when active */
+        }
+        
+        .sidebar-overlay {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 49;
+        }
+        
+        .sidebar-overlay.active {
+          display: block;
+        }
+      </style>
 </head>
 
 <body class="bg-gray-100 min-h-screen relative">
-    <div class="fixed right-0 bottom-0 min-w-full min-h-full w-auto h-auto -z-10 brightness-80">
-        <video autoplay muted loop class="absolute min-w-full min-h-full object-cover">
-            <source src="Background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+    
 
-    <nav class="sticky top-0 z-50 flex justify-between items-center py-5 px-6 bg-[#0a341e] backdrop-blur-xl">
-        <div
-            class="text-5xl font-semibold ml-4 md:ml-24 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent tracking-tighter">
-            FinTrack</div>
-        <div class="flex gap-6 mr-4 md:mr-8">
-            <a href="index.html"
-                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Home</a>
-            <a href="learn-more.html"
-                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Learn More</a>
-            <a href="#"
-                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Features</a>
-            <a href="#"
-                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Dashboard</a>
-            <a href="signin.html"
-                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Sign In</a>
+    <nav class="sticky top-0 z-50 flex justify-between items-center py-5 px-6" style="background-color: #002b4d; backdrop-filter: blur(10px);">
+
+
+        <div class="hamburger-menu">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
         </div>
-    </nav>
+      
+       <div class="sidebar-overlay"></div>
+      
+       <div class="sidebar">
+          <div class="sidebar-header">
+              <a href="profile.html" class="profile-link">
+                  <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
+              </a>
+              <div class="close-btn">&times;</div>
+          </div>
+          <div class="sidebar-content">
+              <a href="#">Home</a>
+              <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
+              <a href="#">Dashboard</a>
+              <a href="#">Learn More</a>
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+              <a href="#">Contact Us</a>
+              <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+          </div>
+       </div>
+      
+        <script src="hmg.js"></script>
+        
+        <!-- Adding a fix for the hamburger menu issue -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            // Override any auto-opening behavior from hmg.js
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            // Make sure sidebar is closed on page load
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            
+            // Ensure the hamburger only opens on click
+            const hamburger = document.querySelector('.hamburger-menu');
+            hamburger.addEventListener('click', function() {
+              sidebar.classList.add('active');
+              overlay.classList.add('active');
+            });
+            
+            // Close sidebar when clicking close button or overlay
+            const closeBtn = document.querySelector('.close-btn');
+            closeBtn.addEventListener('click', function() {
+              sidebar.classList.remove('active');
+              overlay.classList.remove('active');
+            });
+            
+            overlay.addEventListener('click', function() {
+              sidebar.classList.remove('active');
+              overlay.classList.remove('active');
+            });
+          });
+        </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <div class="text-5xl font-semibold ml-4 md:ml-24 tracking-tighter" 
+         style="background: linear-gradient(to right, #0066cc, #66b3ff);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;">
+       FinTrack
+       </div>
+    
+        <div class="flex gap-6 mr-4 md:mr-8">
+          <a href="index.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Home</a>
+          <a href="learn-more.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Learn More</a>
+          <a href="#" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Features</a>
+          <a href="#" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Dashboard</a>
+          <a href="signup.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Sign Up</a>
+        </div>
+      </nav>
 
     <div class="max-w-lg mx-auto my-10 p-10 bg-white rounded-2xl shadow-2xl backdrop-blur-md">
         <div class="text-center mb-8">
             <h1
-                class="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent leading-tight tracking-tight">
-                Create Your Account</h1>
-            <p class="text-text-secondary text-base">Join thousands of users managing their finances with FinTrack</p>
+  class="text-3xl font-bold mb-4 leading-tight tracking-tight"
+  style="background: linear-gradient(to right, #2c5ce0, #ff5733); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+  Create Your Account
+</h1>
+<p class="text-black text-base">
+    Join thousands of users managing their finances with FinTrack
+  </p>
         </div>
 
         <form action="#" method="POST">
             <div class="flex flex-col md:flex-row gap-5 mb-4">
                 <div class="flex-1 mb-6">
-                    <label for="first-name" class="block mb-2 text-sm font-medium text-green-800">First Name</label>
+                    <label for="first-name" class="block mb-2 text-sm font-medium text-black">
+                        First Name
+                      </label>
                     <input type="text" id="first-name" name="first-name"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="John" required>
                 </div>
 
                 <div class="flex-1 mb-6">
-                    <label for="last-name" class="block mb-2 text-sm font-medium text-green-800">Last Name</label>
+                    <label for="last-name" class="block mb-2 text-sm font-medium text-black">Last Name</label>
                     <input type="text" id="last-name" name="last-name"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="Doe" required>
@@ -79,7 +188,7 @@
             </div>
 
             <div class="mb-6">
-                <label for="email" class="block mb-2 text-sm font-medium text-green-800">Email Address</label>
+                <label for="email" class="block mb-2 text-sm font-medium text-black">Email Address</label>
                 <input type="email" id="email" name="email"
                     class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                     placeholder="youremail@example.com" required>
@@ -87,14 +196,14 @@
 
             <div class="flex flex-col md:flex-row gap-5 mb-4">
                 <div class="flex-1 mb-6">
-                    <label for="password" class="block mb-2 text-sm font-medium text-green-800">Password</label>
+                    <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
                     <input type="password" id="password" name="password"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="••••••••" required>
                 </div>
 
                 <div class="flex-1 mb-6">
-                    <label for="confirm-password" class="block mb-2 text-sm font-medium text-green-800">Confirm
+                    <label for="confirm-password" class="block mb-2 text-sm font-medium text-black">Confirm
                         Password</label>
                     <input type="password" id="confirm-password" name="confirm-password"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
@@ -103,13 +212,13 @@
             </div>
 
             <div class="mb-6">
-                <label for="phone" class="block mb-2 text-sm font-medium text-green-800">Phone Number</label>
+                <label for="phone" class="block mb-2 text-sm font-medium text-black">Phone Number</label>
                 <input type="tel" id="phone" name="phone"
                     class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                     placeholder="+91 98765 43210" required>
             </div>
             <div class="mb-6">
-                <label for="userage" class="block mb-2 text-sm font-medium text-green-800">Age</label>
+                <label for="userage" class="block mb-2 text-sm font-medium text-black">Age</label>
                 <input type="number" id="userAge" name="phone"
                     class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                     placeholder="Enter age" required>
@@ -117,29 +226,29 @@
             <hr>
             <div class="relative my-8 border-t border-white/10 whitespace-nowrap flex justify-center">
                 <p
-                    class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
-                    Personal Information
-                </p>
+  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
+  Personal Information
+</p>
                 <p class="text-gray-500 mt-2"> (For better assistance)</p>
             </div>
             <div class="mb-6 flex items-center gap-3">
                 <input type="checkbox" id="married-checkbox"
                     class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500">
-                <label for="married-checkbox" class="text-green-800 text-base font-medium">Married</label>
+                <label for="married-checkbox" class="block mb-2 text-sm font-medium text-black">Married</label>
             </div>
 
             <!-- Spouse Details Section -->
             <div id="spouse-details"
                 class="spouse-details-hidden p-4 rounded-lg border border-gray-300 transition-all duration-500">
                 <div class="mb-6">
-                    <label for="spouse-name" class="block mb-2 text-sm font-medium text-green-800">Spouse Name</label>
+                    <label for="spouse-name" class="block mb-2 text-sm font-medium text-black">Spouse Name</label>
                     <input type="text" id="spouse-name" name="spouse-name"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="Spouse Name">
                 </div>
 
                 <div class="mb-6">
-                    <label for="spouse-income" class="block mb-2 text-sm font-medium text-green-800">Spouse Monthly
+                    <label for="spouse-income" class="block mb-2 text-sm font-medium text-black">Spouse Monthly
                         Income</label>
                     <input type="text" id="spouse-income" name="spouse-income"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
@@ -147,14 +256,14 @@
                 </div>
 
                 <div class="mb-6">
-                    <label for="spouse-age" class="block mb-2 text-sm font-medium text-green-800">Spouse's Age</label>
+                    <label for="spouse-age" class="block mb-2 text-sm font-medium text-black">Spouse's Age</label>
                     <input type="number" id="spouse-age" name="spouse-age"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="Enter Spouse's Age">
                 </div>
 
                 <div class="mb-6">
-                    <label for="num-children" class="block mb-2 text-sm font-medium text-green-800">Number of
+                    <label for="num-children" class="block mb-2 text-sm font-medium text-black">Number of
                         Children</label>
                     <input type="number" id="num-children" name="num-children"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
@@ -192,22 +301,22 @@
             <hr>
             <div class="relative my-8 border-t border-white/10 whitespace-nowrap flex justify-center">
                 <p
-                    class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
-                    Financial Information
-                </p>
+  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
+  Financial Information
+</p>
                 <p class="text-gray-500 mt-2"> (For better assistance)</p>
             </div>
 
 
             <div class="mb-6">
-                <label for="income" class="block mb-2 text-sm font-medium text-green-800">Your Monthly Income</label>
+                <label for="income" class="block mb-2 text-sm font-medium text-black">Your Monthly Income</label>
                 <input type="text" id="income" name="income"
                     class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                     placeholder="Enter Income" required>
             </div>
 
             <div class="mb-6">
-                <label for="Goal" class="block mb-2 text-sm font-medium text-green-800">Primary financial Goal</label>
+                <label for="Goal" class="block mb-2 text-sm font-medium text-black">Primary financial Goal</label>
                 <input type="text" id="Goal" name="goal"
                     class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                     placeholder="For better planning assistance." required>
@@ -215,15 +324,15 @@
             <hr>
             <div class="relative my-8 border-t border-white/10 whitespace-nowrap flex justify-center">
                 <p
-                    class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
-                    Account & Banking details
-                </p>
+  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
+  Account & Banking details
+</p>
                 <p class="text-gray-500 mt-2">(Optional)</p>
             </div>
 
 
             <div class="mb-6">
-                <label for="bank-name" class="block mb-2 text-sm font-medium text-green-800">Bank Name</label>
+                <label for="bank-name" class="block mb-2 text-sm font-medium text-black">Bank Name</label>
                 <input type="text" id="bank-name" name="bank-name"
                     class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                     placeholder="State Bank of India">
@@ -231,7 +340,7 @@
 
             <div class="flex flex-col md:flex-row gap-5 mb-4">
                 <div class="flex-1 mb-6">
-                    <label for="account-number" class="block mb-2 text-sm font-medium text-green-800">Account
+                    <label for="account-number" class="block mb-2 text-sm font-medium text-black">Account
                         Number</label>
                     <input type="password" id="account-number" name="account-number"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
@@ -239,7 +348,7 @@
                 </div>
 
                 <div class="flex-1 mb-6">
-                    <label for="ifsc-code" class="block mb-2 text-sm font-medium text-green-800">IFSC/SWIFT Code</label>
+                    <label for="ifsc-code" class="block mb-2 text-sm font-medium text-black">IFSC/SWIFT Code</label>
                     <input type="text" id="ifsc-code" name="ifsc-code"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="SBIN0001234">
@@ -248,14 +357,14 @@
 
             <div class="flex flex-col md:flex-row gap-5 mb-4">
                 <div class="flex-1 mb-6">
-                    <label for="upi-id" class="block mb-2 text-sm font-medium text-green-800">UPI ID</label>
+                    <label for="upi-id" class="block mb-2 text-sm font-medium text-black">UPI ID</label>
                     <input type="text" id="upi-id" name="upi-id"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="name@upi">
                 </div>
 
                 <div class="flex-1 mb-6">
-                    <label for="card-digits" class="block mb-2 text-sm font-medium text-green-800">Linked Card (Last 4
+                    <label for="card-digits" class="block mb-2 text-sm font-medium text-black">Linked Card (Last 4
                         digits)</label>
                     <input type="text" id="card-digits" name="card-digits"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
@@ -293,15 +402,65 @@
         </form>
         </div>
     </div>
-    <footer class="bg-[#0d3d23] text-white py-4 text-center">
-        <p>© 2025 FinTrack. All rights reserved.</p>
-        <p class="mt-2">
-            <a href="#" class="mr-4 hover:underline">Privacy Policy</a>
-            <a href="#" class="mr-4 hover:underline">Terms of Service</a>
-            <a href="#" class="hover:underline">Cookie Settings</a>
-        </p>
-    </footer>
+    <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Mobile App</a></li>
+              <li><a href="#">Browser Extension</a></li>
+              <li><a href="#">Roadmap</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Press Kit</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Community</a></li>
+              <li><a href="#">Financial Guides</a></li>
+              <li><a href="#">API Documentation</a></li>
+              <li><a href="#">Security</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Connect With Us</h4>
+            <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+            <div class="social-icons">
+              <a href="#" class="social-icon">X</a>
+              <a href="#" class="social-icon">F</a>
+              <a href="#" class="social-icon">I</a>
+              <a href="#" class="social-icon">L</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>© 2025 FinTrack. All rights reserved.</p>
+          <p style="margin-top: 8px;">
+            <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+            <a href="#" style="margin-right: 16px;">Terms of Service</a>
+            <a href="#">Cookie Settings</a>
+          </p>
+        </div>
+      </footer>
     <script>
+        let errors = [];
+
         function isValidEmail(email) {
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
@@ -320,7 +479,6 @@
 
         async function handleSignup(event) {
             event.preventDefault();
-                    let errors = [];
 
             const formData = {
                 username : "Newbie",
