@@ -231,6 +231,30 @@ app.get("/api/auth/check2/:email", async (req, res) => {
         return res.status(500).json({ valid: 6, message: "Server error" });
     }
 });
+
+app.put("/api/update/:email", verifyToken, async (req, res) => {
+  try {
+    const { email } = req.params;
+    const updateData = req.body;
+    const up = await User.findOne(updateData.username);
+    if(up){
+        res.json({valid : 0});
+    }
+    // Prevent updating restricted fields
+    delete updateData.email;
+    delete updateData.password;
+    delete updateData.recievepermission;
+    delete updateData.rememberMe;
+    const updatedUser = await User.findOneAndUpdate({ email }, updateData, { new: true });
+    if (!updatedUser) {
+      return res.status(404).json({valid : 2 , error: "User not found" });
+    }
+    res.json({valid : 3, message: "User updated successfully"});
+  } catch (error) {
+    res.status(500).json({valid : 1 ,  error: "Error updating user info", details: error.message });
+  }
+});
+
 app.post("/api/users", async (req, res) => {
     try {
         const {username,
