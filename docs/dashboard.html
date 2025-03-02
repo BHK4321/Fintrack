@@ -224,6 +224,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!transactions.length) return;
         let sum = transactions.reduce((acc, t) => acc + Math.abs(t.amount), 0);
         document.getElementById("expense").innerText = `$${sum.toFixed(2)}`;
+        let y = inc - sum;
+        bal.innerText = `$${y.toFixed(2)}`;
         let savingsPercentage = gt > 0 ? ((gt - sum) / gt) * 100 : 0;
         document.getElementById("savings").innerText = `${savingsPercentage.toFixed(2)} %`;
     }
