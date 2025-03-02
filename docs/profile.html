@@ -305,6 +305,14 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Toggle spouse information based on married status
+          function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('profilePreview');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
       const marriedCheckbox = document.getElementById('Married');
       const spouseInfo = document.getElementById('spouseInfo');
       
