@@ -281,6 +281,7 @@
     // Add event listener to checkbox
     marriedCheckbox.addEventListener('change', toggleSpouseInfo);
      async function updateUserInfo(){
+       console.log("ok");
        const email = localStorage.getItem("userEmail");
        const token = localStorage.getItem("jwtToken");
      const updatedData = {
