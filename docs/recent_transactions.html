@@ -339,10 +339,11 @@ initialize();
     document.getElementById("transaction-amount").value = "";
 });
             // Delete transaction
-            function attachDeleteListeners() {
+         async function attachDeleteListeners() {
     document.querySelectorAll(".delete-btn").forEach(btn => {
         btn.addEventListener("click", async function () {
             const id = this.getAttribute("data-id"); // Store transaction ID
+            console.log(id);
             await del(id); // Delete from backend
 
             // Remove from transactions array
