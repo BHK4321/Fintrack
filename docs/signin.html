@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinTrack - Sign In</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="vvvg.css">
   <script>
     tailwind.config = {
       theme: {
@@ -23,20 +24,77 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="all.css">
+  <!-- <link rel="stylesheet" href="all.css"> -->
+   <link rel="stylesheet" href="hamburgr.css">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src = "google.js"></script>
+  <style>
+    .sidebar {
+      height: 100vh; /* Set the sidebar height to 100% of viewport height */
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 min-h-screen relative">
   <div class="fixed right-0 bottom-0 min-w-full min-h-full w-auto h-auto -z-10 brightness-80">
-    <video autoplay muted loop class="absolute min-w-full min-h-full object-cover">
-      <source src="Background.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+
   </div>
   
-  <nav class="sticky top-0 z-50 flex justify-between items-center py-5 px-6 bg-[#0a341e] backdrop-blur-xl">
-    <div class="text-5xl font-semibold ml-4 md:ml-24 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent tracking-tighter">FinTrack</div>
+  <nav class="sticky top-0 z-50 flex justify-between items-center py-5 px-6" style="background-color: #002b4d; backdrop-filter: blur(10px);">
+
+
+    <div class="hamburger-menu">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+  </div>
+  
+  <div class="sidebar-overlay"></div>
+  
+  <div class="sidebar">
+      <div class="sidebar-header">
+          <a href="profile.html" class="profile-link">
+              <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
+          </a>
+          <div class="close-btn">&times;</div>
+      </div>
+      <div class="sidebar-content">
+          <a href="#">Home</a>
+          <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
+          <a href="#">Dashboard</a>
+          <a href="#">Learn More</a>
+          <a href="#">Contact Us</a>
+          <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+      </div>
+  </div>
+  
+    <script src="hmg.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="text-5xl font-semibold ml-4 md:ml-24 tracking-tighter" 
+     style="background: linear-gradient(to right, #0066cc, #66b3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;">
+  FinTrack
+</div>
+
     <div class="flex gap-6 mr-4 md:mr-8">
       <a href="index.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Home</a>
       <a href="learn-more.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Learn More</a>
@@ -48,18 +106,24 @@
   
   <div class="max-w-lg mx-auto my-10 p-10 bg-white rounded-2xl shadow-2xl backdrop-blur-md">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent leading-tight tracking-tight">Welcome Back</h1>
-      <p class="text-text-secondary text-base">Sign in to access your FinTrack dashboard</p>
+      <h1 class="text-3xl font-bold mb-4 leading-tight tracking-tight"
+    style="background: linear-gradient(to right, #2c5ce0, #ff5733);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;">
+  Welcome Back
+</h1>
+<p class="text-black text-base">Sign in to access your FinTrack dashboard</p>
     </div>
     
     <form id="signInForm" action="#" method="POST">
       <div class="mb-6">
-        <label for="email" class="block mb-2 text-sm font-medium text-green-800">Email Address</label>
+        <label for="email" class="block mb-2 text-sm font-medium text-black">Email Address</label>
+
         <input type="email" id="email" name="email" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="youremail@example.com" required>
       </div>
       
       <div class="mb-6">
-        <label for="password" class="block mb-2 text-sm font-medium text-green-800">Password</label>
+        <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
         <input type="password" id="password" name="password" class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10" placeholder="••••••••" required>
       </div>
       
@@ -69,7 +133,7 @@
       </div>
       
       <div class="relative my-8 border-t border-white/10 whitespace-nowrap">
-        <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
+        <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-black font-bold">
           Need Help?
         </span>
       </div>
@@ -87,24 +151,74 @@
     
     <div class="mt-8 text-center">
       <div class="relative my-8 border-t border-white/10 whitespace-nowrap">
-        <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-green-800 font-bold">
+        <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl text-black font-bold">
           Or sign-in with
         </span>
       </div>
       
       <div class="flex justify-center gap-4 mt-4">
-        <button onclick="googleSignIn()" class="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10 border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5 text-green-800">G</button>
+        <button onclick="googleSignIn()" class="flex items-center justify-center w-12 h-12 rounded-lg border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5">
+          <img src="images.jpeg" alt="Google Sign-In" class="w-8 h-8">
+        </button>
       </div>
     </div>
   </div>
   
-  <footer class="bg-[#0d3d23] text-white py-4 text-center">
-    <p>© 2025 FinTrack. All rights reserved.</p>
-    <p class="mt-2">
-      <a href="#" class="mr-4 hover:underline">Privacy Policy</a>
-      <a href="#" class="mr-4 hover:underline">Terms of Service</a>
-      <a href="#" class="hover:underline">Cookie Settings</a>
-    </p>
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Mobile App</a></li>
+          <li><a href="#">Browser Extension</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Financial Guides</a></li>
+          <li><a href="#">API Documentation</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Connect With Us</h4>
+        <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+        <div class="social-icons">
+          <a href="#" class="social-icon">X</a>
+          <a href="#" class="social-icon">F</a>
+          <a href="#" class="social-icon">I</a>
+          <a href="#" class="social-icon">L</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2025 FinTrack. All rights reserved.</p>
+      <p style="margin-top: 8px;">
+        <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+        <a href="#" style="margin-right: 16px;">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </p>
+    </div>
   </footer>
   
 
