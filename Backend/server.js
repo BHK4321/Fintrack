@@ -664,7 +664,7 @@ const transSchema = new mongoose.Schema({
     description: String,
     category: String,
     amount: Number,
-    email :String
+    userEmail: { type: String, required: true }
 });
 const trans = mongoose.model("trans", transSchema);
 
@@ -672,7 +672,6 @@ const trans = mongoose.model("trans", transSchema);
 app.post("/api/transactions", async (req, res) => {
     try {
         const newtrans = new trans(req.body);
-        
         await newtrans.save();
         res.status(201).json({ id: newtrans._id });
     } catch (error) {
