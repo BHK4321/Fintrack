@@ -270,12 +270,13 @@ async function fetchTransactions() {
                 }
             });
 async function add(transaction) {
+    const userEmail = localStorage.getItem("userEmail");
     const resp = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({transaction , email : localStorage.getItem("userEmail")}),
+        body: JSON.stringify({...transaction , userEmail}),
     });
 
     if (!resp.ok) {
