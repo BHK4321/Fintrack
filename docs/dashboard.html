@@ -11,40 +11,58 @@
   <!-- <link rel="stylesheet" href="backgroundstyle.css"> -->
 </head>
 <body>
-  <div class="hamburger-menu">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-  </div>
   
-  <div class="sidebar-overlay"></div>
-  
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <h3>Menu</h3>
-      <div class="close-btn">&times;</div>
-    </div>
-    <div class="sidebar-content">
-      <a href="#">Home</a>
-      <a href="signin.html" id = "auth-link" style = "display: none;"class="nav-link">Sign In</a>
-      <a href="#">Dashboard</a>
-      
-      
-      <a href="#">Learn More</a>
-      <a href="#">Contact us</a>
-      <a href="#" id = "logout-btn" style = "display: none;" class="nav-link" onclick="logout()">Log Out</a>
-    </div>
-  </div>
-  <script src="hmg.js"></script>
   <nav class="nav">
+    <div class="hamburger-menu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    
+    <div class="sidebar-overlay"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="profile.html" class="profile-link">
+                <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
+            </a>
+            <div class="close-btn">&times;</div>
+        </div>
+        <div class="sidebar-content">
+            <a href="#">Home</a>
+            <a href="#">Dashboard</a>
+            <a href="#">Learn More</a>
+
+            
+            
+            
+            
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            
+            
+            
+
+            
+
+
+            <a href="#">Contact Us</a>
+            <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+        </div>
+    </div>
+    
+    <script src="hmg.js"></script>
+
     <div class="logo">FinTrack</div>
     <div class="nav-links">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="LearnMore.html" class="nav-link">Learn More</a>
-      <a href="#" class="nav-link active">Dashboard</a>
-      <a href="signin.html" id = "logout-btn" class="nav-link">Sign Out</a>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
     </div>
-  </nav>
+</nav>
+
+
+
+
   <script src = "auth.js"></script>
   <section class="dashboard-container">
     <div class="dashboard-header">
@@ -70,8 +88,6 @@
         <p id = "savings" class="amount"></p>
       </div>
     </div>
-
-
 
     <div class="dashboard-row">
       <div class="chart-container half">
@@ -106,10 +122,6 @@
       <button class="feature-btn chatbot-btn">
         <span class="btn-icon">💬</span>
         <span class="btn-text">Finance Assistant</span>
-      </button>
-      <button class="feature-btn transaction-btn">
-        <span class="btn-icon">💰</span>
-        <span class="btn-text">Transactions</span>
       </button>
     </div>
 
@@ -313,7 +325,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         billsContainer.innerHTML = ""; // Clear existing content
         if (bills.length === 0) {
-            billsContainer.innerHTML = "<p>No upcoming bills!</p>";
+            billsContainer.innerHTML = "<p style='color: #444444;'>No upcoming bills!</p>";
             return;
         }
 
@@ -339,7 +351,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         if (billsContainer.innerHTML === "") {
-            billsContainer.innerHTML = "<p>No upcoming bills!</p>";
+            billsContainer.innerHTML = "<p style='color: #444444;'>No upcoming bills!</p>";
         }
     }
 
