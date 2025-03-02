@@ -322,7 +322,8 @@
         }
         if(data.valid == 3) {
           alert("Updated Info!");
-          localStorage.setItem("monthlyincome" , monthlyincome);
+          localStorage.setItem("monthlyincome" , document.getElementById("monthlyincome").value);
+          localStorage.setItem("username" , document.getElementById("username").value);
           window.location.href = document.referrer;
         }
     } catch (error) {
