@@ -7,7 +7,7 @@ async function secured(){
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}` // Attach JWT token
+            "Authorization": `Bearer ${token}` // Attach JWT tokenp
         }
     });
     const userData = await userResp.json();
