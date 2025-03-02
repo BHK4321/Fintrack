@@ -232,29 +232,39 @@ app.get("/api/auth/check2/:email", async (req, res) => {
     }
 });
 
-app.put("/api/update/:email",async (req, res) => {
+app.put("/api/update/:email", async (req, res) => {
   try {
     const { email } = req.params;
     const updateData = req.body;
-    const up = await User.findOne(updateData.username);
-    if(up){
-        res.json({valid : 0});
+
+    // Check if username already exists
+    if (updateData.username) {
+      const up = await User.findOne({ username: updateData.username });
+      if (up) {
+        return res.json({ valid: 0 });
+      }
     }
+
     // Prevent updating restricted fields
     delete updateData.email;
     delete updateData.password;
     delete updateData.recievepermission;
     delete updateData.rememberMe;
-      console.log("ok");
-    const updatedUser = await User.findOneAndUpdate({ email }, updateData, { new: true });
-       console.log("ok");
+
+    // Find and update user
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
+      { $set: updateData },
+      { new: true }
+    );
+
     if (!updatedUser) {
-      return res.status(404).json({valid : 2 , error: "User not found" });
+      return res.status(404).json({ valid: 2, error: "User not found" });
     }
-       console.log("ok");
-    res.json({valid : 3, message: "User updated successfully"});
+
+    res.json({ valid: 3, message: "User updated successfully" });
   } catch (error) {
-    res.status(500).json({valid : 1 ,  error: "Error updating user info", details: error.message });
+    res.status(500).json({ valid: 1, error: "Error updating user info", details: error.message });
   }
 });
 
