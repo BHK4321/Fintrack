@@ -322,6 +322,7 @@
         }
         if(data.valid == 3) {
           alert("Updated Info!");
+          localStorage.setItem("monthlyincome" , monthlyincome);
           window.location.href = document.referrer;
         }
     } catch (error) {
