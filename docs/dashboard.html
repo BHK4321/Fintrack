@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const exp = document.getElementById("expense");
         if (exp) {
             exp.innerText = `$${sum.toFixed(2)}`;
-            const sav = document.getElementbyId("savings");
+            const sav = document.getElementById("savings");
             let savings = gt - sum;
             let savingsPercentage = (savings / gt) * 100;
             if(gt){sav.innerText = `$${savingsPercentage.toFixed(2)}`;}else {sav.innerText ='0%';}
