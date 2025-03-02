@@ -1087,14 +1087,18 @@
   }
   
   .prompt-box {
-    background-color: #f8f9fa;
-    border: 1px solid #dfe4ea;
-    border-radius: 6px;
-    padding: 15px;
-    margin: 15px 0;
-    position: relative;
-  }
-  
+    width: 100%; /* Make it stretch full width */
+    max-width: 600px; /* Set a reasonable max width */
+    height: auto; /* Allow it to expand based on content */
+    max-height: 300px; /* Prevent it from getting too large */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    white-space: pre-wrap; /* Ensures proper formatting */
+}
+
   pre {
     white-space: pre-wrap;
     margin: 0;
