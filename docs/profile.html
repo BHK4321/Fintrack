@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinTrack - Profile Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4CAF50',
+            'primary-dark': '#388E3C',
+            'primary-light': '#C8E6C9',
+            secondary: '#2196F3',
+            'text-dark': '#333333',
+            'text-light': '#757575',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="vvvg.css">
+  <link rel="stylesheet" href="hamburgr.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <nav class="flex justify-between items-center bg-white px-5 py-4 shadow-md sticky top-0 z-50">
+    <div class="hamburger-menu">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    
+    <div class="sidebar-overlay"></div>
+    
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>Menu</h3>
+        <div class="close-btn">&times;</div>
+      </div>
+      <div class="sidebar-content">
+        <a href="#">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="#" class="text-primary font-semibold">Profile Settings</a>
+        <a href="LearnMore.html">Learn More</a>
+        <a href="#">Contact us</a>
+        <a href="#" id="logout-btn" class="nav-link" onclick="logout()">Log Out</a>
+      </div>
+    </div>
+    <script src="hmg.js"></script>
+
+    <div class="logo text-2xl font-bold text-primary">FinTrack</div>
+    <div class="nav-links hidden md:flex gap-8">
+      <a href="#" class="nav-link hover:text-primary transition-colors">Dashboard</a>
+      <a href="#" class="nav-link text-primary font-medium">Profile</a>
+      <a href="LearnMore.html" class="nav-link hover:text-primary transition-colors">Learn More</a>
+      <a href="#" class="nav-link hover:text-primary transition-colors" onclick="logout()">Log Out</a>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-800">Profile Settings</h1>
+      <p class="text-gray-600">Manage your personal and financial information</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <form id="profileForm" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Personal Information Section -->
+          <div class="col-span-3">
+            <h2 class="text-xl font-semibold text-primary border-b pb-2 mb-4">Personal Information</h2>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+              <input type="text" id="firstName" name="firstName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+              <input type="text" id="lastName" name="lastName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="userage" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+              <input type="number" id="userage" name="userage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="monthlyincome" class="block text-sm font-medium text-gray-700 mb-1">Monthly Income</label>
+              <input type="text" id="monthlyincome" name="monthlyincome" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="Primaryfinancialgoal" class="block text-sm font-medium text-gray-700 mb-1">Primary Financial Goal</label>
+              <select id="Primaryfinancialgoal" name="Primaryfinancialgoal" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="">Select a goal</option>
+                <option value="retirement">Retirement</option>
+                <option value="homebuying">Home Buying</option>
+                <option value="debtfree">Debt Free</option>
+                <option value="education">Education</option>
+                <option value="emergencyfund">Emergency Fund</option>
+                <option value="investing">Investing</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="flex items-center">
+              <input type="checkbox" id="Married" name="Married" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+              <label for="Married" class="ml-2 block text-sm text-gray-700">Married</label>
+            </div>
+          </div>
+          
+          <div class="space-y-4 spouse-info" id="spouseInfo">
+            <div>
+              <label for="Spousename" class="block text-sm font-medium text-gray-700 mb-1">Spouse Name</label>
+              <input type="text" id="Spousename" name="Spousename" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="Spouseage" class="block text-sm font-medium text-gray-700 mb-1">Spouse Age</label>
+              <input type="number" id="Spouseage" name="Spouseage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="Spousemonthlyincome" class="block text-sm font-medium text-gray-700 mb-1">Spouse Monthly Income</label>
+              <input type="text" id="Spousemonthlyincome" name="Spousemonthlyincome" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="Children" class="block text-sm font-medium text-gray-700 mb-1">Number of Children</label>
+              <input type="number" id="Children" name="Children" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+
+          <!-- Banking Information Section -->
+          <div class="col-span-3 mt-6">
+            <h2 class="text-xl font-semibold text-primary border-b pb-2 mb-4">Banking Information</h2>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="Bankname" class="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
+              <input type="text" id="Bankname" name="Bankname" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="AccountNumber" class="block text-sm font-medium text-gray-700 mb-1">Account Number</label>
+              <input type="text" id="AccountNumber" name="AccountNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="IFSCCode" class="block text-sm font-medium text-gray-700 mb-1">IFSC Code</label>
+              <input type="text" id="IFSCCode" name="IFSCCode" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+            
+            <div>
+              <label for="LinkedCard" class="block text-sm font-medium text-gray-700 mb-1">Linked Card</label>
+              <input type="text" id="LinkedCard" name="LinkedCard" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="UPIID" class="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
+              <input type="text" id="UPIID" name="UPIID" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+
+          <!-- Preferences Section -->
+          <div class="col-span-3 mt-6">
+            <h2 class="text-xl font-semibold text-primary border-b pb-2 mb-4">Preferences</h2>
+          </div>
+          
+          <div class="col-span-3 space-y-4">
+            <div class="flex items-center">
+              <input type="checkbox" id="rememberMe" name="rememberMe" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+              <label for="rememberMe" class="ml-2 block text-sm text-gray-700">Keep me logged in</label>
+            </div>
+            
+            <div class="flex items-center">
+              <input type="checkbox" id="recievepermission" name="recievepermission" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+              <label for="recievepermission" class="ml-2 block text-sm text-gray-700">Receive notifications and financial tips</label>
+            </div>
+          </div>
+
+          <!-- Password Section -->
+          <div class="col-span-3 mt-6">
+            <h2 class="text-xl font-semibold text-primary border-b pb-2 mb-4">Change Password</h2>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+              <input type="password" id="currentPassword" name="currentPassword" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+              <input type="password" id="newPassword" name="newPassword" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Buttons -->
+        <div class="flex justify-end gap-4 pt-6 border-t">
+          <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="bg-gray-800 text-white pt-10 pb-6">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Product</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-300 hover:text-white">Features</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Pricing</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Mobile App</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Browser Extension</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Roadmap</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Company</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-300 hover:text-white">About Us</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Careers</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Press Kit</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Blog</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Resources</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-300 hover:text-white">Help Center</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Community</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Financial Guides</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">API Documentation</a></li>
+          <li><a href="#" class="text-gray-300 hover:text-white">Security</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
+        <p class="text-gray-300 mb-4">Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+        <div class="flex space-x-4 mb-4">
+          <a href="#" class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center hover:bg-gray-500">X</a>
+          <a href="#" class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center hover:bg-gray-500">F</a>
+          <a href="#" class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center hover:bg-gray-500">I</a>
+          <a href="#" class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center hover:bg-gray-500">L</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container mx-auto px-4 mt-8 pt-6 border-t border-gray-700">
+      <p>© 2025 FinTrack. All rights reserved.</p>
+      <div class="mt-2 space-x-4">
+        <a href="#" class="text-gray-300 hover:text-white">Privacy Policy</a>
+        <a href="#" class="text-gray-300 hover:text-white">Terms of Service</a>
+        <a href="#" class="text-gray-300 hover:text-white">Cookie Settings</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Toggle spouse information based on married status
+      const marriedCheckbox = document.getElementById('Married');
+      const spouseInfo = document.getElementById('spouseInfo');
+      
+      // Initially hide spouse info if not married
+      spouseInfo.style.display = marriedCheckbox.checked ? 'block' : 'none';
+      
+      marriedCheckbox.addEventListener('change', function() {
+        spouseInfo.style.display = this.checked ? 'block' : 'none';
+      });
+      
+      // Form submission
+      const profileForm = document.getElementById('profileForm');
+      profileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Collect form data
+        const formData = new FormData(profileForm);
+        const userData = {};
+        
+        for (const [key, value] of formData.entries()) {
+          if (key === 'Married' || key === 'rememberMe' || key === 'recievepermission') {
+            userData[key] = true; // Checkbox is included only when checked
+          } else {
+            userData[key] = value;
+          }
+        }
+        
+        // Convert numbers
+        if (userData.userage) userData.userage = parseInt(userData.userage);
+        if (userData.Spouseage) userData.Spouseage = parseInt(userData.Spouseage);
+        if (userData.Children) userData.Children = parseInt(userData.Children);
+        
+        console.log('Saving user data:', userData);
+        
+        // Here you would typically send this data to your server
+        // For demo purposes, we'll just show a success message
+        alert('Profile updated successfully!');
+      });
+      
+      // Load user data (mock for demonstration)
+      function loadUserData() {
+        // This would be replaced with an API call in a real application
+        const userData = {
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'john.doe@example.com',
+          phone: '+1 234 567 8901',
+          userage: 35,
+          Married: true,
+          Spousename: 'Jane Doe',
+          Spouseage: 33,
+          Spousemonthlyincome: '4500',
+          Children: 2,
+          monthlyincome: '5000',
+          Primaryfinancialgoal: 'retirement',
+          Bankname: 'Global Bank',
+          AccountNumber: '1234567890',
+          IFSCCode: 'GLOB0001234',
+          LinkedCard: 'Visa ****4321',
+          UPIID: 'johndoe@globalbank',
+          rememberMe: true,
+          recievepermission: true
+        };
+        
+        // Populate form fields
+        for (const [key, value] of Object.entries(userData)) {
+          const field = document.getElementById(key);
+          if (field) {
+            if (field.type === 'checkbox') {
+              field.checked = value;
+            } else {
+              field.value = value;
+            }
+          }
+        }
+        
+        // Toggle spouse info visibility
+        spouseInfo.style.display = userData.Married ? 'block' : 'none';
+      }
+      
+      // Load mock user data
+      loadUserData();
+    });
+    
+    // Logout function
+    function logout() {
+      // Clear session/local storage
+      localStorage.removeItem('userToken');
+      sessionStorage.removeItem('userToken');
+      
+      // Redirect to homepage
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
