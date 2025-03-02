@@ -683,6 +683,7 @@ app.post("/api/transactions", async (req, res) => {
 
 // Fetch All Transactions (GET)
 app.get("/api/get-transactions", async (req, res) => {
+    console.log("ok");
     const {userEmail} = req.query;
     try {
         const transactions = await trans.find({userEmail}); // Fetch from MongoDB
