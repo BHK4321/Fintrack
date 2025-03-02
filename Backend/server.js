@@ -232,7 +232,7 @@ app.get("/api/auth/check2/:email", async (req, res) => {
     }
 });
 
-app.put("/api/update/:email", verifyToken, async (req, res) => {
+app.put("/api/update/:email",async (req, res) => {
   try {
     const { email } = req.params;
     const updateData = req.body;
