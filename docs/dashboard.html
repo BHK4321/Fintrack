@@ -191,7 +191,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            transactions = await response.json();
+            const trans = await response.json();
+            const currentMonth = new Date().getMonth();
+        trans.forEach(transaction => {
+            const transDate = new Date(transaction.date);
+            if (transDate.getMonth() === currentMonth) {
+              transactions.push(transaction);
+            }
+        });
             updateChart();
             updateTotalExpenses();
         } catch (error) {
