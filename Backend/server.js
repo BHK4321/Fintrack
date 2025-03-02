@@ -245,10 +245,13 @@ app.put("/api/update/:email",async (req, res) => {
     delete updateData.password;
     delete updateData.recievepermission;
     delete updateData.rememberMe;
+      console.log("ok");
     const updatedUser = await User.findOneAndUpdate({ email }, updateData, { new: true });
+       console.log("ok");
     if (!updatedUser) {
       return res.status(404).json({valid : 2 , error: "User not found" });
     }
+       console.log("ok");
     res.json({valid : 3, message: "User updated successfully"});
   } catch (error) {
     res.status(500).json({valid : 1 ,  error: "Error updating user info", details: error.message });
