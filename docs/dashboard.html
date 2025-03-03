@@ -295,7 +295,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     try {
         // Fetch upcoming bills
-        const response = await fetch("/api/get-upcoming-bills");
+        const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-upcoming-bills");
         const bills = await response.json();
 
         // Clear existing content
