@@ -644,15 +644,14 @@ app.post("/api/google-signin", async (req, res) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         });
 
-        const { email, name, picture } = ticket.getPayload();
+        const { email } = ticket.getPayload();
 
-        let user = await User.findOne({ email });
+        let user = await User.findOne({ email }).select("-password");
 
         if (!user) {
             return res.json({ status: "new_user" });
         }
 
-        // User exists → Generate JWT
         const authToken = jwt.sign({ id: user._id }, "your_secret_key", {
             expiresIn: "7d",
         });
@@ -663,6 +662,7 @@ app.post("/api/google-signin", async (req, res) => {
         res.status(400).json({ error: "Invalid Google token" });
     }
 });
+
 
 //Transactions
 
