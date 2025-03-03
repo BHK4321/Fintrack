@@ -696,32 +696,37 @@ app.get(
 });
 
 app.post("/api/google-signin", async (req, res) => {
-    try {
-        const { token } = req.body;
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID,
-        });
-
-        const { email } = ticket.getPayload();
-
-        let user = await User.findOne({ email }).select("-password");
-
-        if (!user) {
-            return res.json({ status: "new_user" });
-        }
-
-        const authToken = jwt.sign({ id: user._id }, "your_secret_key", {
-            expiresIn: "7d",
-        });
-
-        res.json({ token: authToken, user });
-
-    } catch (error) {
-        res.status(400).json({ error: "Invalid Google token" });
+  try {
+    const { token } = req.body;
+    
+    // Verify the Google token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    const { email } = payload;
+    
+    // Check if user exists in your database
+    let user = await User.findOne({ email }).select("-password");
+    
+    if (!user) {
+      // User doesn't exist, redirect to signup
+      return res.json({ status: "new_user" });
     }
+    
+    // User exists, generate JWT token
+    const authToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    
+    res.json({ token: authToken, user });
+  } catch (error) {
+    console.error("Google sign-in error:", error);
+    res.status(400).json({ error: "Invalid Google token" });
+  }
 });
-
 
 //Transactions
 
