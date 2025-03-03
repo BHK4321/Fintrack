@@ -10,33 +10,39 @@ async function googleSignIn() {
                 // Opens Google sign-in popup
 }
 async function handleCredentialResponse(response) {
-        console.log("ok");
-    const token = response.credential;
-             console.log(token);
-        console.log("ok");
-    fetch("https://my-backend-api-erp6.onrender.com/api/google-signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === "new_user") {
-            // Redirect user to sign-up page
-            alert("Please Sign-up first");
-            window.location.href = "signup.html";
-        } else if (data.token) {
-            // User exists, proceed to dashboard
-            localStorage.setItem("jwtToken", data.token);
-            localStorage.setItem("userEmail", data.user.email);
-            localStorage.setItem("monthlyincome",data.user.monthlyincome);
-            alert("Login successful!");
-            window.location.href = "dashboard.html";
-        } else {
-            alert("Login failed: " + data.error);
-        }
-    })
-    .catch(error => {
-        console.error("Login Error:", error);
-    });
+  const token = response.credential;
+  console.log("Google token received:", token);
+  
+  fetch("https://my-backend-api-erp6.onrender.com/api/google-signin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ token }),
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "new_user") {
+      // Redirect to signup page for new users
+      alert("Please Sign-up first");
+      window.location.href = "signup.html";
+    } else if (data.token) {
+      // Existing user - store the token and redirect to dashboard
+      localStorage.setItem("jwtToken", data.token);
+      localStorage.setItem("userEmail", data.user.email);
+      localStorage.setItem("monthlyincome", data.user.monthlyincome || "0");
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Login failed: " + (data.error || "Unknown error"));
+    }
+  })
+  .catch(error => {
+    console.error("Login Error:", error);
+    alert("Login failed. Please try again.");
+  });
 }
+Improve
+Explain
+
+Ver
