@@ -302,8 +302,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await fetchTransactions();
     const remindersList = document.querySelector(".reminders-list");
-
-    try {
+async function fetchbill(){
+  try {
        const userEmail = localStorage.getItem("userEmail"); // Retrieve user email
         if (!userEmail) {
             console.error("User email not found in localStorage.");
@@ -351,7 +351,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error fetching bills:", error);
         remindersList.innerHTML = "<p>Error loading upcoming bills.</p>";
     }
-
+}
+  fetchbill();
 });
 
 </script>
