@@ -539,23 +539,27 @@ function createMailTransporter() {
 }
 
 // Schedule a cron job to run every minute to check for upcoming deadlines
+const cron = require('node-cron');
+
 cron.schedule('* * * * *', async () => {
     try {
         const now = new Date();
-        const oneHourFromNow = new Date(now.getTime() + 6 * 60 * 60 * 1000);
-        
-        // Find bills with deadlines 1 hour from now that haven't had reminders sent
+        const sixHoursFromNow = new Date(now.getTime() + 6 * 60 * 60 * 1000);
+        const sixHoursAndOneMinuteFromNow = new Date(sixHoursFromNow.getTime() + 60 * 1000);
+
+        // Find bills with deadlines exactly 6 hours from now
         const upcomingBills = await Bill.find({
             deadline: {
-                $gt: now,
-                $lt: oneHourFromNow
+                $gte: sixHoursFromNow, // Greater than or equal to 6 hours from now
+                $lt: sixHoursAndOneMinuteFromNow // Less than 6 hours + 1 minute
             },
             reminderSent: false
         });
-        
+
         for (const bill of upcomingBills) {
             // Send reminder emails
             await sendReminderEmails(bill);
+
             // Mark reminder as sent
             bill.reminderSent = true;
             await bill.save();
@@ -564,6 +568,7 @@ cron.schedule('* * * * *', async () => {
         console.error('Error checking for upcoming deadlines:', error);
     }
 });
+
 
 // Function to send reminder emails
 async function sendReminderEmails(bill) {
