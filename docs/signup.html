@@ -460,8 +460,6 @@
         </div>
       </footer>
     <script>
-        let errors = [];
-
         function isValidEmail(email) {
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
@@ -479,6 +477,7 @@
         }
 
         async function handleSignup(event) {
+            let errors = [];
             event.preventDefault();
 
             const formData = {
