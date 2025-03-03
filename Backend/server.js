@@ -469,7 +469,7 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
             dueDate: { $gte: today }, // Only future bills
             $or: [
                 { createdBy: userEmail }, // User created the bill
-                { friends: userEmail }    // User is in the friends list
+                { friends: { $in: [userEmail] } } // User is in the friends list (Array)
             ]
         })
         .sort({ dueDate: 1 }) // Earliest due dates first
@@ -481,6 +481,7 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
+
 
 
 // Function to send initial bill notifications
