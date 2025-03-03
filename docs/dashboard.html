@@ -229,65 +229,43 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
     function updateChart() {
-        const canvas = document.getElementById("category-chart");
-        if (!canvas) {
-            console.error("Canvas element not found!");
-            return;
-        }
+                // Group by category and sum amounts
+                const categoryData = {};
 
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-            console.error("Canvas context not found!");
-            return;
-        }
+                transactions.forEach(transaction => {
+                    // Include all transaction types
+                    const category = transaction.category;
+                    const amount = Math.abs(transaction.amount);
 
-        const categoryData = transactions.reduce((acc, t) => {
-            acc[t.category] = (acc[t.category] || 0) + Math.abs(t.amount);
-            return acc;
-        }, {});
-
-        const labels = Object.keys(categoryData);
-        const dataValues = Object.values(categoryData);
-        
-        if (categoryChart) {
-            categoryChart.destroy(); // Destroy the previous chart to prevent overlap
-        }
-
-        categoryChart = new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: labels,
-            datasets: [{
-                data: dataValues,
-                backgroundColor: labels.length === 1 && labels[0] === "No Transactions" 
-                    ? ["#d3d3d3"] // Gray color for "No Data"
-                    : [
-                        "#0066cc", "#0080ff", "#66b3ff", "#2997ff", "#0056b3",
-                        "#e0e0e0", "#86868b", "#6c757d", "#003366", "#002b4d"
-                    ].slice(0, labels.length)
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: "right",
-                    labels: { boxWidth: 12, font: { size: 11 } }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return context.label === "No Transactions"
-                                ? "No data available"
-                                : `${context.label}: $${context.raw.toFixed(2)}`;
-                        }
+                    if (categoryData[category]) {
+                        categoryData[category] += amount;
+                    } else {
+                        categoryData[category] = amount;
                     }
+                });
+
+                // Check if we have any data to display
+                if (Object.keys(categoryData).length === 0) {
+                    // If no data, show a placeholder
+                    categoryChart.data.labels = ['No transaction data'];
+                    categoryChart.data.datasets[0].data = [1];
+                    categoryChart.data.datasets[0].backgroundColor = ['#e0e0e0'];
+                } else {
+                    const labels = Object.keys(categoryData);
+                    const data = Object.values(categoryData);
+
+                    // Update chart data
+                    categoryChart.data.labels = labels;
+                    categoryChart.data.datasets[0].data = data;
+                    categoryChart.data.datasets[0].backgroundColor = [
+                        '#0066cc', '#0080ff', '#66b3ff', '#2997ff', '#0056b3',
+                        '#e0e0e0', '#86868b', '#6c757d', '#003366', '#002b4d'
+                    ].slice(0, labels.length);
                 }
+
+                // Update the chart
+                categoryChart.update();
             }
-        }
-    });
-    }
 
     await fetchTransactions();
     const remindersList = document.querySelector(".reminders-list");
