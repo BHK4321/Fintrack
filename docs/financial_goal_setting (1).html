@@ -369,8 +369,10 @@ document.addEventListener("DOMContentLoaded", function () {
         assistantMessage.textContent = "Need help setting financial goals? Here’s a template you can use:";
 
         // 🟢 GOAL SUMMARY
+        const income = localStorage.getItem("monthlyincome");
         const goalSummary = document.createElement("pre");
         goalSummary.textContent = `I want to save for ${goalName} with a target amount of ₹${goalAmount}. 
+My current Monthly income is : ${income}.
 I’d like to reach this goal by ${goalDeadline}. 
 My initial savings deposit is ₹${initialDeposit}. 
 Is this goal realistic, and what strategy would you recommend?`;
