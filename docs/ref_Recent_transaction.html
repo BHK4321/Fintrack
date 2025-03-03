@@ -180,6 +180,33 @@
     </footer>
 
     <script>
+        let transactions = [];
+        let filteredTransactions = [];
+        
+            // Store all transactions
+async function fetchTransactions() {
+    try {
+        const userEmail = localStorage.getItem("userEmail");
+        if (!userEmail) throw new Error("User email not found");
+
+        const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-transactions?userEmail=${encodeURIComponent(userEmail)}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        console.log("ok");
+        if (!response.ok) throw new Error("Failed to fetch transactions.");
+        const trans = await response.json();
+        transactions = []; // Clear existing transactions
+
+        trans.forEach(transaction => {
+            const { userEmail, ...transactionWithoutEmail } = transaction; // Remove userEmail
+            transactionWithoutEmail.id = transactionWithoutEmail._id; // Ensure ID assignment
+            transactions.push(transactionWithoutEmail);
+        });
+    } catch (error) {
+        console.error("Error fetching transactions:", error);
+    }
+}
         document.addEventListener("DOMContentLoaded", function () {
             // DOM Elements
             const transactionBody = document.getElementById("transaction-body");
@@ -194,31 +221,6 @@
             const searchBtn = document.getElementById("search-btn");
             const resetSearchBtn = document.getElementById("reset-search-btn");
             const sortBySelect = document.getElementById("sort-by");
-
-            // Store all transactions
-            let transactions = [];
-            let filteredTransactions = [];
-         async function fetchTransactions() {
-    try {
-        const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const trans = await response.json();
-        trans.forEach(transaction => {
-            const gt = transaction._id;
-            transaction.id = gt;
-            transactions.push(transaction);
-                });
-    } catch (error) {
-        console.error("Error fetching transactions:", error);
-    }
-}
-
-        // Call the function when the page loads
-        fetchTransactions();
             // Initialize chart with responsive options
             const ctx = document.getElementById('category-chart').getContext('2d');
             let categoryChart = new Chart(ctx, {
@@ -270,13 +272,14 @@
                     categorySearch.style.display = "block";
                 }
             });
-           async function add(transaction) {
+async function add(transaction) {
+    const userEmail = localStorage.getItem("userEmail");
     const resp = await fetch("https://my-backend-api-erp6.onrender.com/api/transactions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(transaction),
+        body: JSON.stringify({...transaction , userEmail}),
     });
 
     if (!resp.ok) {
@@ -300,7 +303,7 @@
         console.error("Error deleting transaction:", await resp.json());
     }
 }
-            async function initialize() {
+async function initialize() {
     await fetchTransactions(); // Fetch transactions before setting up chart
     updateTransactionTable();
     updateChart();
@@ -340,8 +343,7 @@ initialize();
     document.getElementById("transaction-desc").value = "";
     document.getElementById("transaction-amount").value = "";
 });
-            // Delete transaction
-            function attachDeleteListeners() {
+        function attachDeleteListeners() {
                 document.querySelectorAll(".delete-btn").forEach((btn, index) => {
                     btn.addEventListener("click", function () {
                         const currentTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
@@ -359,40 +361,27 @@ initialize();
 
             // Update transaction table
             function updateTransactionTable() {
-                transactionBody.innerHTML = "";
+    transactionBody.innerHTML = ""; // Clear table
 
-                const displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
+    const displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
 
-                // Sort transactions
-                const sortedTransactions = [...displayTransactions];
-                const sortOption = sortBySelect.value;
+    displayTransactions.forEach(transaction => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${transaction.date}</td>
+            <td>${transaction.description}</td>
+            <td>${transaction.category}</td>
+            <td>${transaction.amount.toFixed(2)}</td>
+            <td>
+                <button class="btn btn-danger delete-btn" data-id="${transaction.id}">Delete</button>
+            </td>
+        `;
+        transactionBody.appendChild(row);
+    });
 
-                if (sortOption === "date-asc") {
-                    sortedTransactions.sort((a, b) => new Date(a.date) - new Date(b.date));
-                } else if (sortOption === "date-desc") {
-                    sortedTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-                } else if (sortOption === "amount-asc") {
-                    sortedTransactions.sort((a, b) => a.amount - b.amount);
-                } else if (sortOption === "amount-desc") {
-                    sortedTransactions.sort((a, b) => b.amount - a.amount);
-                }
+    attachDeleteListeners(); // Reattach event listeners
+}
 
-                sortedTransactions.forEach(transaction => {
-                    const row = document.createElement("tr");
-                    const amountValue = transaction.amount;
-                    const type = amountValue >= 0 ? "positive" : "negative";
-                    row.innerHTML = `
-                        <td>${transaction.date}</td>
-                        <td>${transaction.description}</td>
-                        <td>${transaction.category}</td>
-                        <td class="amount ${type}">${amountValue >= 0 ? "+" : ""}$${Math.abs(amountValue).toFixed(2)}</td>
-                        <td><button class="btn btn-danger delete-btn">Delete</button></td>
-                    `;
-
-                    transactionBody.appendChild(row);
-                });
-                attachDeleteListeners();
-            }
 
             // Update chart
             function updateChart() {
