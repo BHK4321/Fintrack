@@ -257,6 +257,7 @@ try {
     alert("signed-in");
     localStorage.setItem("jwtToken", data.accessToken);
     console.log("jwtToken");
+    localStorage.setItem("monthlyincome",data.monthlyincome);
     localStorage.setItem("userEmail" , formData.email);
     window.location.href = "index.html";
 } catch (error) {
