@@ -489,9 +489,21 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
 async function sendBillNotifications(bill) {
     const transporter = createMailTransporter();
     
+    // Convert deadline to IST
+    const deadlineIST = new Date(bill.deadline).toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+
     // Send to each friend
     for (const friendEmail of bill.friends) {
-            const mailOptions = {
+        const mailOptions = {
             from: process.env.EMAIL_SERVER,
             to: friendEmail,
             subject: `New Split Bill: ${bill.description}`,
@@ -501,12 +513,12 @@ async function sendBillNotifications(bill) {
                 <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
                     <p><strong>Description:</strong> ${bill.description}</p>
                     <p><strong>Your share:</strong> $${bill.splitAmount}</p>
-                    <p><strong>Payment deadline:</strong> ${new Date(bill.deadline).toLocaleString()}</p>
+                    <p><strong>Payment deadline:</strong> ${deadlineIST} (IST)</p>
                 </div>
-                <p>You will receive a reminder 6 hour before the deadline.</p>
+                <p>You will receive a reminder 6 hours before the deadline.</p>
             `
         };
-        
+
         try {
             await transporter.sendMail(mailOptions);
             console.log(`Initial notification sent to ${friendEmail}`);
@@ -514,27 +526,30 @@ async function sendBillNotifications(bill) {
             console.error(`Error sending notification to ${friendEmail}:`, error);
         }
     }
-        const mailOptions = {
+
+    // Send email to bill creator
+    const creatorMailOptions = {
         from: process.env.EMAIL_SERVER,
         to: bill.createdBy,
         subject: `New Split Bill: ${bill.description}`,
         html: `
-            <h2>You've been added to a split bill</h2>
-            <p><strong>${bill.createdBy}</strong> has created a new split bill and included you.</p>
+            <h2>Your split bill has been created</h2>
+            <p>You have created a new split bill and included your friends.</p>
             <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
                 <p><strong>Description:</strong> ${bill.description}</p>
                 <p><strong>Your share:</strong> $${bill.splitAmount}</p>
-                <p><strong>Payment deadline:</strong> ${new Date(bill.deadline).toLocaleString()}</p>
+                <p><strong>Payment deadline:</strong> ${deadlineIST} (IST)</p>
             </div>
-            <p>You will receive a reminder 6 hour before the deadline.</p>
+            <p>Your friends will receive a reminder 6 hours before the deadline.</p>
         `
-        };
-        try {
-            await transporter.sendMail(mailOptions);
-            console.log(`Initial notification sent to ${bill.createdBy}`);
-        } catch (error) {
-            console.error(`Error sending notification to ${bill.createdBy}:`, error);
-        }
+    };
+
+    try {
+        await transporter.sendMail(creatorMailOptions);
+        console.log(`Initial notification sent to ${bill.createdBy}`);
+    } catch (error) {
+        console.error(`Error sending notification to ${bill.createdBy}:`, error);
+    }
 }
 
 // Function to create mail transporter
@@ -553,14 +568,21 @@ function createMailTransporter() {
 cron.schedule('* * * * *', async () => {
     try {
         const now = new Date();
-        const sixHoursFromNow = new Date(now.getTime() + 6 * 60 * 60 * 1000);
-        const sixHoursAndOneMinuteFromNow = new Date(sixHoursFromNow.getTime() + 60 * 1000);
+
+        // Convert now to IST
+        const nowIST = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+        // Calculate the reminder window (6 hours before the deadline)
+        const sixHoursFromNowIST = new Date(nowIST.getTime() + 6 * 60 * 60 * 1000);
+        const sixHoursAndOneMinuteFromNowIST = new Date(sixHoursFromNowIST.getTime() + 60 * 1000);
+
+        console.log(`Checking for reminders between: ${sixHoursFromNowIST} and ${sixHoursAndOneMinuteFromNowIST} (IST)`);
 
         // Find bills with deadlines exactly 6 hours from now
         const upcomingBills = await Bill.find({
             deadline: {
-                $gte: sixHoursFromNow, // Greater than or equal to 6 hours from now
-                $lt: sixHoursAndOneMinuteFromNow // Less than 6 hours + 1 minute
+                $gte: sixHoursFromNowIST, // Greater than or equal to 6 hours from now
+                $lt: sixHoursAndOneMinuteFromNowIST // Less than 6 hours + 1 minute
             },
             reminderSent: false
         });
@@ -572,6 +594,7 @@ cron.schedule('* * * * *', async () => {
             // Mark reminder as sent
             bill.reminderSent = true;
             await bill.save();
+            console.log(`Reminder sent for bill: ${bill.description}`);
         }
     } catch (error) {
         console.error('Error checking for upcoming deadlines:', error);
@@ -582,26 +605,32 @@ cron.schedule('* * * * *', async () => {
 // Function to send reminder emails
 async function sendReminderEmails(bill) {
     const transporter = createMailTransporter();
-    
+
+    // Convert deadline to IST for accurate display
+    const deadlineIST = new Date(bill.deadline).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+
+    // Email template function for reusability
+    const generateEmailTemplate = (recipient) => `
+        <h2>⏰ Payment Reminder</h2>
+        <p>Your payment for the following bill is due in <strong>6 hours</strong>:</p>
+        <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f8f8f8;">
+            <p><strong>Description:</strong> ${bill.description}</p>
+            <p><strong>Your share:</strong> $${bill.splitAmount}</p>
+            <p><strong>Payment deadline:</strong> ${deadlineIST}</p>
+            <p><strong>Created by:</strong> ${bill.createdBy}</p>
+        </div>
+        <p>Please make your payment as soon as possible to avoid missing the deadline.</p>
+    `;
+
     // Send to each friend
     for (const friendEmail of bill.friends) {
         const mailOptions = {
             from: '"FinTrack Reminder" <noreply@bhaskarpandey787@gmail.com>',
             to: friendEmail,
-            subject: `REMINDER: Payment due in 6 hour for ${bill.description}`,
-            html: `
-                <h2>⏰ Payment Reminder</h2>
-                <p>Your payment for the following bill is due in <strong>6 hour</strong>:</p>
-                <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f8f8f8;">
-                    <p><strong>Description:</strong> ${bill.description}</p>
-                    <p><strong>Your share:</strong> $${bill.splitAmount}</p>
-                    <p><strong>Payment deadline:</strong> ${new Date(bill.deadline).toLocaleString()}</p>
-                    <p><strong>Created by:</strong> ${bill.createdBy}</p>
-                </div>
-                <p>Please make your payment as soon as possible to avoid missing the deadline.</p>
-            `
+            subject: `REMINDER: Payment due in 6 hours for ${bill.description}`,
+            html: generateEmailTemplate(friendEmail),
         };
-        
+
         try {
             await transporter.sendMail(mailOptions);
             console.log(`Reminder sent to ${friendEmail} for bill: ${bill.description}`);
@@ -609,25 +638,17 @@ async function sendReminderEmails(bill) {
             console.error(`Error sending reminder to ${friendEmail}:`, error);
         }
     }
-    const mailOptions = {
+
+    // Send reminder to the bill creator
+    const creatorMailOptions = {
         from: '"FinTrack Reminder" <noreply@bhaskarpandey787@gmail.com>',
         to: bill.createdBy,
-        subject: `REMINDER: Payment due in 6 hour for ${bill.description}`,
-        html: `
-            <h2>⏰ Payment Reminder</h2>
-            <p>Your payment for the following bill is due in <strong>6 hour</strong>:</p>
-            <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f8f8f8;">
-                <p><strong>Description:</strong> ${bill.description}</p>
-                <p><strong>Your share:</strong> $${bill.splitAmount}</p>
-                <p><strong>Payment deadline:</strong> ${new Date(bill.deadline).toLocaleString()}</p>
-                <p><strong>Created by:</strong> ${bill.createdBy}</p>
-            </div>
-            <p>Please make your payment as soon as possible to avoid missing the deadline.</p>
-        `
+        subject: `REMINDER: Payment due in 6 hours for ${bill.description}`,
+        html: generateEmailTemplate(bill.createdBy),
     };
-    
+
     try {
-        await transporter.sendMail(mailOptions);
+        await transporter.sendMail(creatorMailOptions);
         console.log(`Reminder sent to ${bill.createdBy} for bill: ${bill.description}`);
     } catch (error) {
         console.error(`Error sending reminder to ${bill.createdBy}:`, error);
