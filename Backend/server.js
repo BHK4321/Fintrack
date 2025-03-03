@@ -247,6 +247,29 @@ app.put("/api/update/:email", async (req, res) => {
     delete updateData.recievepermission;
     delete updateData.rememberMe;
 
+    // Encrypt sensitive fields if present in updateData
+    if (updateData.monthlyincome) {
+      updateData.monthlyincome = encrypt(updateData.monthlyincome);
+    }
+    if (updateData.Spousemonthlyincome) {
+      updateData.Spousemonthlyincome = encrypt(updateData.Spousemonthlyincome);
+    }
+    if (updateData.Bankname) {
+      updateData.Bankname = encrypt(updateData.Bankname);
+    }
+    if (updateData.AccountNumber) {
+      updateData.AccountNumber = encrypt(updateData.AccountNumber);
+    }
+    if (updateData.IFSCCode) {
+      updateData.IFSCCode = encrypt(updateData.IFSCCode);
+    }
+    if (updateData.LinkedCard) {
+      updateData.LinkedCard = encrypt(updateData.LinkedCard);
+    }
+    if (updateData.UPIID) {
+      updateData.UPIID = encrypt(updateData.UPIID);
+    }
+
     // Find and update user
     const updatedUser = await User.findOneAndUpdate(
       { email },
@@ -282,15 +305,15 @@ app.post("/api/users", async (req, res) => {
     const ifscStr = IFSCCode || '';
     const linkedCardStr = LinkedCard || '';
     const upiStr = UPIID || '';
-        const hashedPassword = await bcrypt.hash(password , 10);
-        const hashmonthlyincome = encrypt(monthlyIncomeStr);
-      const hashspouseincome = encrypt(spouseIncomeStr);
-      const hashbank = encrypt(bankNameStr);
-      const hashaccnumber = encrypt(accountNumberStr);
-      const hashifsc = encrypt(ifscStr);
-      const hashlink = encrypt(linkedCardStr);
-      const hashup = encrypt(upiStr);
-        const newUser = new User({username,
+    const hashedPassword = await bcrypt.hash(password , 10);
+    const hashmonthlyincome = encrypt(monthlyIncomeStr);
+    const hashspouseincome = encrypt(spouseIncomeStr);
+    const hashbank = encrypt(bankNameStr);
+    const hashaccnumber = encrypt(accountNumberStr);
+    const hashifsc = encrypt(ifscStr);
+    const hashlink = encrypt(linkedCardStr);
+    const hashup = encrypt(upiStr);
+    const newUser = new User({username,
              firstName, lastName, email,password:hashedPassword,
              userage,Married,
   Spousename, Spouseage, Spousemonthlyincome : hashspouseincome,Children,
@@ -450,8 +473,6 @@ app.post('/api/bills', async (req, res) => {
 
 // API endpoint to schedule reminder
 app.post('/api/schedule-reminder', (req, res) => {
-    // The actual scheduling is handled by the cron job below
-    // This endpoint just acknowledges the request
     res.status(200).json({ message: 'Reminder scheduled' });
 });
 
