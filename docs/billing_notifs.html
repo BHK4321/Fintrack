@@ -449,15 +449,8 @@ background: linear-gradient(to right, #2c5ce0, #ff5733); /* Adjust colors as nee
     addFriendBtn.addEventListener('click', () => {
         const email = friendEmailInput.value.trim();
         if (!email) return;
-        
-        const emailRegex = /^[^\s@]+@gmail\.com$/i;
-        if (!emailRegex.test(email)) {
-            alert('Invalid email. Please enter a valid Gmail address.');
-            return;
-        }
-        
         if (friends.some(friend => friend.email.toLowerCase() === email.toLowerCase())) {
-            alert('This Gmail address is already added.');
+            alert('This address is already added.');
             return;
         }
         
