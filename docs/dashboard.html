@@ -295,8 +295,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     const remindersList = document.querySelector(".reminders-list");
 
     try {
-        // Fetch upcoming bills
-        const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-upcoming-bills");
+       const userEmail = localStorage.getItem("userEmail"); // Retrieve user email
+        if (!userEmail) {
+            console.error("User email not found in localStorage.");
+            return;
+        }
+
+        const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-upcoming-bills?userEmail=${encodeURIComponent(userEmail)}`);
+        
+        if (!response.ok) {
+            throw new Error("Failed to fetch upcoming bills.");
+        }
+
         const bills = await response.json();
 
         // Clear existing content
