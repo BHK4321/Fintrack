@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        return `Here’s your transaction history for this month:\nTotal Spent: ₹${totalAmount}\n\n${transactionList || "No transactions found this month."}`;
+        return `Here’s my transaction history for this month:\nTotal Spent: ₹${totalAmount}\n\n${transactionList || "I didn't do any transactions this month till now."}`;
     } catch (error) {
         console.error("Error fetching transaction summary:", error);
         return "Transaction data is unavailable at the moment.";
