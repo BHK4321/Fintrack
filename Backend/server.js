@@ -100,7 +100,8 @@ const userSchema = new mongoose.Schema({
 function encrypt(text) {
     try {
       if (!text) text = '';
-      const iv = crypto.randomBytes(16);
+      const ENCRYPTION_KEY = crypto.randomBytes(32); // 32 bytes = 256 bits
+      const iv = crypto.randomBytes(16); // 16 bytes = 128 bits
       const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
       
       let encrypted = cipher.update(text, 'utf8', 'hex');
