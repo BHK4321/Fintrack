@@ -29,6 +29,7 @@ async function handleCredentialResponse(response) {
             // User exists, proceed to dashboard
             localStorage.setItem("jwtToken", data.token);
             localStorage.setItem("userEmail", data.user.email);
+            localStorage.setItem("monthlyincome",data.user.monthlyincome);
             alert("Login successful!");
             window.location.href = "dashboard.html";
         } else {
