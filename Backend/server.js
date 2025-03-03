@@ -457,10 +457,23 @@ app.post('/api/schedule-reminder', (req, res) => {
 //dashboard
 app.get("/api/get-upcoming-bills", async (req, res) => {
     try {
+        const { userEmail } = req.query; // Get userEmail from query params
+        if (!userEmail) {
+            return res.status(400).json({ error: "User email is required" });
+        }
+
         const today = new Date();
-        const bills = await Bill.find({ dueDate: { $gte: today } }) // Only future bills
-            .sort({ dueDate: 1 }) // Earliest due dates first
-            .limit(3); // Get only top 3 upcoming bills
+
+        // Find bills where the user is either the creator or in the friends list
+        const bills = await Bill.find({
+            dueDate: { $gte: today }, // Only future bills
+            $or: [
+                { createdBy: userEmail }, // User created the bill
+                { friends: userEmail }    // User is in the friends list
+            ]
+        })
+        .sort({ dueDate: 1 }) // Earliest due dates first
+        .limit(3); // Get only top 3 upcoming bills
 
         res.json(bills);
     } catch (error) {
@@ -468,6 +481,7 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
+
 
 // Function to send initial bill notifications
 async function sendBillNotifications(bill) {
