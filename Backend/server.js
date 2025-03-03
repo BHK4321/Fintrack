@@ -456,6 +456,7 @@ app.post('/api/schedule-reminder', (req, res) => {
 
 //dashboard
 app.get("/api/get-upcoming-bills", async (req, res) => {
+    console.log("ok");
     try {
         const { userEmail } = req.query; // Get userEmail from query params
         if (!userEmail) {
@@ -474,7 +475,7 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         })
         .sort({ dueDate: 1 }) // Earliest due dates first
         .limit(3); // Get only top 3 upcoming bills
-
+        console.log(bills);
         res.json(bills);
     } catch (error) {
         console.error("Error fetching upcoming bills:", error);
