@@ -463,7 +463,7 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
             return res.status(400).json({ error: "User email is required" });
         }
 
-        const today = new Date();
+        const today = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
 
         // Find bills where the user is either the creator or in the friends list
         const bills = await Bill.find({
