@@ -291,6 +291,47 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     await fetchTransactions();
+    const remindersList = document.querySelector(".reminders-list");
+
+    try {
+        // Fetch upcoming bills
+        const response = await fetch("/api/get-upcoming-bills");
+        const bills = await response.json();
+
+        // Clear existing content
+        remindersList.innerHTML = "";
+
+        if (bills.length === 0) {
+            remindersList.innerHTML = "<p>No upcoming bills.</p>";
+            return;
+        }
+
+        // Create bill items dynamically
+        bills.forEach((bill) => {
+            const billItem = document.createElement("div");
+            billItem.classList.add("reminder-item");
+
+            // Convert UTC to Indian Standard Time (IST)
+            const dueDate = new Date(bill.dueDate).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                timeZone: "Asia/Kolkata", // Ensures IST time
+            });
+
+            billItem.innerHTML = `
+                <p><strong>${bill.name}</strong></p>
+                <p>Amount: ₹${bill.amount}</p>
+                <p>Due: ${dueDate}</p>
+            `;
+
+            remindersList.appendChild(billItem);
+        });
+    } catch (error) {
+        console.error("Error fetching bills:", error);
+        remindersList.innerHTML = "<p>Error loading upcoming bills.</p>";
+    }
+
 });
 
 </script>
