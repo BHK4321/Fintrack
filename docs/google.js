@@ -9,6 +9,7 @@ async function googleSignIn() {
     google.accounts.id.prompt();
                 // Opens Google sign-in popup
 }
+// Frontend handler function
 async function handleCredentialResponse(response) {
   const token = response.credential;
   console.log("Google token received:", token);
@@ -42,7 +43,3 @@ async function handleCredentialResponse(response) {
     alert("Login failed. Please try again.");
   });
 }
-Improve
-Explain
-
-Ver
