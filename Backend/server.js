@@ -539,8 +539,6 @@ function createMailTransporter() {
 }
 
 // Schedule a cron job to run every minute to check for upcoming deadlines
-const cron = require('node-cron');
-
 cron.schedule('* * * * *', async () => {
     try {
         const now = new Date();
