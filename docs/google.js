@@ -32,6 +32,7 @@ async function handleCredentialResponse(response) {
       localStorage.setItem("jwtToken", data.token);
       localStorage.setItem("userEmail", data.user.email);
       localStorage.setItem("monthlyincome", data.user.monthlyincome || "0");
+      localStorage.setItem("google" , "true");
       alert("Login successful!");
       window.location.href = "dashboard.html";
     } else {
