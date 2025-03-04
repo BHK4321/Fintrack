@@ -136,41 +136,74 @@ function encrypt(text) {
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-app.get("/api/users/:email", async (req, res) => {
+app.get("/api/users/:email", authenticateUser, async (req, res) => {
     try {
-        const {email} = req.params;
-        console.log(email);
-        const user = await User.findOne({ email }).select("-password");
-        console.log(user);
-        if(!user){
-           return res.json({valid : 0 , message: "Not Found!"});
-        }
-        if (user) {
-            const token = req.headers.authorization?.split(" ")[1];
-            console.log(token);
-            
-            if (!token) {
-                return res.json({valid:1, message: "Email already registered" });
-            }
+        const { email } = req.params;
 
-            try {
-                //console.log(process.env.JWT_SECRET);
-                const decoded = jwt.verify(token, process.env.JWT_SECRET);
-                console.log(decoded.email);
-                if (decoded.email !== email) {
-                    return res.json({ valid: 2, message: "Unauthorized access" });
-                }
-                console.log(decoded.email);
-                return res.status(200).json({ valid: 3, user });
-            } catch (err) {
-                return res.status(404).json({ valid: 4, message: "Invalid or expired token" });
-            }
+        console.log("Requested email:", email);
+        console.log("Decoded email:", req.user.email);
+
+        if (req.user.email !== email) {
+            return res.status(403).json({ valid: 2, message: "Unauthorized access" });
         }
+
+        const user = await User.findOne({ email }).select("-password");
+        if (!user) {
+            return res.json({ valid: 0, message: "Not Found!" });
+        }
+
+        return res.status(200).json({ valid: 3, user });
     } catch (error) {
-        console.error("Error checking email:", error);
-        return res.json({ valid: 5,message: "Server error" });
+        console.error("Error fetching user:", error);
+        return res.status(500).json({ valid: 5, message: "Server error" });
     }
 });
+
+async function verifyGoogleToken(token) {
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID, // Use the same client ID as in Google Cloud Console
+        });
+
+        const payload = ticket.getPayload();
+        return payload; // Contains user info like email, name, picture, etc.
+    } catch (error) {
+        console.error("Google Token Verification Failed:", error);
+        return null;
+    }
+}
+
+// Middleware for Google & JWT Auth
+async function authenticateUser(req, res, next) {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({ valid: 2, message: "Unauthorized access, no token provided" });
+    }
+
+    try {
+        let decoded;
+        
+        if (token.startsWith("ey")) {
+            // Likely a JWT token (your app's own authentication)
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } else {
+            // Likely a Google Sign-In token
+            decoded = await verifyGoogleToken(token);
+            if (!decoded) {
+                return res.status(401).json({ valid: 2, message: "Invalid Google token" });
+            }
+        }
+
+        req.user = decoded;
+        next();
+    } catch (error) {
+        console.error("Token Authentication Error:", error);
+        return res.status(403).json({ valid: 4, message: "Invalid or expired token" });
+    }
+}
+
 
 app.get("/api/auth/check/:email", async (req, res) => {
     try {
