@@ -3,7 +3,7 @@ async function handleUserAccess() {
     let token = localStorage.getItem("jwtToken");
     const google = localStorage.getItem("google") === "true";
     // console.log(email);x
-    // console.log(token);
+    // console.log(token);j
     if (typeof email === "undefined"){
         localStorage.setItem("userEmail" , "");
     }
