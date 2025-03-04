@@ -177,7 +177,7 @@ async function verifyGoogleToken(token) {
 
 // Middleware for Google & JWT Auth
 async function authenticateUser(req, res, next) {
-    console.log("ok");
+    console.log("Authentication middleware triggered");
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
@@ -186,16 +186,19 @@ async function authenticateUser(req, res, next) {
 
     try {
         let decoded;
-        
-        if (token.startsWith("ey")) {
-            // Likely a JWT token (your app's own authentication)
+
+        try {
+            // Try verifying as JWT (your own authentication token)
             decoded = jwt.verify(token, process.env.JWT_SECRET);
-        } else {
-            // Likely a Google Sign-In token
+            console.log("JWT token verified:", decoded);
+        } catch (jwtError) {
+            console.log("JWT verification failed, trying Google token...");
+            // If JWT fails, try Google verification
             decoded = await verifyGoogleToken(token);
             if (!decoded) {
-                return res.status(401).json({ valid: 2, message: "Invalid Google token" });
+                return res.status(401).json({ valid: 2, message: "Invalid token" });
             }
+            console.log("Google token verified:", decoded);
         }
 
         req.user = decoded;
