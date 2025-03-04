@@ -4,6 +4,13 @@ async function handleUserAccess() {
     let token = localStorage.getItem("jwtToken");
     const google = localStorage.getItem("google") === "true";
     if(google){
+         const Response = await fetch(`https://my-backend-api-erp6.onrender.com/api/google-auth`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`, // Attach the token
+                    "Content-Type": "application/json"
+                }
+            });
         document.getElementById("logout-btn").style.display = "block";
         return;
     }
@@ -27,7 +34,7 @@ async function handleUserAccess() {
     }
     try {
             // console.log(email);
-            const Response = await fetch(`https://my-backend-api-erp6.onrender.com/api/users/${email}`, {
+            const Response = await fetch(`https://my-backend-api-erp6.onrender.com/api/jwt-auth`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`, // Attach the token
@@ -37,13 +44,12 @@ async function handleUserAccess() {
             const data = await Response.json();
             console.log(data.valid);
             if(data.valid === 5){
-                alert("Server error! Try again later!");
+                alert("Server error! Please try again later!");
                 window.location.href = "index.html";
                 return;
             }
-            if((data.valid === 4 || data.valid === 2) && !google){
-                alert("Unauthorized access");
-                window.location.href = "index.html";
+            if(data.valid === 2){
+                logout();
                 return;
             }
             document.getElementById("logout-btn").style.display = "block"; // If valid, return 3, otherwise return 2
@@ -60,8 +66,7 @@ async function logout() {
                 "Content-Type": "application/json"
             }
         });
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("userEmail");
+        localStorage.clear();
         alert("Logged out!");
         window.location.href = "index.html";
     }
