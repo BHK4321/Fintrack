@@ -3,6 +3,7 @@ async function handleUserAccess() {
     let email = localStorage.getItem("userEmail");
     let token = localStorage.getItem("jwtToken");
     const google = localStorage.getItem("google") === "true";
+    console.log(google);
      if(google){
         document.getElementById("logout-btn").style.display = "block";
         return;
