@@ -552,10 +552,6 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         console.log("Today's date (IST):", today);
 
         const bills = await Bill.find({
-            dueDate: { 
-                $gte: today, 
-                $lt: new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000) // Optional: limit to next year
-            }, 
             $or: [
                 { createdBy: userEmail }, 
                 { friends: { $in: [userEmail] } }
