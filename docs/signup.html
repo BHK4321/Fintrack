@@ -236,7 +236,7 @@
             <div class="mb-6 flex items-center gap-3">
                 <input type="checkbox" id="married-checkbox"
                     class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500">
-                <label for="married-checkbox" class="block mb-2 text-sm font-medium text-black" required>Married</label>
+                <label for="married-checkbox" class="block mb-2 text-sm font-medium text-black">Married</label>
             </div>
 
             <!-- Spouse Details Section -->
@@ -507,12 +507,12 @@
             };
             localStorage.setItem("userEmail", formData.email);
             // Replace these lines in your handleSignup function
-            if (!isValidEmail(formData.email)) errors.push("Valid email is required.");
-            if (formData.password.length < 6) errors.push("Password must be at least 6 characters.");
+            if (!isValidEmail(formData.email) || !formData.email) errors.push("Valid email is required.");
+            if (formData.password.length < 6 || !formData.password || !formData.confirmpassword) errors.push("Password must be at least 6 characters.");
             if (formData.password !== formData.confirmpassword) errors.push("Passwords do not match.");
-            if (formData.userage < 18) errors.push("You must be at least 18 years old.");
-            if (!isValidPhone(formData.phone)) errors.push("Valid 10-digit phone number is required.");
-            if (formData.monthlyincome < 0) errors.push("Valid income is required.");
+            if (formData.userage < 18 || !formData.userage) errors.push("You must be at least 18 years old.");
+            if (!isValidPhone(formData.phone) || !formData.phone) errors.push("Valid 10-digit phone number is required.");
+            if (formData.monthlyincome < 0 || formData.monthlyincome) errors.push("Valid income is required.");
             if (formData.UPIID) if (isValidUPI(formData.UPIID)) errors.push("Valid income is required.");
             if (formData.IFSCCode) if (isValidIFSC(formData.IFSCCode)) errors.push("Valid income is required.");
             // Additional Checks for Married Users
