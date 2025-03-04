@@ -538,34 +538,45 @@ app.post('/api/schedule-reminder', (req, res) => {
 
 //dashboard
 app.get("/api/get-upcoming-bills", async (req, res) => {
-    console.log("ok");
     try {
-        const { userEmail } = req.query; // Get userEmail from query params
+        const { userEmail } = req.query;
         if (!userEmail) {
             return res.status(400).json({ error: "User email is required" });
         }
 
+        // Create today's date in IST
         const today = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+        today.setHours(0, 0, 0, 0); // Reset to start of day in IST
 
-        // Find bills where the user is either the creator or in the friends list
+        console.log("Searching bills for user:", userEmail);
+        console.log("Today's date (IST):", today);
+
         const bills = await Bill.find({
-            dueDate: { $gte: today }, // Only future bills
+            dueDate: { 
+                $gte: today, 
+                $lt: new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000) // Optional: limit to next year
+            }, 
             $or: [
-                { createdBy: userEmail }, // User created the bill
-                { friends: { $in: [userEmail] } } // User is in the friends list (Array)
+                { createdBy: userEmail }, 
+                { friends: { $in: [userEmail] } }
             ]
         })
-        .sort({ dueDate: 1 }) // Earliest due dates first
-        .limit(3); // Get only top 3 upcoming bills
-        console.log(bills);
+        .sort({ dueDate: 1 }) // Sort by earliest due date
+        .limit(3); // Limit to 3 bills
+
+        console.log("Found Bills:", bills.length);
+        console.log("Bill Details:", bills.map(bill => ({
+            name: bill.name,
+            amount: bill.amount,
+            dueDate: bill.dueDate.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+        })));
+
         res.json(bills);
     } catch (error) {
         console.error("Error fetching upcoming bills:", error);
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json({ error: "Server error", details: error.message });
     }
 });
-
-
 
 // Function to send initial bill notifications
 async function sendBillNotifications(bill) {
