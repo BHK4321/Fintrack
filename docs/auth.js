@@ -1,6 +1,11 @@
 async function handleUserAccess() {
     let email = localStorage.getItem("userEmail");
     let token = localStorage.getItem("jwtToken");
+     if (!email || !token) {
+        document.getElementById("auth-link").style.display = "block";
+        return;// No email or token found, user is not logged in
+    }
+
     try {
             // console.log(email);
              const response = await fetch("https://my-backend-api-erp6.onrender.com/api/jwt-auth", {
