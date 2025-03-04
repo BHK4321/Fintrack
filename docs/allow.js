@@ -64,7 +64,7 @@ async function handleUserAccess() {
             },
             body: JSON.stringify({ token, email }) // Send token & email in the request body
         });
-            const data = await Response.json();
+            const data = await response.json();
             console.log(data.valid);
             if(data.valid === 5){
                 alert("Server error! Some functionality might not work!");
