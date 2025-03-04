@@ -34,7 +34,7 @@ async function handleUserAccess() {
                 alert("Server error! Try again later!");
                 return;
             }
-            if((data.valid === 4 || data.valid === 2) and !google){
+            if((data.valid === 4 || data.valid === 2) && !google){
                 alert("Unauthorized access");
                 return;
             }
