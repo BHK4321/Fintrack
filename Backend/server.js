@@ -324,6 +324,29 @@ app.put("/api/update/:email", async (req, res) => {
   }
 });
 
+app.get("/api/users/:email", async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        if (!email) {
+            return res.status(400).json({ valid: 2, message: "Email is required" });
+        }
+
+        // Check if user exists
+        const user = await User.findOne({ email }).select("-password");
+
+        if (!user) {
+            return res.json({ valid: 0, message: "User not found" });
+        }
+
+        return res.status(200).json({ valid: 1, message: "User exists", user });
+    } catch (error) {
+        console.error("Error checking user:", error);
+        return res.status(500).json({ valid: 5, message: "Server error" });
+    }
+});
+
+
 app.post("/api/users", async (req, res) => {
     try {
         const {username,
