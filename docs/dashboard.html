@@ -10,6 +10,36 @@
   <link rel="stylesheet" href="hamburgr.css">
   <link rel = "stylesheet" href = "dash.css"></link>
   <!-- <link rel="stylesheet" href="backgroundstyle.css"> o-->
+  <style>
+    /* Making text under headings smaller than the heading size */
+    h1 + p, h2 + p, h3 + p, h4 + p {
+      font-size: 0.85em;
+    }
+    
+    .summary-card h3 {
+      font-size: 1.2em;
+    }
+    
+    .summary-card p {
+      font-size: 0.9em;
+    }
+    
+    .card-title {
+      font-size: 1.3em;
+    }
+    
+    .container-header h3 {
+      font-size: 1.2em;
+    }
+    
+    .footer-column h4 {
+      font-size: 1.1em;
+    }
+    
+    .footer-column p, .footer-column li {
+      font-size: 0.85em;
+    }
+  </style>
 </head>
 <body>
   
@@ -192,8 +222,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const inc = document.getElementById("income");
     const bal = document.getElementById("balance");
     if (inc && bal) {
-        inc.innerText = `$${gt.toFixed(2)}`;
-        bal.innerText = `$${gt.toFixed(2)}`;
+        inc.innerText = `₹${gt.toFixed(2)}`;
+        bal.innerText = `₹${gt.toFixed(2)}`;
     }
 
     async function fetchTransactions() {
@@ -218,10 +248,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function updateTotalExpenses() {
         let sum = transactions.reduce((acc, t) => acc + Math.abs(t.amount), 0);
-        document.getElementById("expense").innerText = `$${sum.toFixed(2)}`;
+        document.getElementById("expense").innerText = `₹${sum.toFixed(2)}`;
 
         let y = gt - sum;
-        bal.innerText = `$${y.toFixed(2)}`;
+        bal.innerText = `₹${y.toFixed(2)}`;
 
         let savingsPercentage = gt > 0 ? ((gt - sum) / gt) * 100 : 0;
         document.getElementById("savings").innerText = `${savingsPercentage.toFixed(2)} %`;
@@ -286,7 +316,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 label: function (context) {
                                     return context.label === "No Transactions"
                                         ? "No data available"
-                                        : `${context.label}: $${context.raw.toFixed(2)}`;
+                                        : `${context.label}: ₹${context.raw.toFixed(2)}`;
                                 }
                             }
                         }
@@ -363,3 +393,4 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 </body>
 </html>
+
