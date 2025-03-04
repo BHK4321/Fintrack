@@ -137,6 +137,9 @@ function encrypt(text) {
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 // Google Authentication Endpoint
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 // Google Authentication Endpoint
 app.post("/api/google-auth", async (req, res) => {
     try {
@@ -145,23 +148,37 @@ app.post("/api/google-auth", async (req, res) => {
             return res.status(400).json({ valid: 2, message: "Token and email are required" });
         }
 
-        const payload = await verifyGoogleToken(token);
-        if (!payload || payload.email !== email) {
-            return res.status(401).json({ valid: 2, message: "Invalid Google token or email mismatch" });
+        console.log("Verifying Google token...");
+        let payload;
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: process.env.GOOGLE_CLIENT_ID, // Must match the client ID in Google Cloud Console
+            });
+            payload = ticket.getPayload();
+        } catch (error) {
+            console.error("Google Token Verification Failed:", error);
+            return res.status(401).json({ valid: 2, message: "Invalid Google token" });
         }
 
-        console.log("Google token verified:", payload);
+        // Ensure the email from the token matches the provided email
+        if (payload.email !== email) {
+            return res.status(403).json({ valid: 2, message: "Unauthorized access: Email mismatch" });
+        }
 
+        // Check if user exists in DB or create a new one
         let user = await User.findOne({ email }).select("-password");
         if (!user) {
             return res.json({ valid: 0, message: "User not found" });
         }
+
         return res.status(200).json({ valid: 3, user });
     } catch (error) {
         console.error("Google Authentication Error:", error);
         return res.status(500).json({ valid: 5, message: "Server error" });
     }
 });
+
 
 // JWT Authentication Endpoint
 app.post("/api/jwt-auth", async (req, res) => {
@@ -176,7 +193,7 @@ app.post("/api/jwt-auth", async (req, res) => {
             decoded = jwt.verify(token, process.env.JWT_SECRET);
             console.log("JWT token verified:", decoded);
         } catch (error) {
-            return res.status(401).json({ valid: 4, message: "Invalid or expired JWT token" });
+            return res.status(401).json({ valid: 2, message: "Invalid or expired JWT token" });
         }
 
         if (decoded.email !== email) {
