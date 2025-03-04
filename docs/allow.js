@@ -22,7 +22,9 @@ async function handleUserAccess() {
         return;// No email or token found, user is not logged in
     }
      if(google){
-    try {
+    try 
+    console.log(email);
+    console.log(token);
         const response = await fetch("https://my-backend-api-erp6.onrender.com/api/google-auth", {
             method: "POST",
             headers: {
