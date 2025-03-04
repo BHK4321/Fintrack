@@ -2,6 +2,7 @@
 async function handleUserAccess() {
     let email = localStorage.getItem("userEmail");
     let token = localStorage.getItem("jwtToken");
+    const google = localStorage.getItem("google") === "true";
     console.log(email);
     console.log(token);
     if (typeof email === "undefined"){
@@ -33,7 +34,7 @@ async function handleUserAccess() {
                 alert("Server error! Try again later!");
                 return;
             }
-            if(data.valid === 4 || data.valid === 2){
+            if((data.valid === 4 || data.valid === 2) and !google){
                 alert("Unauthorized access");
                 return;
             }
