@@ -48,3 +48,15 @@ async function handleUserAccess() {
         }
 }
     handleUserAccess();
+async function logout() {
+        const log = await fetch(`https://my-backend-api-erp6.onrender.com/api/logout`,{
+             method : "POST",
+             headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("userEmail");
+        alert("Logged out!");
+        window.location.href = "index.html";
+    }
