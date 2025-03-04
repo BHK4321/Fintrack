@@ -32,7 +32,6 @@ async function handleUserAccess() {
         console.log(data.valid);
             if(data.valid === 5){
                 alert("Server error! Please try again later!");
-                window.location.href = "index.html";
                 return;
             }
             if(data.valid === 2){
