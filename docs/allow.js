@@ -37,7 +37,7 @@ async function handleUserAccess() {
                 window.location.href = "index.html";
                 return;
             }
-            if((data.valid === 4 || data.valid === 2) and !google){
+            if((data.valid === 4 || data.valid === 2) && !google){
                 alert("Unauthorized access");
                 window.location.href = "index.html";
                 return;
