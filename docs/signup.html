@@ -512,7 +512,7 @@
             if (formData.password !== formData.confirmpassword) errors.push("Passwords do not match.");
             if (formData.userage < 18 || !formData.userage) errors.push("You must be at least 18 years old.");
             if (!isValidPhone(formData.phone) || !formData.phone) errors.push("Valid 10-digit phone number is required.");
-            if (formData.monthlyincome < 0 || formData.monthlyincome) errors.push("Valid income is required.");
+            if (formData.monthlyincome < 0 || !formData.monthlyincome) errors.push("Valid income is required.");
             if (formData.UPIID) if (isValidUPI(formData.UPIID)) errors.push("Valid income is required.");
             if (formData.IFSCCode) if (isValidIFSC(formData.IFSCCode)) errors.push("Valid income is required.");
             // Additional Checks for Married Users
