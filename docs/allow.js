@@ -96,6 +96,5 @@ async function logout() {
             }
         });
         localStorage.clear();
-        alert("Logged out!");
         window.location.href = "index.html";
     }
