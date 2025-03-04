@@ -136,79 +136,61 @@ function encrypt(text) {
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-app.get("/api/users/:email", authenticateUser, async (req, res) => {
+// Google Authentication Endpoint
+app.post("/api/google-auth", async (req, res) => {
     try {
-        const { email } = req.params;
-
-        console.log("Requested email:", email);
-        console.log("Decoded email:", req.user.email);
-
-        if (req.user.email !== email) {
-            return res.status(403).json({ valid: 2, message: "Unauthorized access" });
+        const { token } = req.body;
+        if (!token) {
+            return res.status(400).json({ valid: 2, message: "No token provided" });
         }
 
-        const user = await User.findOne({ email }).select("-password");
+        const payload = await verifyGoogleToken(token);
+        if (!payload) {
+            return res.status(401).json({ valid: 2, message: "Invalid Google token" });
+        }
+
+        console.log("Google token verified:", payload);
+
+        // Check if user exists in DB or create a new one
+        let user = await User.findOne({ email: payload.email }).select("-password");
         if (!user) {
-            return res.json({ valid: 0, message: "Not Found!" });
+            return res.json({ valid: 0, message: "User not found" });
         }
 
         return res.status(200).json({ valid: 3, user });
     } catch (error) {
-        console.error("Error fetching user:", error);
+        console.error("Google Authentication Error:", error);
         return res.status(500).json({ valid: 5, message: "Server error" });
     }
 });
 
-async function verifyGoogleToken(token) {
-    console.log("ok");
+// JWT Authentication Endpoint
+app.post("/api/jwt-auth", async (req, res) => {
     try {
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID, // Use the same client ID as in Google Cloud Console
-        });
-
-        const payload = ticket.getPayload();
-        return payload; // Contains user info like email, name, picture, etc.
-    } catch (error) {
-        console.error("Google Token Verification Failed:", error);
-        return null;
-    }
-}
-
-// Middleware for Google & JWT Auth
-async function authenticateUser(req, res, next) {
-    console.log("Authentication middleware triggered");
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-        return res.status(401).json({ valid: 2, message: "Unauthorized access, no token provided" });
-    }
-
-    try {
-        let decoded;
-
-        try {
-            // Try verifying as JWT (your own authentication token)
-            decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log("JWT token verified:", decoded);
-        } catch (jwtError) {
-            console.log("JWT verification failed, trying Google token...");
-            // If JWT fails, try Google verification
-            decoded = await verifyGoogleToken(token);
-            if (!decoded) {
-                return res.status(401).json({ valid: 2, message: "Invalid token" });
-            }
-            console.log("Google token verified:", decoded);
+        const { token } = req.body;
+        if (!token) {
+            return res.status(400).json({ valid: 2, message: "No token provided" });
         }
 
-        req.user = decoded;
-        next();
-    } catch (error) {
-        console.error("Token Authentication Error:", error);
-        return res.status(403).json({ valid: 4, message: "Invalid or expired token" });
-    }
-}
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+            console.log("JWT token verified:", decoded);
+        } catch (error) {
+            return res.status(401).json({ valid: 2, message: "Invalid or expired JWT token" });
+        }
 
+        const user = await User.findOne({ email: decoded.email }).select("-password");
+        if (!user) {
+            return res.json({ valid: 0, message: "User not found" });
+        }
+
+        return res.status(200).json({ valid: 3, user });
+    } catch (error) {
+        console.error("JWT Authentication Error:", error);
+        return res.status(500).json({ valid: 5, message: "Server error" });
+    }
+});
 
 app.get("/api/auth/check/:email", async (req, res) => {
     try {
