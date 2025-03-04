@@ -34,7 +34,7 @@ async function handleUserAccess() {
         const data = await response.json();
         console.log(data.valid);
             if(data.valid === 5){
-                alert("Server error! Please try again later!");
+                alert("Server error! Some functionality might not work!");
                 window.location.href = "index.html";
                 return;
             }
@@ -67,7 +67,7 @@ async function handleUserAccess() {
             const data = await Response.json();
             console.log(data.valid);
             if(data.valid === 5){
-                alert("Server error! Please try again later!");
+                alert("Server error! Some functionality might not work!");
                 window.location.href = "index.html";
                 return;
             }
