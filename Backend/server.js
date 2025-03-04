@@ -137,10 +137,6 @@ function encrypt(text) {
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 // Google Authentication Endpoint
-const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-// Google Authentication Endpoint
 app.post("/api/google-auth", async (req, res) => {
     try {
         const { token, email } = req.body;
