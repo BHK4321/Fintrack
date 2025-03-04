@@ -754,7 +754,7 @@ app.post("/api/google-signin", async (req, res) => {
     }
     
     // User exists, generate JWT token
-    const authToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const authToken = jwt.sign({ id: user._id ,email:user.email}, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     
