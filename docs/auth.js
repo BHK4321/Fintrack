@@ -1,15 +1,9 @@
-
 async function handleUserAccess() {
     let email = localStorage.getItem("userEmail");
     let token = localStorage.getItem("jwtToken");
     const google = localStorage.getItem("google") === "true";
-    console.log(google);
-     if(google){
-        document.getElementById("logout-btn").style.display = "block";
-        return;
-    }
-    console.log(email);
-    console.log(token);
+    // console.log(email);x
+    // console.log(token);
     if (typeof email === "undefined"){
         localStorage.setItem("userEmail" , "");
     }
@@ -18,29 +12,66 @@ async function handleUserAccess() {
     }
     email = localStorage.getItem("userEmail");
     token = localStorage.getItem("jwtToken");
-    console.log(email);
-    console.log(token);
+    // console.log(email);
+    // console.log(token);
     if (!email || !token) {
         document.getElementById("auth-link").style.display = "block";
         return;// No email or token found, user is not logged in
     }
+     if(google){
     try {
-            console.log(email);
-            const Response = await fetch(`https://my-backend-api-erp6.onrender.com/api/users/${email}`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`, // Attach the token
-                    "Content-Type": "application/json"
-                }
-            });
+        const response = await fetch("https://my-backend-api-erp6.onrender.com/api/google-auth", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token, email }) // Send token & email in the request body
+        });
+
+        const data = await response.json();
+        console.log(data.valid);
+            if(data.valid === 5){
+                alert("Server error! Please try again later!");
+                window.location.href = "index.html";
+                return;
+            }
+            if(data.valid === 2){
+                logout();
+                return;
+            }
+            if(data.valid === 0){
+                document.getElementById("auth-link").style.display = "block";
+                return;
+            }
+            document.getElementById("logout-btn").style.display = "block"; // If valid, return 3, otherwise return 2
+        return;
+    } catch (error) {
+        console.error("Error in Google Authentication:", error);
+        return null;
+    }
+    }
+    try {
+            // console.log(email);
+             const response = await fetch("https://my-backend-api-erp6.onrender.com/api/jwt-auth", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token, email }) // Send token & email in the request body
+        });
             const data = await Response.json();
             console.log(data.valid);
             if(data.valid === 5){
-                alert("Server error! Try again later!");
+                alert("Server error! Please try again later!");
+                window.location.href = "index.html";
                 return;
             }
-            if((data.valid === 4 || data.valid === 2) && !google){
-                alert("Unauthorized access");
+            if(data.valid === 2){
+                logout();
+                return;
+            }
+            if(data.valid === 0){
+                document.getElementById("auth-link").style.display = "block";
                 return;
             }
             document.getElementById("logout-btn").style.display = "block"; // If valid, return 3, otherwise return 2
@@ -50,15 +81,14 @@ async function handleUserAccess() {
         }
 }
     handleUserAccess();
-   async function logout() {
+async function logout() {
         const log = await fetch(`https://my-backend-api-erp6.onrender.com/api/logout`,{
              method : "POST",
              headers: {
                 "Content-Type": "application/json"
             }
         });
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("userEmail");
+        localStorage.clear();
         alert("Logged out!");
         window.location.href = "index.html";
     }
