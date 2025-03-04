@@ -160,6 +160,7 @@ app.get("/api/users/:email", authenticateUser, async (req, res) => {
 });
 
 async function verifyGoogleToken(token) {
+    console.log("ok");
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
@@ -176,6 +177,7 @@ async function verifyGoogleToken(token) {
 
 // Middleware for Google & JWT Auth
 async function authenticateUser(req, res, next) {
+    console.log("ok");
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
