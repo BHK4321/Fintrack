@@ -5,7 +5,7 @@ async function handleUserAccess() {
     const google = localStorage.getItem("google") === "true";
     if(google){
          const Response = await fetch(`https://my-backend-api-erp6.onrender.com/api/google-auth`, {
-                method: "GET",
+                method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`, // Attach the token
                     "Content-Type": "application/json"
