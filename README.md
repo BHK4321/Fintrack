@@ -18,13 +18,11 @@ This feature allows users to get an overall view of their expenditure and hence 
 ```
 ### 2. Graphs and Visualizations 
 ```
-Interactive charts displaying financial trends,
-monthly summaries, and expense breakdowns.
+
 ```
 ### 3. CSV Import/Export
 ```
-Users can import bank statements via CSV files and
-export data for offline use or tax purposes.
+This feature allows 
 ```
 ### 4. Transaction Management
 ```
