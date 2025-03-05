@@ -73,7 +73,7 @@
     padding: 100px 20px;
     color: white;
     display: flex;
-    background-color: #003366; /* Navy blue */
+    background-color: white; /* Navy blue */
     flex-direction: column;
     align-items: center;
     justify-content: center;
