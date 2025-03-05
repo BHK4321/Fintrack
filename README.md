@@ -1,4 +1,4 @@
-#  Personal Finance Management Tool:FinTrack
+#  Personal Finance Management Tool : FinTrack
 
 Fintrack helps users manage their income, expenses, and transactions with budgeting, analytics, and financial insights.
 
@@ -83,7 +83,5 @@ Financial goal setting page of our websiter provide another ai assistant . Its p
 
 ## Hosted Links
 
-###Front-end Deployment
-'''
-https://bhk4321.github.io/Devbits/
-'''
+### Front-end Deployment
+
