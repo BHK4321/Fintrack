@@ -1,1 +1,16 @@
+#data-base connection
+MONGO_URI=your_mongodb_connection_string
+PORT=5000
 
+#Authentication
+JWT_SECRET = your_jwt_key_for_authentication
+
+# For mailing App-pasword
+EMAIL_SERVER= your_email
+EMAIL_PASS= App_password_provided_by_Google
+FRONTEND_URL = https://bhk4321.github.io/Devbits/
+
+# Google sign-in (OAuth2.0 authorization)
+GOOGLE_CLIENT_ID = Your_Google_buisness_client_ID
+GOOGLE_CLIENT_SECRET= Your_Google_client_key
+SESSION_SECRET = Your_session_secret_key
