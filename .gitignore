@@ -1,3 +1,5 @@
+# ENVIRONMENT VARIABLES
+
 #data-base connection
 
 MONGO_URI=your_mongodb_connection_string
