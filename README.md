@@ -67,7 +67,7 @@ Also on the dashboard you can view the upcoming bills in the upcoming bills sect
 ```
 Users can set savings goals by providing some info like goal category , target date(date by which they want to acheive it), description of the goal , intial deposit they are having , target amount and description , our website will generate a prompt based on these info which can be copy pasted in our ai agent on the same page and it will guide you.
 ```
-##Additional Features
+## Additional Features
 ### 1. Split Bills
 ```
 This feature allows users to split the bills along with their friends by adding their email account setting up a deadline, and sending them mails , they will also receive a reminder mail 6 hours before the deadline.
