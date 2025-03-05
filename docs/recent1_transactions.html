@@ -377,11 +377,23 @@ async function fetchTransactions() {
         transactions = []; // Clear existing transactions
 
         trans.forEach(transaction => {
-            const { userEmail, ...transactionWithoutEmail } = transaction; // Remove userEmail
-            transactionWithoutEmail.id = transactionWithoutEmail._id; // Ensure ID assignment
-            const dateOnly = transactionWithoutEmail.date.toISOString().split("T")[0];
-            transactionWithoutEmail.date = dateOnly;
-            transactions.push(transactionWithoutEmail);
+            const { userEmail, _id, date, ...transactionWithoutEmail } = transaction; // Remove userEmail and _id
+
+// Assign the ID properly
+transactionWithoutEmail.id = _id;
+
+// Ensure date conversion is handled safely
+if (date instanceof Date) {
+    transactionWithoutEmail.date = date.toISOString().split("T")[0]; 
+} else if (typeof date === "string") {
+    transactionWithoutEmail.date = new Date(date).toISOString().split("T")[0]; 
+} else {
+    transactionWithoutEmail.date = null; // Handle missing or invalid date
+}
+
+// Push the modified transaction to the array
+transactions.push(transactionWithoutEmail);
+
         });
     } catch (error) {
         console.error("Error fetching transactions:", error);
