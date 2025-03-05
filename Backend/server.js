@@ -543,7 +543,7 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         if (!userEmail) {
             return res.status(400).json({ error: "User email is required" });
         }
-
+        
         // Create today's date in IST
         const today = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
         today.setHours(0, 0, 0, 0); // Reset to start of day in IST
@@ -555,7 +555,8 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
             $or: [
                 { createdBy: userEmail }, 
                 { friends: { $in: [userEmail] } }
-            ]
+            ],
+    dueDate: { $gte: today } 
         })
         .sort({ dueDate: 1 }) // Sort by earliest due date
         .limit(3); // Limit to 3 bills
