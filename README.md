@@ -10,30 +10,37 @@ Fintrack helps users manage their income, expenses, and transactions with budget
  Users can add, edit, and categorize
 income and expenses (e.g., rent, groceries, entertainment).
 ```
+### 2. Graphs and Visualizations 
 ```
-2. Graphs and Visualizations – Interactive charts displaying financial trends,
+Interactive charts displaying financial trends,
 monthly summaries, and expense breakdowns.
 ```
+### 3. CSV Import/Export
 ```
-3. CSV Import/Export – Users can import bank statements via CSV files and
+Users can import bank statements via CSV files and
 export data for offline use or tax purposes.
 ```
+### 4. Transaction Management
 ```
-4. Transaction Management – Search, filter, and sort transactions by date,
+Search, filter, and sort transactions by date,
 category, or amount for better financial organization.
 ```
+### 5. User-Friendly Dashboard
 ```
-5. User-Friendly Dashboard – Intuitive UI displaying key metrics such as total
+Intuitive UI displaying key metrics such as total
 income, expenses, and savings.
 ```
+### 6. Data Security & Authentication
 ```
-6. Data Security & Authentication – Secure user authentication and secure
+Secure user authentication and secure
 financial data storage.
 ```
+### 7. Notifications & Bill Reminders
 ```
-7. Notifications & Bill Reminders – Alerts for upcoming payments and bills.
+Alerts for upcoming payments and bills.
 ```
+### 8. Financial Goal Setting
 ```
-8. Financial Goal Setting – Users can set savings goals and track their progress.
+Users can set savings goals and track their progress.
 ```
 
