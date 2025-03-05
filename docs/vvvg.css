@@ -395,6 +395,12 @@
     animation-delay: 0.3s;
   }
 
-.reminders-list * {
+body .reminders-list,
+body .reminders-list *,
+body .reminders-list p,
+body .reminders-list div,
+body .reminders-list span {
     color: black !important;
+    -webkit-text-fill-color: black !important;
+    opacity: 1 !important;
 }
