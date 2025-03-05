@@ -595,7 +595,7 @@ async function sendBillNotifications(bill) {
                 <p><strong>${bill.createdBy}</strong> has created a new split bill and included you.</p>
                 <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
                     <p><strong>Description:</strong> ${bill.description}</p>
-                    <p><strong>Your share:</strong> $${bill.splitAmount}</p>
+                    <p><strong>Your share:</strong> ₹${bill.splitAmount}</p>
                     <p><strong>Payment deadline:</strong> ${deadlineIST} (IST)</p>
                 </div>
                 <p>You will receive a reminder 6 hours before the deadline.</p>
@@ -620,7 +620,7 @@ async function sendBillNotifications(bill) {
             <p>You have created a new split bill and included your friends.</p>
             <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
                 <p><strong>Description:</strong> ${bill.description}</p>
-                <p><strong>Your share:</strong> $${bill.splitAmount}</p>
+                <p><strong>Your share:</strong> ₹${bill.splitAmount}</p>
                 <p><strong>Payment deadline:</strong> ${deadlineIST} (IST)</p>
             </div>
             <p>Your friends will receive a reminder 6 hours before the deadline.</p>
@@ -698,7 +698,7 @@ async function sendReminderEmails(bill) {
         <p>Your payment for the following bill is due in <strong>6 hours</strong>:</p>
         <div style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f8f8f8;">
             <p><strong>Description:</strong> ${bill.description}</p>
-            <p><strong>Your share:</strong> $${bill.splitAmount}</p>
+            <p><strong>Your share:</strong> ₹${bill.splitAmount}</p>
             <p><strong>Payment deadline:</strong> ${deadlineIST}</p>
             <p><strong>Created by:</strong> ${bill.createdBy}</p>
         </div>
