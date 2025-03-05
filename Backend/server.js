@@ -656,7 +656,7 @@ cron.schedule('* * * * *', async () => {
         const nowIST = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
 
         // Calculate the reminder window (6 hours before the deadline)
-        const sixHoursFromNowIST = new Date(nowIST.getTime() + 6 * 60 * 60 * 1000);
+        const sixHoursFromNowIST = new Date(nowIST.getTime() + 30 * 60 * 1000);
         const sixHoursAndOneMinuteFromNowIST = new Date(sixHoursFromNowIST.getTime() + 60 * 1000);
 
         console.log(`Checking for reminders between: ${sixHoursFromNowIST} and ${sixHoursAndOneMinuteFromNowIST} (IST)`);
