@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const billItem = document.createElement("div");
                 billItem.classList.add("reminder-item");
 
-                const dueDate = new Date(bill.dueDate).toLocaleDateString("en-IN", {
+                const deadline = new Date(bill.deadline).toLocaleDateString("en-IN", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -369,9 +369,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 });
 
                 billItem.innerHTML = `
-                    <p><strong>${bill.name}</strong></p>
+                    <p><strong>${bill.description}</strong></p>
                     <p>Amount: ₹${bill.amount}</p>
-                    <p>Due: ${dueDate}</p>
+                    <p>Due: ${deadline}</p>
                 `;
 
                 remindersList.appendChild(billItem);
