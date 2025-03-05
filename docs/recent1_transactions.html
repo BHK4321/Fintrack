@@ -379,8 +379,6 @@ async function fetchTransactions() {
         trans.forEach(transaction => {
             const { userEmail, ...transactionWithoutEmail } = transaction; // Remove userEmail
             transactionWithoutEmail.id = transactionWithoutEmail._id; // Ensure ID assignment
-            const dateOnly = transactionWithoutEmail.date.toISOString().split("T")[0];
-            transactionWithoutEmail.date = dateOnly;
             transactions.push(transactionWithoutEmail);
         });
     } catch (error) {
