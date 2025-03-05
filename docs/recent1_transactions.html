@@ -541,11 +541,11 @@ initialize();
     transactionBody.innerHTML = ""; // Clear table
 
     const displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
-
+    const datea = transaction.date.toISOString().split("T")[0];
     displayTransactions.forEach(transaction => {
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${transaction.date}</td>
+            <td>${datea}</td>
             <td>${transaction.description}</td>
             <td>${transaction.category}</td>
             <td>₹${transaction.amount.toFixed(2)}</td>
