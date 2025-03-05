@@ -601,7 +601,37 @@ initialize();
             }
 
             // Sort transactions
-            sortBySelect.addEventListener("change", updateTransactionTable);
+         sortBySelect.addEventListener("change", function () {
+    const sortBy = sortBySelect.value;
+
+    let displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
+
+    switch (sortBy) {
+        case "date-asc":
+            displayTransactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+            break;
+        case "date-desc":
+            displayTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            break;
+        case "amount-asc":
+            displayTransactions.sort((a, b) => a.amount - b.amount);
+            break;
+        case "amount-desc":
+            displayTransactions.sort((a, b) => b.amount - a.amount);
+            break;
+        case "category":
+            displayTransactions.sort((a, b) => a.category.localeCompare(b.category));
+            break;
+        case "description":
+            displayTransactions.sort((a, b) => a.description.localeCompare(b.description));
+            break;
+        default:
+            break;
+    }
+
+    updateTransactionTable();
+});
+
 
             // Search transactions
             searchBtn.addEventListener("click", function () {
