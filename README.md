@@ -93,3 +93,11 @@ https://bhk4321.github.io/Devbits/
 ```
 https://my-backend-api-erp6.onrender.com
 ```
+
+## Technologies Used
+
+- HTML
+- CSS
+- JavaScript  
+- Node.js (For the Server)
+- MongoDB  (For Database)
