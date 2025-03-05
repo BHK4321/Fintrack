@@ -92,6 +92,9 @@ https://bhk4321.github.io/Devbits/
 #### Back-end Deployment
 
 ```
+The pages may take time to load at first but eventually they will run smoothly this doesn't has anything on our part You can read the Render Quotation : Your free instance will spin down with inactivity, which can delay requests by 50 seconds or more. 
+```
+```
 https://my-backend-api-erp6.onrender.com
 ```
 
