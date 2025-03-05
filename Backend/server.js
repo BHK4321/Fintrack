@@ -550,24 +550,17 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         
         console.log("Searching bills for user:", userEmail);
         console.log("Today's date (IST):", today);
-        today.toISOString(); 
         const bills = await Bill.find({
             $or: [
                 { createdBy: userEmail }, 
                 { friends: { $in: [userEmail] } }
             ],
-    dueDate: { $gte: today } 
+    deadline: { $gte: today } 
         })
-        .sort({ dueDate: 1 }) // Sort by earliest due date
+        .sort({ deadline: 1 }) // Sort by earliest due date
         .limit(3); // Limit to 3 bills
 
         console.log("Found Bills:", bills.length);
-        console.log("Bill Details:", bills.map(bill => ({
-            name: bill.name,
-            amount: bill.amount,
-            dueDate: bill.dueDate.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-        })));
-
         res.json(bills);
     } catch (error) {
         console.error("Error fetching upcoming bills:", error);
