@@ -9,6 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
+    /* Existing modal and input styles */
     .modal {
       transition: opacity 0.3s ease;
     }
@@ -27,6 +28,43 @@
       opacity: 1;
       pointer-events: auto;
     }
+    
+    /* Sidebar and Overlay Enhancements */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px; /* Hidden by default */
+      width: 300px;
+      height: 100vh; /* Full viewport height */
+      background-color: white;
+      transition: left 0.3s ease;
+      z-index: 1100;
+      overflow-y: auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
     /* Custom scrollbar for the modal */
     .modal-content::-webkit-scrollbar {
       width: 8px;
@@ -42,30 +80,7 @@
     .modal-content::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
-    /* Date input styling */
-    input[type="date"] {
-      position: relative;
-    }
-    input[type="date"]::-webkit-calendar-picker-indicator {
-      background: transparent;
-      cursor: pointer;
-      height: 100%;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 2.5rem;
-    }
-    /* Darker text for better visibility */
-    .text-gray-600 {
-      color: #4b5563 !important;
-    }
-    .text-gray-500 {
-      color: #374151 !important;
-    }
-    .text-xs {
-      color: #1f2937 !important;
-    }
-
+    
     /* Responsive adjustments */
     body {
       max-width: 100%;
@@ -73,6 +88,11 @@
     }
     
     @media (max-width: 768px) {
+      .sidebar {
+        width: 250px;
+        left: -250px;
+      }
+      
       .hero .max-w-md {
         width: 95%;
         margin: 1rem;
@@ -97,10 +117,6 @@
         display: none;
       }
       
-      .sidebar {
-        width: 250px;
-      }
-      
       .modal-container {
         width: 95%;
         margin: 0 auto;
@@ -111,14 +127,9 @@
       }
     }
     
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .hero .max-w-md {
-        width: 80%;
-      }
-      
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
+    @media (min-width: 769px) {
+      .hamburger-menu {
+        display: none; /* Hide hamburger on larger screens */
       }
     }
     
@@ -179,8 +190,6 @@
             <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
         </div>
     </div>
-    
-    <script src="hmg.js"></script>
 
     <div class="logo">FinTrack</div>
     <div class="nav-links">
@@ -189,6 +198,52 @@
         <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
     </div>
   </nav>
+
+  <script>
+    // Hamburger Menu Functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburgerMenu = document.querySelector('.hamburger-menu');
+      const sidebar = document.querySelector('.sidebar');
+      const sidebarOverlay = document.querySelector('.sidebar-overlay');
+      const closeSidebarBtn = document.querySelector('.close-btn');
+
+      // Toggle sidebar
+      function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('open');
+      }
+
+      // Close sidebar
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+      }
+
+      // Event Listeners
+      hamburgerMenu.addEventListener('click', toggleSidebar);
+      sidebarOverlay.addEventListener('click', closeSidebar);
+      closeSidebarBtn.addEventListener('click', closeSidebar);
+
+      // Close sidebar when a link is clicked
+      const sidebarLinks = document.querySelectorAll('.sidebar-content a');
+      sidebarLinks.forEach(link => {
+        link.addEventListener('click', closeSidebar);
+      });
+    });
+
+    // Lucide Icons Initialization
+    lucide.createIcons();
+    
+    // Create specific icons
+    document.getElementById('rupee-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-indian-rupee"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>';
+    document.getElementById('x-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+    
+    document.getElementById('rupee-sign-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-indian-rupee"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>';
+    document.getElementById('mail-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+    document.getElementById('plus-circle-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>';
+    document.getElementById('calendar-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>';
+    document.getElementById('clock-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+  </script>
 
   <script src="auth.js"></script>
 
