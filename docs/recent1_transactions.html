@@ -541,9 +541,9 @@ initialize();
     transactionBody.innerHTML = ""; // Clear table
 
     const displayTransactions = filteredTransactions.length > 0 ? filteredTransactions : transactions;
-    const datea = transaction.date.toISOString().split("T")[0];
     displayTransactions.forEach(transaction => {
         const row = document.createElement("tr");
+         const datea = transaction.date.toISOString().split("T")[0];
         row.innerHTML = `
             <td>${datea}</td>
             <td>${transaction.description}</td>
