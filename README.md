@@ -67,15 +67,16 @@ Also on the dashboard you can view the upcoming bills in the upcoming bills sect
 ```
 Users can set savings goals by providing some info like goal category , target date(date by which they want to acheive it), description of the goal , intial deposit they are having , target amount and description , our website will generate a prompt based on these info which can be copy pasted in our ai agent on the same page and it will guide you.
 ```
-### 9. Split Bills
+##Additional Features
+### 1. Split Bills
 ```
 This feature allows users to split the bills along with their friends by adding their email account setting up a deadline, and sending them mails , they will also receive a reminder mail 6 hours before the deadline.
 ```
-### 10. User friendly navigation with the help of AI assistant (Bottom right Corner)
+### 2. User friendly navigation with the help of AI assistant (Bottom right Corner)
 ```
 User can find AI assistant on bottom right of the screen which is their to help user in the website navigation, it makes user experience smoth and easy. AI assistant is their to guide and help user to regarding different features on the website and any difficulties they are facing while using the websites.
 ```
-### 11. Smart Budgeting with the integration of Financial Assistant (Goal setting Page)
+### 3. Smart Budgeting with the integration of Financial Assistant (Goal setting Page)
 ```
 Financial goal setting page of our websiter provide another ai assistant . Its purpose on the FinTrack website is to provide you with personalized financial guidance, budgeting tips, investment insights, and assistance with expense tracking. It aims to make financial management easier and more accessible for you by answering your finance-related questions and helping you set financial goals. 
 ```
