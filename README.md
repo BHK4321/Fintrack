@@ -22,7 +22,9 @@ This feature allows users to get an overall view of their expenditure and hence 
 ```
 ### 3. CSV Import/Export
 ```
-This feature allows 
+This feature allows to export the transactions record they have in website in a csv file format which can be helpful during the time of tax filing.
+
+Also instead of filling details manually they could import it from a csv file.
 ```
 ### 4. Transaction Management
 ```
