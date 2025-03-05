@@ -7,7 +7,7 @@ Fintrack helps users manage their income, expenses, and transactions with budget
 
 ### 1. Income and Expense Tracking
 ```
-With the help of Transaction Manager user can easily track their different expenses into different categories like    
+With the help of Transaction Manager user can easily track their different expenses into different categories like<br>  
 rent,groceries,entertainment lifstyles with proper record of amount they are spending with dates and any further description which   get stored and can be access any time .  
 Users can also track their monthly income , savings rate, total balance etc directly from the dashboard. This feature allows users   to get a overall view of their expenditure and hence make it much easier to plan the month.  
 ```
