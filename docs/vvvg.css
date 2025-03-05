@@ -394,3 +394,7 @@
   .delay-3 {
     animation-delay: 0.3s;
   }
+
+.reminders-list * {
+    color: black !important;
+}
