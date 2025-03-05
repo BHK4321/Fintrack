@@ -496,3 +496,11 @@
     color: red;
     font-weight: bold;
 }
+
+.reminders-list p {
+    color: black; /* Placeholder text */
+}
+
+.reminders-list p.dynamic {
+    color: black !important; /* Dynamically inserted elements */
+}
