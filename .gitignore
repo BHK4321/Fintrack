@@ -5,7 +5,7 @@ PORT=5000
 #Authentication
 JWT_SECRET = your_jwt_key_for_authentication
 
-# For mailing App-pasword
+# For Sending Mails (App-pasword)
 EMAIL_SERVER= your_email
 EMAIL_PASS= App_password_provided_by_Google
 FRONTEND_URL = https://bhk4321.github.io/Devbits/
