@@ -547,10 +547,10 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         // Create today's date in IST
         const today = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
         today.setHours(0, 0, 0, 0); // Reset to start of day in IST
-
+        
         console.log("Searching bills for user:", userEmail);
         console.log("Today's date (IST):", today);
-
+        today.toISOString(); 
         const bills = await Bill.find({
             $or: [
                 { createdBy: userEmail }, 
