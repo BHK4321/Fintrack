@@ -1,4 +1,4 @@
-#  Personal Finance Management Tool : FinTrack
+#  Personal Finance Management Tool:FinTrack
 
 Fintrack helps users manage their income, expenses, and transactions with budgeting, analytics, and financial insights.
 
@@ -44,8 +44,12 @@ Amount(High to Low)
 ```
 ### 5. User-Friendly Dashboard
 ```
-Intuitive UI displaying key metrics such as total
-income, expenses, and savings.
+Dashboard allows users to track total balance, monthly income, monthly expenses and savings rate. Its user friendly UI allows users to easily get a overall view of their montnly spend and savings.
+
+Dashboard sections also offers user to view their expense breakdown in graphical format with the help of pie chart.
+
+Provides information related to upcoming bills so that you don't miss to pay any bill .
+
 ```
 ### 6. Data Security & Authentication
 ```
@@ -54,10 +58,27 @@ financial data storage.
 ```
 ### 7. Notifications & Bill Reminders
 ```
-Alerts for upcoming payments and bills.
+This feature allows user to set up bill reminder for themself so that you will get a mail 6 hours just before the deadline of bills.
+
+Also on the dashboard you can view the upcoming bills in the upcoming bills section which will show bills as the deadline comes closer and you will not forget to pay it on time.
+
 ```
 ### 8. Financial Goal Setting
 ```
-Users can set savings goals and track their progress.
+Users can set savings goals by providing some info like goal category , target date(date by which they want to acheive it), description of the goal , intial deposit they are having , target amount and description , our website will generate a prompt based on these info which can be copy pasted in our ai agent on the same page and it will guide you.
 ```
+### 9. Split Bills
+```
+This feature allows users to split the bills along with their friends by adding their email account setting up a deadline, and sending them mails , they will also receive a reminder mail 6 hours before the deadline.
+```
+### 10. User friendly navigation with the help of AI assistant
+```
+User can find AI assistant on bottom right of the screen which is their to help user in the website navigation, it makes user experience smoth and easy. AI assistant is their to guide and help user to regarding different features on the website and any difficulties they are facing while using the websites.
+```
+### 11. Smart Budgeting with the integration of chatbot
+```
+Financial goal setting page of our websiter provide another ai assistant . Its purpose on the FinTrack website is to provide you with personalized financial guidance, budgeting tips, investment insights, and assistance with expense tracking. It aims to make financial management easier and more accessible for you by answering your finance-related questions and helping you set financial goals. 
+```
+
+
 ## Hosted Links
