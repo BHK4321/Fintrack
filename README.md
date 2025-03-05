@@ -85,3 +85,11 @@ Financial goal setting page of our websiter provide another ai assistant . Its p
 
 ### Front-end Deployment
 
+```
+https://bhk4321.github.io/Devbits/
+```
+### Back-end Deployment
+
+```
+https://my-backend-api-erp6.onrender.com
+```
