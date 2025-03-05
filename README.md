@@ -5,7 +5,8 @@ Fintrack helps users manage their income, expenses, and transactions with budget
 ## Key Features
 
 ```
-1. Income and Expense Tracking – Users can add, edit, and categorize
+### 1. Income and Expense Tracking
+ Users can add, edit, and categorize
 income and expenses (e.g., rent, groceries, entertainment).
 ```
 ```
