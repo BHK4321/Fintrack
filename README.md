@@ -30,6 +30,16 @@ Also instead of filling details manually they could import it from a csv file.
 ```
 Search, filter, and sort transactions by date,
 category, or amount for better financial organization.
+Users can search transactions by date (setting a range of date which would help them to view transaction summary of only particlarlly interested dates) further they can sort it by date or amount , they get following sorting options:
+
+Date(Oldest first)
+
+Date(Newest first)
+
+Amount(Low to High)
+
+Amount(High to Low)
+
 ```
 ### 5. User-Friendly Dashboard
 ```
