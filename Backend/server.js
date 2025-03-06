@@ -1,4 +1,4 @@
-//Backend Server-------------------------------------------------------------------------------------------------
+//----------------------------------------------------------Backend Server----------------------------------------------------------
 
 require("dotenv").config();
 const express = require("express");
@@ -21,6 +21,8 @@ const { configDotenv } = require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+//---------------------------------------------------------------------
+
 app.use(cors());
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -34,35 +36,37 @@ app.use(passport.session());
 
 passport.use(
     new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "https://my-backend-api-erp6.onrender.com/auth/google/callback", // Update this based on your setup
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        try {
-          // Find or create the user in your database
-          let user = await User.findOne({ googleId: profile.id });
-  
-          if (!user) {
-              return;
-          }
-  
-          // Generate JWT token
-          const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "7d",
-          });
-  
-          return done(null, { user, token });
-        } catch (err) {
-          return done(err, null);
+        {
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: "https://my-backend-api-erp6.onrender.com/auth/google/callback", // Update this based on your setup
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            try {
+                // Find or create the user in your database
+                let user = await User.findOne({ googleId: profile.id });
+
+                if (!user) {
+                    return;
+                }
+
+                // Generate JWT token
+                const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+                    expiresIn: "7d",
+                });
+
+                return done(null, { user, token });
+            } catch (err) {
+                return done(err, null);
+            }
         }
-      }
     )
-  );
-  
+);
+
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(null, obj));
+
+//---------------------------------------------------------------------
 
 //connect
 mongoose.connect(process.env.MONGO_URI)
@@ -71,110 +75,74 @@ mongoose.connect(process.env.MONGO_URI)
 
 //schema
 const userSchema = new mongoose.Schema({
-    username : String,
+    username: String,
     firstName: String,
     lastName: String,
-    email: { type: String, unique: true, required: true},
+    email: { type: String, unique: true, required: true },
     password: String,
-    userage:Number,
-    Married:Boolean,
-    Spousename:String,
-    Spouseage:Number,
-    Spousemonthlyincome:String,
-    Children:Number,
-    monthlyincome:String,
-    Primaryfinancialgoal:String,
+    userage: Number,
+    Married: Boolean,
+    Spousename: String,
+    Spouseage: Number,
+    Spousemonthlyincome: String,
+    Children: Number,
+    monthlyincome: String,
+    Primaryfinancialgoal: String,
     phone: String,
-    Bankname:String,
+    Bankname: String,
     AccountNumber: String,
-    IFSCCode:String,
-    LinkedCard:String,
-    rememberMe:Boolean,
-    recievepermission:Boolean,
-    UPIID:String,
-  });
-  const encryptionKey = crypto.randomBytes(32);
-  const iv = crypto.randomBytes(16);
-  
-  // Updated encrypt function that returns a string representation
+    IFSCCode: String,
+    LinkedCard: String,
+    rememberMe: Boolean,
+    recievepermission: Boolean,
+    UPIID: String,
+});
+
+//---------------------------------------------------------------------
+
+const encryptionKey = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+
+// Updated encrypt function that returns a string representation
 function encrypt(text) {
     try {
-      if (!text) text = '';
-      const ENCRYPTION_KEY = crypto.randomBytes(32); // 32 bytes = 256 bits
-      const iv = crypto.randomBytes(16); // 16 bytes = 128 bits
-      const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
-      
-      let encrypted = cipher.update(text, 'utf8', 'hex');
-      encrypted += cipher.final('hex');
-      
-      // Return a string format that can be easily stored in MongoDB
-      return JSON.stringify({
-        iv: iv.toString('hex'),
-        data: encrypted
-      });
+        if (!text) text = '';
+        const ENCRYPTION_KEY = crypto.randomBytes(32); // 32 bytes = 256 bits
+        const iv = crypto.randomBytes(16); // 16 bytes = 128 bits
+        const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+
+        let encrypted = cipher.update(text, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+
+        // Return a string format that can be easily stored in MongoDB
+        return JSON.stringify({
+            iv: iv.toString('hex'),
+            data: encrypted
+        });
     } catch (err) {
-      console.error('Encryption error:', err);
-      return ''; // Return empty string on error
+        console.error('Encryption error:', err);
+        return ''; // Return empty string on error
     }
-  }
-  
-  function decrypt(encryptedObj) {
+}
+
+function decrypt(encryptedObj) {
     const decipher = crypto.createDecipheriv(
-      'aes-256-gcm', 
-      encryptionKey, 
-      Buffer.from(encryptedObj.iv, 'hex')
+        'aes-256-gcm',
+        encryptionKey,
+        Buffer.from(encryptedObj.iv, 'hex')
     );
-    
+
     decipher.setAuthTag(Buffer.from(encryptedObj.authTag, 'hex'));
-    
+
     let decrypted = decipher.update(encryptedObj.encryptedData, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
-    
+
     return decrypted;
-  }
-  
+}
+
+//---------------------------------------------------------------------
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
-
-// Google Authentication Endpoint
-// app.post("/api/google-auth", async (req, res) => {
-//     try {
-//         const { token, email } = req.body;
-//         if (!token || !email) {
-//             return res.status(400).json({ valid: 2, message: "Token and email are required" });
-//         }
-
-//         console.log("Verifying Google token...");
-//         let payload;
-//         try {
-//             const ticket = await client.verifyIdToken({
-//                 idToken: token,
-//                 audience: process.env.GOOGLE_CLIENT_ID, // Must match the client ID in Google Cloud Console
-//             });
-//             payload = ticket.getPayload();
-//         } catch (error) {
-//             console.error("Google Token Verification Failed:", error);
-//             return res.status(401).json({ valid: 2, message: "Invalid Google token" });
-//         }
-
-//         // Ensure the email from the token matches the provided email
-//         if (payload.email !== email) {
-//             return res.status(403).json({ valid: 2, message: "Unauthorized access: Email mismatch" });
-//         }
-
-//         // Check if user exists in DB or create a new one
-//         let user = await User.findOne({ email }).select("-password");
-//         if (!user) {
-//             return res.json({ valid: 0, message: "User not found" });
-//         }
-
-//         return res.status(200).json({ valid: 3, user });
-//     } catch (error) {
-//         console.error("Google Authentication Error:", error);
-//         return res.status(500).json({ valid: 5, message: "Server error" });
-//     }
-// });
-
 
 // JWT Authentication Endpoint
 app.post("/api/jwt-auth", async (req, res) => {
@@ -242,86 +210,64 @@ app.get("/api/auth/check/:email", async (req, res) => {
         return res.status(500).json({ valid: 6, message: "Server error" });
     }
 });
-// app.get("/api/auth/check2/:email", async (req, res) => {
-//     try {
-//         const { email } = req.params;
-//         const {password , username} = req.body;
-//         try {
-//             // Fetch user by email
-//             const user = await User.findOne({ email });
-
-//             if (!user) {
-//                 return res.status(404).json({ valid: 0, message: "User not found!" });
-//             }
-//             const isMatch = await bcrypt.compare(password, user.password);
-//             if (!isMatch) return res.json({valid:1, error: "Invalid email or password" });
-//             return res.status(200).json({ valid: 3, message: "User is authorized"});
-//         } catch (err) {
-//             return res.status(403).json({ valid: 5, message: "Invalid or expired token" });
-//         }
-//     } catch (error) {
-//         console.error("Error checking authorization:", error);
-//         return res.status(500).json({ valid: 6, message: "Server error" });
-//     }
-// });
 
 app.put("/api/update/:email", async (req, res) => {
-  try {
-    const { email } = req.params;
-    const updateData = req.body;
+    try {
+        const { email } = req.params;
+        const updateData = req.body;
 
-    // Check if username already exists
-    if (updateData.username) {
-      const up = await User.findOne({ username: updateData.username });
-      if (up) {
-        return res.json({ valid: 0 });
-      }
-    }
+        // Check if username already exists
+        if (updateData.username) {
+            const up = await User.findOne({ username: updateData.username });
+            if (up) {
+                return res.json({ valid: 0 });
+            }
+        }
 
-    // Prevent updating restricted fields
-    delete updateData.email;
-    delete updateData.password;
-    delete updateData.recievepermission;
-    delete updateData.rememberMe;
+        // Prevent updating restricted fields
+        delete updateData.email;
+        delete updateData.password;
+        delete updateData.recievepermission;
+        delete updateData.rememberMe;
 
-    // Encrypt sensitive fields if present in updateData
-    if (updateData.monthlyincome) {
-      updateData.monthlyincome = encrypt(updateData.monthlyincome);
-    }
-    if (updateData.Spousemonthlyincome) {
-      updateData.Spousemonthlyincome = encrypt(updateData.Spousemonthlyincome);
-    }
-    if (updateData.Bankname) {
-      updateData.Bankname = encrypt(updateData.Bankname);
-    }
-    if (updateData.AccountNumber) {
-      updateData.AccountNumber = encrypt(updateData.AccountNumber);
-    }
-    if (updateData.IFSCCode) {
-      updateData.IFSCCode = encrypt(updateData.IFSCCode);
-    }
-    if (updateData.LinkedCard) {
-      updateData.LinkedCard = encrypt(updateData.LinkedCard);
-    }
-    if (updateData.UPIID) {
-      updateData.UPIID = encrypt(updateData.UPIID);
-    }
+        // Encrypt sensitive fields if present in updateData
+        if (updateData.monthlyincome) {
+            updateData.monthlyincome = encrypt(updateData.monthlyincome);
+        }
+        if (updateData.Spousemonthlyincome) {
+            updateData.Spousemonthlyincome = encrypt(updateData.Spousemonthlyincome);
+        }
+        if (updateData.Bankname) {
+            updateData.Bankname = encrypt(updateData.Bankname);
+        }
+        if (updateData.AccountNumber) {
+            updateData.AccountNumber = encrypt(updateData.AccountNumber);
+        }
+        if (updateData.IFSCCode) {
+            updateData.IFSCCode = encrypt(updateData.IFSCCode);
+        }
+        if (updateData.LinkedCard) {
+            updateData.LinkedCard = encrypt(updateData.LinkedCard);
+        }
+        if (updateData.UPIID) {
+            updateData.UPIID = encrypt(updateData.UPIID);
+        }
 
-    // Find and update user
-    const updatedUser = await User.findOneAndUpdate(
-      { email },
-      { $set: updateData },
-      { new: true }
-    );
+        // Find and update user
+        const updatedUser = await User.findOneAndUpdate(
+            { email },
+            { $set: updateData },
+            { new: true }
+        );
 
-    if (!updatedUser) {
-      return res.status(404).json({ valid: 2, error: "User not found" });
+        if (!updatedUser) {
+            return res.status(404).json({ valid: 2, error: "User not found" });
+        }
+
+        res.json({ valid: 3, message: "User updated successfully" });
+    } catch (error) {
+        res.status(500).json({ valid: 1, error: "Error updating user info", details: error.message });
     }
-
-    res.json({ valid: 3, message: "User updated successfully" });
-  } catch (error) {
-    res.status(500).json({ valid: 1, error: "Error updating user info", details: error.message });
-  }
 });
 
 app.get("/api/users/:email", async (req, res) => {
@@ -349,48 +295,49 @@ app.get("/api/users/:email", async (req, res) => {
 
 app.post("/api/users", async (req, res) => {
     try {
-        const {username,
- firstName, lastName, email, password, userage,Married,
-  Spousename, Spouseage, Spousemonthlyincome,Children,
-  monthlyincome,Primaryfinancialgoal,phone,Bankname,AccountNumber,
-  IFSCCode,LinkedCard,rememberMe ,recievepermission,UPIID} = req.body;
-  console.log(email);
+        const { username,
+            firstName, lastName, email, password, userage, Married,
+            Spousename, Spouseage, Spousemonthlyincome, Children,
+            monthlyincome, Primaryfinancialgoal, phone, Bankname, AccountNumber,
+            IFSCCode, LinkedCard, rememberMe, recievepermission, UPIID } = req.body;
+        console.log(email);
         // Check if email already exists
         const existingUser = await User.findOne({ email });
-        if (existingUser) return res.json({valid:false, error: "Email already registered" });
-    const monthlyIncomeStr = monthlyincome || '';
-    const spouseIncomeStr = Spousemonthlyincome || '';
-    const bankNameStr = Bankname || '';
-    const accountNumberStr = AccountNumber || '';
-    const ifscStr = IFSCCode || '';
-    const linkedCardStr = LinkedCard || '';
-    const upiStr = UPIID || '';
-    const hashedPassword = await bcrypt.hash(password , 10);
-    const hashmonthlyincome = encrypt(monthlyIncomeStr);
-    const hashspouseincome = encrypt(spouseIncomeStr);
-    const hashbank = encrypt(bankNameStr);
-    const hashaccnumber = encrypt(accountNumberStr);
-    const hashifsc = encrypt(ifscStr);
-    const hashlink = encrypt(linkedCardStr);
-    const hashup = encrypt(upiStr);
-    const newUser = new User({username,
-             firstName, lastName, email,password:hashedPassword,
-             userage,Married,
-  Spousename, Spouseage, Spousemonthlyincome : hashspouseincome,Children,
-  monthlyincome : hashmonthlyincome,Primaryfinancialgoal,phone,Bankname : hashbank,AccountNumber : hashaccnumber,
-  IFSCCode : hashifsc,LinkedCard : hashlink,rememberMe ,recievepermission,UPIID : hashup
-            });
+        if (existingUser) return res.json({ valid: false, error: "Email already registered" });
+        const monthlyIncomeStr = monthlyincome || '';
+        const spouseIncomeStr = Spousemonthlyincome || '';
+        const bankNameStr = Bankname || '';
+        const accountNumberStr = AccountNumber || '';
+        const ifscStr = IFSCCode || '';
+        const linkedCardStr = LinkedCard || '';
+        const upiStr = UPIID || '';
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashmonthlyincome = encrypt(monthlyIncomeStr);
+        const hashspouseincome = encrypt(spouseIncomeStr);
+        const hashbank = encrypt(bankNameStr);
+        const hashaccnumber = encrypt(accountNumberStr);
+        const hashifsc = encrypt(ifscStr);
+        const hashlink = encrypt(linkedCardStr);
+        const hashup = encrypt(upiStr);
+        const newUser = new User({
+            username,
+            firstName, lastName, email, password: hashedPassword,
+            userage, Married,
+            Spousename, Spouseage, Spousemonthlyincome: hashspouseincome, Children,
+            monthlyincome: hashmonthlyincome, Primaryfinancialgoal, phone, Bankname: hashbank, AccountNumber: hashaccnumber,
+            IFSCCode: hashifsc, LinkedCard: hashlink, rememberMe, recievepermission, UPIID: hashup
+        });
         await newUser.save();
         console.log(email);
         console.log(email);
-        const token = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1m"});//if remmemberme -->7d else 1m
+        const token = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1m" });//if remmemberme -->7d else 1m
         res.cookie("accessToken", token, {
             httpOnly: true,
             secure: true, // Use HTTPS in production
             sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
-        res.status(200).json({token, message: "User registered successfully" });
+        res.status(200).json({ token, message: "User registered successfully" });
     } catch (error) {
         res.status(500).json({ error: "Failed to register user" });
     }
@@ -398,13 +345,13 @@ app.post("/api/users", async (req, res) => {
 
 app.post("/api/signin", async (req, res) => {
     try {
-        const { email, password ,rememberMe} = req.body;
+        const { email, password, rememberMe } = req.body;
         const user = await User.findOne({ email });
-        if (!user) return res.json({valid:2,error: "Invalid email or password"});
+        if (!user) return res.json({ valid: 2, error: "Invalid email or password" });
         const isMatch = await bcrypt.compare(password, user.password);
         console.log(isMatch);
-        if (!isMatch) return res.json({valid:1, error: "Invalid email or password" });
-        const accessToken = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1h"});
+        if (!isMatch) return res.json({ valid: 1, error: "Invalid email or password" });
+        const accessToken = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1h" });
         console.log(accessToken);
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
@@ -412,7 +359,7 @@ app.post("/api/signin", async (req, res) => {
             sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
-        res.status(200).json({valid:0,monthlyincome:user.monthlyincome, accessToken, message: "Sign-in successful" });
+        res.status(200).json({ valid: 0, monthlyincome: user.monthlyincome, accessToken, message: "Sign-in successful" });
     } catch (error) {
         res.status(500).json({ error: "Sign-in failed" });
     }
@@ -460,27 +407,27 @@ app.post("/api/forgot-password", async (req, res) => {
             to: user.email,
             subject: "Password Reset Request For Your Fintrack account",
             text: `Click the following link to reset your password: ${resetLink}`,
-            html: emailTemplate 
+            html: emailTemplate
         };
         await transporter.sendMail(mailOptions);
-        return res.json({token , message: "Password reset email sent!"});
+        return res.json({ token, message: "Password reset email sent!" });
     } catch (err) {
         console.error("Server error:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-        
+
 // Reset Password Endpoint
 app.post("/api/reset-password", async (req, res) => {
     try {
-        const {email , newPassword} = req.body;
+        const { email, newPassword } = req.body;
         // Find user by decoded token ID
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
         console.log(email);
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
-        
+
         // Hash the new password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
@@ -491,13 +438,14 @@ app.post("/api/reset-password", async (req, res) => {
         user.resetPasswordExpires = undefined;
         await user.save();
         console.log(email);
-        res.json({success:true, message: "Password has been reset successfully!" });
+        res.json({ success: true, message: "Password has been reset successfully!" });
     } catch (error) {
         console.error("Reset password error:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
 
+//---------------------------------------------------------------------
 
 // Bills and Notifications
 
@@ -520,10 +468,10 @@ app.post('/api/bills', async (req, res) => {
     try {
         const newBill = new Bill(req.body);
         await newBill.save();
-        
+
         // Send initial notification to friends
         sendBillNotifications(newBill);
-        
+
         res.status(201).json(newBill);
     } catch (error) {
         console.error('Error saving bill:', error);
@@ -543,22 +491,22 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
         if (!userEmail) {
             return res.status(400).json({ error: "User email is required" });
         }
-        
+
         // Create today's date in IST
         const today = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
         today.setHours(0, 0, 0, 0); // Reset to start of day in IST
-        
+
         console.log("Searching bills for user:", userEmail);
         console.log("Today's date (IST):", today);
         const bills = await Bill.find({
             $or: [
-                { createdBy: userEmail }, 
+                { createdBy: userEmail },
                 { friends: { $in: [userEmail] } }
             ],
-    deadline: { $gte: today } 
+            deadline: { $gte: today }
         })
-        .sort({ deadline: 1 }) // Sort by earliest due date
-        .limit(3); // Limit to 3 bills
+            .sort({ deadline: 1 }) // Sort by earliest due date
+            .limit(3); // Limit to 3 bills
 
         console.log("Found Bills:", bills.length);
         res.json(bills);
@@ -571,7 +519,7 @@ app.get("/api/get-upcoming-bills", async (req, res) => {
 // Function to send initial bill notifications
 async function sendBillNotifications(bill) {
     const transporter = createMailTransporter();
-    
+
     // Convert deadline to IST
     const deadlineIST = new Date(bill.deadline).toLocaleString('en-IN', {
         timeZone: 'Asia/Kolkata',
@@ -664,8 +612,8 @@ cron.schedule('* * * * *', async () => {
         // Find bills with deadlines exactly 6 hours from now
         const upcomingBills = await Bill.find({
             deadline: {
-                $gte: sixHoursFromNowIST, // Greater than or equal to 6 hours from now
-                $lt: sixHoursAndOneMinuteFromNowIST // Less than 6 hours + 1 minute
+                $gte: sixHoursFromNowIST, 
+                $lt: sixHoursAndOneMinuteFromNowIST 
             },
             reminderSent: false
         });
@@ -738,56 +686,60 @@ async function sendReminderEmails(bill) {
     }
 }
 
+//---------------------------------------------------------------------
+
 // Google sign-in
 
 app.get(
     "/auth/google",
     passport.authenticate("google", { scope: ["profile", "email"] })
 );
-  
-  // Google OAuth callback
+
+// Google OAuth callback
 app.get(
     "/auth/google/callback",
     passport.authenticate("google", { session: false }),
     (req, res) => {
-      const { token, user } = req.user;
-  
-      // Send token and user data to frontend
-      res.json({ token, user });
-});
+        const { token, user } = req.user;
+
+        // Send token and user data to frontend
+        res.json({ token, user });
+    });
 
 app.post("/api/google-signin", async (req, res) => {
-  try {
-    const { token } = req.body;
-    
-    // Verify the Google token
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    
-    const payload = ticket.getPayload();
-    const { email } = payload;
-    
-    // Check if user exists in your database
-    let user = await User.findOne({ email }).select("-password");
-    
-    if (!user) {
-      // User doesn't exist, redirect to signup
-      return res.json({ status: "new_user" });
+    try {
+        const { token } = req.body;
+
+        // Verify the Google token
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+        const { email } = payload;
+
+        // Check if user exists in your database
+        let user = await User.findOne({ email }).select("-password");
+
+        if (!user) {
+            // User doesn't exist, redirect to signup
+            return res.json({ status: "new_user" });
+        }
+
+        // User exists, generate JWT token
+        const authToken = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+        });
+
+        res.json({ token: authToken, user });
+    } catch (error) {
+        console.error("Google sign-in error:", error);
+        res.status(400).json({ error: "Invalid Google token" });
     }
-    
-    // User exists, generate JWT token
-    const authToken = jwt.sign({ id: user._id ,email:user.email}, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-    
-    res.json({ token: authToken, user });
-  } catch (error) {
-    console.error("Google sign-in error:", error);
-    res.status(400).json({ error: "Invalid Google token" });
-  }
 });
+
+//---------------------------------------------------------------------
 
 //Transactions
 
@@ -816,9 +768,9 @@ app.post("/api/transactions", async (req, res) => {
 // Fetch All Transactions (GET)
 app.get("/api/get-transactions", async (req, res) => {
     console.log("ok");
-    const {userEmail} = req.query;
+    const { userEmail } = req.query;
     try {
-        const transactions = await trans.find({userEmail}); // Fetch from MongoDB
+        const transactions = await trans.find({ userEmail }); // Fetch from MongoDB
         res.json(transactions);
     } catch (error) {
         console.error("Error fetching transactions:", error);
@@ -841,4 +793,8 @@ app.delete("/api/transactions/:id", async (req, res) => {
     }
 });
 
+//---------------------------------------------------------------------
+
 app.listen(PORT, () => console.log(`SERVER IS LIVE!!`));
+
+//---------------------------------------------------------------------
