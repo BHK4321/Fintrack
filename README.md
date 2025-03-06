@@ -105,3 +105,5 @@ https://my-backend-api-erp6.onrender.com
 - JavaScript  
 - Node.js , Express.js (For the Server)
 - MongoDB  (For Database)
+  
+## API Endpoints
