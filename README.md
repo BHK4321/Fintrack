@@ -49,6 +49,9 @@ It also includes a graphical expense breakdown using a pie chart and displays up
 ### 7. Notifications & Bill Reminders
 Users can set up bill reminders and receive an email 6 hours before the deadline.
 
+The cron job searches for bills with deadlines 6 hours ahead from the current time , 
+if it detects some bills it stores them and then sends reminders to each user using node-mailer.
+
 Upcoming bills are displayed on the dashboard, ensuring users never miss a payment.
 
 ### 8. Financial Goal Setting
