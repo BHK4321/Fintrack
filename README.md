@@ -16,6 +16,8 @@ This feature allows users to get an overall view of their expenditure, making it
 ### 2. Graphs and Visualizations
 Provides graphical insights into income and expenses, helping users understand spending trends through interactive charts.
 
+The pie chart is completely linked with the transactions provided by the user.
+
 ### 3. CSV Import/Export
 This feature allows users to export their transaction records as a CSV file, which can be useful for tax filing.
 
@@ -37,6 +39,8 @@ The dashboard provides an overview of:
 - Savings rate
 
 It also includes a graphical expense breakdown using a pie chart and displays upcoming bill reminders to help users manage payments efficiently.
+
+All the values are real-time (as provided by user).
 
 ### 6. Data Security & Authentication
 - Secure authentication using JWT.
@@ -72,12 +76,17 @@ A generated prompt based on these inputs can be copied into the AI assistant for
 ### 1. Split Bills
 Users can split bills with friends by entering their email addresses, setting a deadline, and sending reminders.
 
+The cron job searches for bills with deadlines 6 hours ahead from the current time , 
+if it detects some bills it stores them and then sends reminders to each user using node-mailer.
+
 A reminder email is also sent 6 hours before the deadline.
 
 ### 2. AI Assistant (Bottom Right Corner)
+
 An AI assistant is available to help users navigate the website and understand its features.
 
 ### 3. Smart Budgeting (Goal Setting Page)
+
 The AI assistant on the Goal Setting page provides personalized financial guidance, budgeting tips, and investment insights.
 
 ---
