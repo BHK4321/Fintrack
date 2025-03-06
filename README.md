@@ -82,11 +82,13 @@ The AI assistant on the Goal Setting page provides personalized financial guidan
 ## Hosted Links
 
 - **Front-end Deployment**
-- Folder -- docs. 
+- Folder -- docs.
+  
   [https://bhk4321.github.io/Devbits/](https://bhk4321.github.io/Devbits/)
 
 - **Back-end Deployment**
 - Folder -- Backend
+  
   The pages may take time to load initially due to free-tier hosting. Render's free instances spin down with inactivity, causing delays of 50 seconds or more.  
   [https://my-backend-api-erp6.onrender.com](https://my-backend-api-erp6.onrender.com)
 
