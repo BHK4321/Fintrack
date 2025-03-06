@@ -1,471 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  
-  <script src = "bot.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FinTrack - Financial Goal Setting</title>
-  <!-- <link rel="stylesheet" href="vvvg.css"> -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="hamburgr.css">
-  <link rel="stylesheet" href="goal.css">
+
+    <script src="bot.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack - Financial Goal Setting</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="hamburgr.css">
+    <link rel="stylesheet" href="goal.css">
 </head>
+
 <body>
-
-
-
-
-
-  
-
-  
-  <nav class="nav">
-    <div class="hamburger-menu">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    
-    <div class="sidebar-overlay"></div>
-    
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <a href="profile.html" class="profile-link">
-                <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
-            </a>
-            <div class="close-btn">&times;</div>
+    <nav class="nav">
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
-        <div class="sidebar-content">
-            <a href="index.html">Home</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="learn-more-html.html">Learn More</a>
 
-            
-            
-            
-            
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            
-            
-            
+        <div class="sidebar-overlay"></div>
 
-            
-
-
-            <a href="customer_support.html">Contact Us</a>
-            <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="profile.html" class="profile-link">
+                    <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg"
+                        alt="Profile" class="profile-icon">
+                </a>
+                <div class="close-btn">&times;</div>
+            </div>
+            <div class="sidebar-content">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="learn-more-html.html">Learn More</a>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <a href="customer_support.html">Contact Us</a>
+                <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+            </div>
         </div>
-    </div>
-    
-    <script src="hmg.js"></script>
 
-    <div class="logo">FinTrack</div>
-    <div class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
-        <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
-    </div>
-</nav>
+        <script src="hmg.js"></script>
 
+        <div class="logo">FinTrack</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
+        </div>
+    </nav>
+    <script src="allow.js"></script>
+    <section class="header">
+        <h1>Financial Goal Setting</h1>
+        <p class="subtitle">Set meaningful financial targets, track your progress, and celebrate your achievements</p>
+    </section>
 
-<script src = "allow.js"></script>
-
-
-
-
-
-
-
-  <section class="header">
-    <h1>Financial Goal Setting</h1>
-    <p class="subtitle">Set meaningful financial targets, track your progress, and celebrate your achievements</p>
-  </section>
-
-  <div class="main-content">
-    <!-- Main content column -->
-    <div class="content-column">
-      <!-- Tab buttons for switching between goals and dashboard -->
-      <div class="tab-buttons">
-        <button id="goals-tab" class="tab-button active">Goals</button>
-        <button id="dashboard-tab" class="tab-button">Dashboard</button>
-      </div>
-
-      <!-- Goals Section -->
-      <div id="goals-section" class="goals-container">
-        <h2>Create a New Financial Goal</h2>
-        <form id="new-goal-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="goal-name">Goal Name</label>
-              <input type="text" id="goal-name" placeholder="e.g., New Car Fund, Emergency Savings" required>
+    <div class="main-content">
+        <!-- Main content column -->
+        <div class="content-column">
+            <!-- Tab buttons for switching between goals and dashboard -->
+            <div class="tab-buttons">
+                <button id="goals-tab" class="tab-button active">Goals</button>
+                <button id="dashboard-tab" class="tab-button">Dashboard</button>
             </div>
-            <div class="form-group">
-              <label for="goal-category">Category</label>
-              <select id="goal-category" required>
-                <option value="">Select a category</option>
-                <option value="savings">Savings</option>
-                <option value="investment">Investment</option>
-                <option value="debt">Debt Repayment</option>
-                <option value="purchase">Major Purchase</option>
-                <option value="emergency">Emergency Fund</option>
-                <option value="education">Education</option>
-                <option value="retirement">Retirement</option>
-                <option value="travel">Travel</option>
-                <option value="other">Other</option>
-              </select>
+
+            <!-- Goals Section -->
+            <div id="goals-section" class="goals-container">
+                <h2>Create a New Financial Goal</h2>
+                <form id="new-goal-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="goal-name">Goal Name</label>
+                            <input type="text" id="goal-name" placeholder="e.g., New Car Fund, Emergency Savings"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="goal-category">Category</label>
+                            <select id="goal-category" required>
+                                <option value="">Select a category</option>
+                                <option value="savings">Savings</option>
+                                <option value="investment">Investment</option>
+                                <option value="debt">Debt Repayment</option>
+                                <option value="purchase">Major Purchase</option>
+                                <option value="emergency">Emergency Fund</option>
+                                <option value="education">Education</option>
+                                <option value="retirement">Retirement</option>
+                                <option value="travel">Travel</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="goal-amount">Target Amount (₹)</label>
+                            <input type="number" id="goal-amount" min="1" placeholder="500000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="goal-deadline">Target Date</label>
+                            <input type="date" id="goal-deadline" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goal-description">Description (Optional)</label>
+                        <textarea id="goal-description" rows="3"
+                            placeholder="Add details about your goal..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="initial-deposit">Initial Deposit (₹)</label>
+                        <input type="number" id="initial-deposit" min="0" placeholder="0" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create Goal</button>
+                </form>
             </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="goal-amount">Target Amount (₹)</label>
-              <input type="number" id="goal-amount" min="1" placeholder="500000" required>
-            </div>
-            <div class="form-group">
-              <label for="goal-deadline">Target Date</label>
-              <input type="date" id="goal-deadline" required>
-            </div>
-          </div>
+            <section class="tips-section">
+                <h2>Tips for Successful Goal Setting</h2>
+                <ul class="tips-list">
+                    <li><strong>Be specific:</strong> Define clear, measurable goals with exact rupee amounts.</li>
+                    <li><strong>Set realistic timeframes:</strong> Consider your income and expenses when deciding
+                        on target dates.</li>
+                    <li><strong>Prioritize your goals:</strong> Focus on emergency funds and high-interest debt
+                        before other financial goals.</li>
+                    <li><strong>Automate contributions:</strong> Set up automatic transfers to your goal-specific
+                        savings accounts.</li>
+                    <li><strong>Track your progress:</strong> Regularly review your goals and adjust as needed.</li>
+                    <li><strong>Celebrate milestones:</strong> Acknowledge your progress to stay motivated.</li>
+                </ul>
+            </section>
+        </div>
 
-          <div class="form-group">
-            <label for="goal-description">Description (Optional)</label>
-            <textarea id="goal-description" rows="3" placeholder="Add details about your goal..."></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="initial-deposit">Initial Deposit (₹)</label>
-            <input type="number" id="initial-deposit" min="0" placeholder="0" required>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Create Goal</button>
-        </form>
-
-        <h2>Your Financial Goals</h2>
-        <div class="goals-grid">
-          <!-- Sample goal cards -->
-          <div class="goal-card">
-            <div style="background-color: #3498db; padding: 15px; color: white;">
-              <h3>Emergency Fund</h3>
-              <p>Category: Emergency</p>
-            </div>
-            <div style="padding: 15px;">
-              <div style="margin-bottom: 10px;">
-                <strong>Target:</strong> ₹300,000
-              </div>
-              <div style="margin-bottom: 10px;">
-                <strong>Current:</strong> ₹120,000
-              </div>
-              <div style="margin-bottom: 10px;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <strong>Progress:</strong>
-                  <div style="flex: 1; height: 8px; background-color: #ecf0f1; border-radius: 4px;">
-                    <div style="width: 40%; height: 100%; background-color: #3498db; border-radius: 4px;"></div>
-                  </div>
-                  <span>40%</span>
+        <!-- Chatbot column -->
+        <div class="bot-column">
+            <div class="bot-container">
+                <div class="bot-header">
+                    <h3>FinTrack Assistant</h3>
                 </div>
-              </div>
-              <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button style="background-color: #3498db; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Add Funds</button>
-                <button style="background-color: #f1f2f6; color: #2c3e50; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Edit</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="goal-card">
-            <div style="background-color: #e74c3c; padding: 15px; color: white;">
-              <h3>Home Down Payment</h3>
-              <p>Category: Major Purchase</p>
-            </div>
-            <div style="padding: 15px;">
-              <div style="margin-bottom: 10px;">
-                <strong>Target:</strong> ₹1,500,000
-              </div>
-              <div style="margin-bottom: 10px;">
-                <strong>Current:</strong> ₹300,000
-              </div>
-              <div style="margin-bottom: 10px;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <strong>Progress:</strong>
-                  <div style="flex: 1; height: 8px; background-color: #ecf0f1; border-radius: 4px;">
-                    <div style="width: 20%; height: 100%; background-color: #e74c3c; border-radius: 4px;"></div>
-                  </div>
-                  <span>20%</span>
+                <div class="bot-frame-container" id="bot-frame-container">
+                    <iframe src="https://www.chatbase.co/chatbot-iframe/UUZvpy_kwkSsmgXUxkiSs" class="chat-frame"
+                        frameborder="0" id="chatbot-iframe"></iframe>
                 </div>
-              </div>
-              <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button style="background-color: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Add Funds</button>
-                <button style="background-color: #f1f2f6; color: #2c3e50; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Edit</button>
-              </div>
             </div>
-          </div>
         </div>
-
-        <section class="tips-section">
-          <h2>Tips for Successful Goal Setting</h2>
-          <ul class="tips-list">
-            <li><strong>Be specific:</strong> Define clear, measurable goals with exact rupee amounts.</li>
-            <li><strong>Set realistic timeframes:</strong> Consider your income and expenses when deciding on target dates.</li>
-            <li><strong>Prioritize your goals:</strong> Focus on emergency funds and high-interest debt before other financial goals.</li>
-            <li><strong>Automate contributions:</strong> Set up automatic transfers to your goal-specific savings accounts.</li>
-            <li><strong>Track your progress:</strong> Regularly review your goals and adjust as needed.</li>
-            <li><strong>Celebrate milestones:</strong> Acknowledge your progress to stay motivated.</li>
-          </ul>
-        </section>
-      </div>
-
-      <!-- Dashboard Section (hidden by default) -->
-      <div id="dashboard-section" class="goals-container" style="display: none;">
-        <h2>Financial Goals Dashboard</h2>
-        
-        <!-- Sample dashboard content -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
-          <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <div style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Total Goal Amount</div>
-            <div style="font-size: 24px; font-weight: 600; color: #2c3e50;">₹2,500,000</div>
-          </div>
-          
-          <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <div style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Total Saved</div>
-            <div style="font-size: 24px; font-weight: 600; color: #2c3e50;">₹450,000</div>
-          </div>
-          
-          <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <div style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Monthly Contribution</div>
-            <div style="font-size: 24px; font-weight: 600; color: #2c3e50;">₹32,000</div>
-          </div>
-          
-          <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-            <div style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Overall Progress</div>
-            <div style="font-size: 24px; font-weight: 600; color: #2c3e50;">18%</div>
-          </div>
-        </div>
-        
-        <p>Dashboard charts and detailed analytics would appear here.</p>
-      </div>
     </div>
-    
-    <!-- Chatbot column -->
-    <div class="bot-column">
-      <div class="bot-container">
-        <div class="bot-header">
-          <h3>FinTrack Assistant</h3>
-        </div>
-        <div class="bot-frame-container" id="bot-frame-container">
-          <iframe
-            src="https://www.chatbase.co/chatbot-iframe/UUZvpy_kwkSsmgXUxkiSs"
-            class="chat-frame"
-            frameborder="0"
-            id="chatbot-iframe"
-          ></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    /** --------------------------------
-     *  ✅ FETCH TRANSACTION SUMMARY
-     * -------------------------------- */
-    async function fetchTransactionSummary() {
-    try {
-        const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        });
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
-        if (!response.ok) throw new Error("Failed to fetch transactions.");
+            async function fetchTransactionSummary() {
+                try {
+                    const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                    });
 
-        const transactions = await response.json();
-        let totalAmount = 0;
-        let transactionList = "";
-        const currentMonth = new Date().getMonth();
+                    if (!response.ok) throw new Error("Failed to fetch transactions.");
 
-        transactions.forEach(transaction => {
-            const transDate = new Date(transaction.date);
-            if (transDate.getMonth() === currentMonth) {
-                totalAmount += transaction.amount;
-                transactionList += `📌 ${transaction.date.split("T")[0]} - ${transaction.category}: ₹${transaction.amount}\n\n`;
+                    const transactions = await response.json();
+                    let totalAmount = 0;
+                    let transactionList = "";
+                    const currentMonth = new Date().getMonth();
+
+                    transactions.forEach(transaction => {
+                        const transDate = new Date(transaction.date);
+                        if (transDate.getMonth() === currentMonth) {
+                            totalAmount += transaction.amount;
+                            transactionList += `📌 ${transaction.date.split("T")[0]} - ${transaction.category}: ₹${transaction.amount}\n\n`;
+                        }
+                    });
+
+                    return `Here’s my transaction history for this month:\nTotal Spent: ₹${totalAmount}\n\n${transactionList || "I didn't do any transactions this month till now."}`;
+                } catch (error) {
+                    console.error("Error fetching transaction summary:", error);
+                    return "Transaction data is unavailable at the moment.";
+                }
             }
-        });
 
-        return `Here’s my transaction history for this month:\nTotal Spent: ₹${totalAmount}\n\n${transactionList || "I didn't do any transactions this month till now."}`;
-    } catch (error) {
-        console.error("Error fetching transaction summary:", error);
-        return "Transaction data is unavailable at the moment.";
-    }
-}
+            const goalsTab = document.getElementById("goals-tab");
+            const dashboardTab = document.getElementById("dashboard-tab");
+            const goalsSection = document.getElementById("goals-section");
+            const dashboardSection = document.getElementById("dashboard-section");
 
-    /** --------------------------------
-     *  ✅ TAB SWITCHING FUNCTIONALITY
-     * -------------------------------- */
-    const goalsTab = document.getElementById("goals-tab");
-    const dashboardTab = document.getElementById("dashboard-tab");
-    const goalsSection = document.getElementById("goals-section");
-    const dashboardSection = document.getElementById("dashboard-section");
+            goalsTab.addEventListener("click", function () {
+                goalsTab.classList.add("active");
+                dashboardTab.classList.remove("active");
+                goalsSection.style.display = "block";
+                dashboardSection.style.display = "none";
+            });
 
-    goalsTab.addEventListener("click", function () {
-        goalsTab.classList.add("active");
-        dashboardTab.classList.remove("active");
-        goalsSection.style.display = "block";
-        dashboardSection.style.display = "none";
-    });
+            dashboardTab.addEventListener("click", function () {
+                dashboardTab.classList.add("active");
+                goalsTab.classList.remove("active");
+                dashboardSection.style.display = "block";
+                goalsSection.style.display = "none";
+            });
 
-    dashboardTab.addEventListener("click", function () {
-        dashboardTab.classList.add("active");
-        goalsTab.classList.remove("active");
-        dashboardSection.style.display = "block";
-        goalsSection.style.display = "none";
-    });
 
-    /** --------------------------------
-     *  ✅ CREATE GOAL & SHOW POPUP
-     * -------------------------------- */
-    const createGoalButton = document.querySelector("#new-goal-form button[type='submit']");
+            const createGoalButton = document.querySelector("#new-goal-form button[type='submit']");
 
-    createGoalButton.addEventListener("click", function (e) {
-        e.preventDefault(); // Prevent actual form submission
+            createGoalButton.addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent actual form submission
 
-        // Fetch latest input values dynamically
-        const goalName = document.getElementById("goal-name").value || "a goal";
-        const goalCategory = document.getElementById("goal-category").value || "General";
-        const goalAmount = document.getElementById("goal-amount").value || "0";
-        const goalDeadline = document.getElementById("goal-deadline").value || "N/A";
-        const initialDeposit = document.getElementById("initial-deposit").value || "0";
+                // Fetch latest input values dynamically
+                const goalName = document.getElementById("goal-name").value || "a goal";
+                const goalCategory = document.getElementById("goal-category").value || "General";
+                const goalAmount = document.getElementById("goal-amount").value || "0";
+                const goalDeadline = document.getElementById("goal-deadline").value || "N/A";
+                const initialDeposit = document.getElementById("initial-deposit").value || "0";
 
-        showAssistantPopup(goalName, goalAmount, goalDeadline, initialDeposit);
-    });
+                showAssistantPopup(goalName, goalAmount, goalDeadline, initialDeposit);
+            });
 
-    /** --------------------------------
-     *  ✅ SHOW ASSISTANT POPUP
-     * -------------------------------- */
-    async function showAssistantPopup(goalName, goalAmount, goalDeadline, initialDeposit) {
-        const popupOverlay = document.createElement("div");
-        popupOverlay.className = "assistant-overlay";
+            async function showAssistantPopup(goalName, goalAmount, goalDeadline, initialDeposit) {
+                const popupOverlay = document.createElement("div");
+                popupOverlay.className = "assistant-overlay";
 
-        const popupContent = document.createElement("div");
-        popupContent.className = "assistant-popup";
+                const popupContent = document.createElement("div");
+                popupContent.className = "assistant-popup";
 
-        // 🟢 HEADER WITH CLOSE BUTTON
-        const popupHeader = document.createElement("div");
-        popupHeader.className = "assistant-header";
+                const popupHeader = document.createElement("div");
+                popupHeader.className = "assistant-header";
 
-        const popupTitle = document.createElement("h3");
-        popupTitle.textContent = "FinTrack Personal Assistant";
+                const popupTitle = document.createElement("h3");
+                popupTitle.textContent = "FinTrack Personal Assistant";
 
-        const closeButton = document.createElement("button");
-        closeButton.innerHTML = "&times;";
-        closeButton.className = "assistant-close";
-        closeButton.onclick = () => document.body.removeChild(popupOverlay);
+                const closeButton = document.createElement("button");
+                closeButton.innerHTML = "&times;";
+                closeButton.className = "assistant-close";
+                closeButton.onclick = () => document.body.removeChild(popupOverlay);
 
-        popupHeader.appendChild(popupTitle);
-        popupHeader.appendChild(closeButton);
+                popupHeader.appendChild(popupTitle);
+                popupHeader.appendChild(closeButton);
 
-        // 🟢 CONTENT AREA
-        const assistantContent = document.createElement("div");
-        assistantContent.className = "assistant-content";
 
-        const assistantMessage = document.createElement("p");
-        assistantMessage.textContent = "Need help setting financial goals? Here’s a template you can use:";
+                const assistantContent = document.createElement("div");
+                assistantContent.className = "assistant-content";
 
-        // 🟢 GOAL SUMMARY
-        const income = localStorage.getItem("monthlyincome");
-        const goalSummary = document.createElement("pre");
-        goalSummary.textContent = `I want to save for ${goalName} with a target amount of ₹${goalAmount}. 
+                const assistantMessage = document.createElement("p");
+                assistantMessage.textContent = "Need help setting financial goals? Here’s a template you can use:";
+
+                const income = localStorage.getItem("monthlyincome");
+                const goalSummary = document.createElement("pre");
+                goalSummary.textContent = `I want to save for ${goalName} with a target amount of ₹${goalAmount}. 
 My current Monthly income is : ${income}.
 I’d like to reach this goal by ${goalDeadline}. 
 My initial savings deposit is ₹${initialDeposit}. 
 Is this goal realistic, and what strategy would you recommend?`;
 
-        const copyButton = document.createElement("button");
-        copyButton.className = "copy-prompt-btn";
-        copyButton.textContent = "Copy to Clipboard";
-        copyButton.onclick = () => {
-            navigator.clipboard.writeText(goalSummary.textContent).then(() => {
-                copyButton.textContent = "Copied!";
-                setTimeout(() => copyButton.textContent = "Copy to Clipboard", 2000);
-            });
-        };
+                const copyButton = document.createElement("button");
+                copyButton.className = "copy-prompt-btn";
+                copyButton.textContent = "Copy to Clipboard";
+                copyButton.onclick = () => {
+                    navigator.clipboard.writeText(goalSummary.textContent).then(() => {
+                        copyButton.textContent = "Copied!";
+                        setTimeout(() => copyButton.textContent = "Copy to Clipboard", 2000);
+                    });
+                };
 
-        // 🟢 TRANSACTION SUMMARY (FETCH DATA DYNAMICALLY)
-        const transactionSummaryContainer = document.createElement("div");
-        transactionSummaryContainer.className = "transaction-summary";
-        transactionSummaryContainer.textContent = "Fetching transaction summary...";
+                const transactionSummaryContainer = document.createElement("div");
+                transactionSummaryContainer.className = "transaction-summary";
+                transactionSummaryContainer.textContent = "Fetching transaction summary...";
 
-        fetchTransactionSummary().then(summaryText => {
-            transactionSummaryContainer.textContent = summaryText;
+                fetchTransactionSummary().then(summaryText => {
+                    transactionSummaryContainer.textContent = summaryText;
+                });
+
+                assistantContent.appendChild(assistantMessage);
+                assistantContent.appendChild(goalSummary);
+                assistantContent.appendChild(copyButton);
+                assistantContent.appendChild(transactionSummaryContainer);
+
+                popupContent.appendChild(popupHeader);
+                popupContent.appendChild(assistantContent);
+                popupOverlay.appendChild(popupContent);
+
+                document.body.appendChild(popupOverlay);
+            }
         });
 
-        // 🟢 APPEND ELEMENTS
-        assistantContent.appendChild(assistantMessage);
-        assistantContent.appendChild(goalSummary);
-        assistantContent.appendChild(copyButton);
-        assistantContent.appendChild(transactionSummaryContainer);
-
-        popupContent.appendChild(popupHeader);
-        popupContent.appendChild(assistantContent);
-        popupOverlay.appendChild(popupContent);
-
-        document.body.appendChild(popupOverlay);
-    }
-});
-
-  </script>
+    </script>
     <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-column">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#">Features</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Mobile App</a></li>
-          <li><a href="#">Browser Extension</a></li>
-          <li><a href="#">Roadmap</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-column">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Press Kit</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-column">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Help Center</a></li>
-          <li><a href="#">Community</a></li>
-          <li><a href="#">Financial Guides</a></li>
-          <li><a href="#">API Documentation</a></li>
-          <li><a href="#">Security</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-column">
-        <h4>Connect With Us</h4>
-        <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
-        <div class="social-icons">
-          <a href="#" class="social-icon">X</a>
-          <a href="#" class="social-icon">F</a>
-          <a href="#" class="social-icon">I</a>
-          <a href="#" class="social-icon">L</a>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Browser Extension</a></li>
+                    <li><a href="#">Roadmap</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Financial Guides</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">X</a>
+                    <a href="#" class="social-icon">F</a>
+                    <a href="#" class="social-icon">I</a>
+                    <a href="#" class="social-icon">L</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p>© 2025 FinTrack. All rights reserved.</p>
-      <p style="margin-top: 8px;">
-        <a href="#" style="margin-right: 16px;">Privacy Policy</a>
-        <a href="#" style="margin-right: 16px;">Terms of Service</a>
-        <a href="#">Cookie Settings</a>
-      </p>
-    </div>
-  </footer>
+
+        <div class="footer-bottom">
+            <p>© 2025 FinTrack. All rights reserved.</p>
+            <p style="margin-top: 8px;">
+                <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+                <a href="#" style="margin-right: 16px;">Terms of Service</a>
+                <a href="#">Cookie Settings</a>
+            </p>
+        </div>
+    </footer>
 </body>
+
 </html>
