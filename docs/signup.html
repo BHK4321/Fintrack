@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    
-    <script src = "bot.js"></script>
+
+    <script src="bot.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTrack - Sign Up</title>
@@ -26,150 +26,135 @@
             }
         }
     </script>
-    <script src = "signedin.js"></script>
+    <script src="signedin.js"></script>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="vvvg.css">
     <link rel="stylesheet" href="hamburgr.css">
-    <!-- <link rel="stylesheet" href="all.css"> s-->
+
     <style>
         .sidebar {
-          height: 100vh; /* Set the sidebar height to 100% of viewport heights */
-          position: fixed;
-          top: 0;
-          left: 0;
-          overflow-y: auto;
-          transform: translateX(-100%); /* Start with sidebar off-screen */
-          transition: transform 0.3s ease-in-out;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
         }
-        
+
         .sidebar.active {
-          transform: translateX(0); /* Bring sidebar on-screen when active */
+            transform: translateX(0);
         }
-        
+
         .sidebar-overlay {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(0, 0, 0, 0.5);
-          z-index: 49;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 49;
         }
-        
+
         .sidebar-overlay.active {
-          display: block;
+            display: block;
         }
-      </style>
+    </style>
 </head>
 
 <body class="bg-gray-100 min-h-screen relative">
-    
 
-    <nav class="sticky top-0 z-50 flex justify-between items-center py-5 px-6" style="background-color: #002b4d; backdrop-filter: blur(10px);">
+
+    <nav class="sticky top-0 z-50 flex justify-between items-center py-5 px-6"
+        style="background-color: #002b4d; backdrop-filter: blur(10px);">
 
 
         <div class="hamburger-menu">
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
-      
-       <div class="sidebar-overlay"></div>
-      
-       <div class="sidebar">
-          <div class="sidebar-header">
-              <a href="profile.html" class="profile-link">
-                  <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
-              </a>
-              <div class="close-btn">&times;</div>
-          </div>
-          <div class="sidebar-content">
-              <a href="index.html">Home</a>
-              <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
-              <a href="dashboard.html">Dashboard</a>
-              <a href="learn-more-html.html">Learn More</a>
-              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-              <a href="customer_support.html">Contact Us</a>
-              <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
-          </div>
-       </div>
-      
+
+        <div class="sidebar-overlay"></div>
+
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="profile.html" class="profile-link">
+                    <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg"
+                        alt="Profile" class="profile-icon">
+                </a>
+                <div class="close-btn">&times;</div>
+            </div>
+            <div class="sidebar-content">
+                <a href="index.html">Home</a>
+                <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="learn-more-html.html">Learn More</a>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <a href="customer_support.html">Contact Us</a>
+                <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+            </div>
+        </div>
+
         <script src="hmg.js"></script>
-        
-        <!-- Adding a fix for the hamburger menu issue -->
+
+
         <script>
-          document.addEventListener('DOMContentLoaded', function() {
-            // Override any auto-opening behavior from hmg.js
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.querySelector('.sidebar-overlay');
-            
-            // Make sure sidebar is closed on page load
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-            
-            // Ensure the hamburger only opens on click
-            const hamburger = document.querySelector('.hamburger-menu');
-            hamburger.addEventListener('click', function() {
-              sidebar.classList.add('active');
-              overlay.classList.add('active');
+            document.addEventListener('DOMContentLoaded', function () {
+
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+
+
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+
+
+                const hamburger = document.querySelector('.hamburger-menu');
+                hamburger.addEventListener('click', function () {
+                    sidebar.classList.add('active');
+                    overlay.classList.add('active');
+                });
+
+
+                const closeBtn = document.querySelector('.close-btn');
+                closeBtn.addEventListener('click', function () {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+
+                overlay.addEventListener('click', function () {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
             });
-            
-            // Close sidebar when clicking close button or overlay
-            const closeBtn = document.querySelector('.close-btn');
-            closeBtn.addEventListener('click', function() {
-              sidebar.classList.remove('active');
-              overlay.classList.remove('active');
-            });
-            
-            overlay.addEventListener('click', function() {
-              sidebar.classList.remove('active');
-              overlay.classList.remove('active');
-            });
-          });
         </script>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        <div class="text-5xl font-semibold ml-4 md:ml-24 tracking-tighter" 
-         style="background: linear-gradient(to right, #0066cc, #66b3ff);
+        <div class="text-5xl font-semibold ml-4 md:ml-24 tracking-tighter" style="background: linear-gradient(to right, #0066cc, #66b3ff);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;">
-       FinTrack
-       </div>
-    
-        <div class="flex gap-6 mr-4 md:mr-8">
-          <a href="index.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Home</a>
-          <!-- <a href="learn-more.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Learn More</a> -->
-          <!-- <a href="#" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Features</a> -->
-          <a href="#" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Dashboard</a>
-          <a href="signup.html" class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Sign in</a>
+            FinTrack
         </div>
-      </nav>
+
+        <div class="flex gap-6 mr-4 md:mr-8">
+            <a href="index.html"
+                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Home</a>
+            <a href="#"
+                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Dashboard</a>
+            <a href="signup.html"
+                class="text-text-secondary hover:text-white text-sm font-medium transition duration-300">Sign in</a>
+        </div>
+    </nav>
 
     <div class="max-w-lg mx-auto my-10 p-10 bg-white rounded-2xl shadow-2xl backdrop-blur-md">
         <div class="text-center mb-8">
-            <h1
-  class="text-3xl font-bold mb-4 leading-tight tracking-tight"
-  style="background: linear-gradient(to right, #2c5ce0, #ff5733); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-  Create Your Account
-</h1>
-<p class="text-black text-base">
-    Join thousands of users managing their finances with FinTrack
-  </p>
+            <h1 class="text-3xl font-bold mb-4 leading-tight tracking-tight"
+                style="background: linear-gradient(to right, #2c5ce0, #ff5733); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Create Your Account
+            </h1>
+            <p class="text-black text-base">
+                Join thousands of users managing their finances with FinTrack
+            </p>
         </div>
 
         <form action="#" method="POST">
@@ -177,7 +162,7 @@
                 <div class="flex-1 mb-6">
                     <label for="first-name" class="block mb-2 text-sm font-medium text-black">
                         First Name
-                      </label>
+                    </label>
                     <input type="text" id="first-name" name="first-name"
                         class="w-full p-3 rounded-lg border-2 border-gray-300 bg-white/10 text-green-600 text-base transition duration-300 focus:outline-none focus:border-accent-primary focus:bg-white/10"
                         placeholder="John" required>
@@ -229,10 +214,9 @@
             </div>
             <hr>
             <div class="relative my-8 border-t border-white/10 whitespace-nowrap flex justify-center">
-                <p
-  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
-  Personal Information
-</p>
+                <p class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
+                    Personal Information
+                </p>
                 <p class="text-gray-500 mt-2"> (For better assistance)</p>
             </div>
             <div class="mb-6 flex items-center gap-3">
@@ -304,10 +288,9 @@
 
             <hr>
             <div class="relative my-8 border-t border-white/10 whitespace-nowrap flex justify-center">
-                <p
-  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
-  Financial Information
-</p>
+                <p class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
+                    Financial Information
+                </p>
                 <p class="text-gray-500 mt-2"> (For better assistance)</p>
             </div>
 
@@ -327,10 +310,9 @@
             </div>
             <hr>
             <div class="relative my-8 border-t border-white/10 whitespace-nowrap flex justify-center">
-                <p
-  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
-  Account & Banking details
-</p>
+                <p class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xl font-bold text-black">
+                    Account & Banking details
+                </p>
                 <p class="text-gray-500 mt-2">(Optional)</p>
             </div>
 
@@ -404,64 +386,64 @@
                     class="text-get-started-bg font-semibold hover:text-blue-500 transition duration-300">Sign in</a>
             </div>
         </form>
-        </div>
+    </div>
     </div>
     <footer class="footer">
         <div class="footer-content">
-          <div class="footer-column">
-            <h4>Product</h4>
-            <ul>
-              <li><a href="#">Features</a></li>
-              <li><a href="#">Pricing</a></li>
-              <li><a href="#">Mobile App</a></li>
-              <li><a href="#">Browser Extension</a></li>
-              <li><a href="#">Roadmap</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-column">
-            <h4>Company</h4>
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Press Kit</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-column">
-            <h4>Resources</h4>
-            <ul>
-              <li><a href="#">Help Center</a></li>
-              <li><a href="#">Community</a></li>
-              <li><a href="#">Financial Guides</a></li>
-              <li><a href="#">API Documentation</a></li>
-              <li><a href="#">Security</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-column">
-            <h4>Connect With Us</h4>
-            <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
-            <div class="social-icons">
-              <a href="#" class="social-icon">X</a>
-              <a href="#" class="social-icon">F</a>
-              <a href="#" class="social-icon">I</a>
-              <a href="#" class="social-icon">L</a>
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Browser Extension</a></li>
+                    <li><a href="#">Roadmap</a></li>
+                </ul>
             </div>
-          </div>
+
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Financial Guides</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">X</a>
+                    <a href="#" class="social-icon">F</a>
+                    <a href="#" class="social-icon">I</a>
+                    <a href="#" class="social-icon">L</a>
+                </div>
+            </div>
         </div>
-        
+
         <div class="footer-bottom">
-          <p>© 2025 FinTrack. All rights reserved.</p>
-          <p style="margin-top: 8px;">
-            <a href="#" style="margin-right: 16px;">Privacy Policy</a>
-            <a href="#" style="margin-right: 16px;">Terms of Service</a>
-            <a href="#">Cookie Settings</a>
-          </p>
+            <p>© 2025 FinTrack. All rights reserved.</p>
+            <p style="margin-top: 8px;">
+                <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+                <a href="#" style="margin-right: 16px;">Terms of Service</a>
+                <a href="#">Cookie Settings</a>
+            </p>
         </div>
-      </footer>
+    </footer>
     <script>
         function isValidEmail(email) {
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -484,7 +466,7 @@
             event.preventDefault();
 
             const formData = {
-                username : "Newbie",
+                username: "Newbie",
                 firstName: document.getElementById("first-name").value,
                 lastName: document.getElementById("last-name").value,
                 email: document.getElementById("email").value,
@@ -508,7 +490,6 @@
                 UPIID: document.getElementById("upi-id").value
             };
             localStorage.setItem("userEmail", formData.email);
-            // Replace these lines in your handleSignup function
             if (!isValidEmail(formData.email) || !formData.email) errors.push("Valid email is required.");
             if (formData.password.length < 6 || !formData.password || !formData.confirmpassword) errors.push("Password must be at least 6 characters.");
             if (formData.password !== formData.confirmpassword) errors.push("Passwords do not match.");
@@ -517,8 +498,6 @@
             if (formData.monthlyincome < 0 || !formData.monthlyincome) errors.push("Valid income is required.");
             if (formData.UPIID) if (isValidUPI(formData.UPIID)) errors.push("Valid income is required.");
             if (formData.IFSCCode) if (isValidIFSC(formData.IFSCCode)) errors.push("Valid income is required.");
-            // Additional Checks for Married Users
-            // Replace these lines
             if (formData.Married) {
                 if (!formData.Spousename) errors.push("Spouse name is required.");
                 if (!formData.Spouseage || formData.Spouseage < 18) errors.push("Valid spouse age is required.");
@@ -531,8 +510,8 @@
                 alert(errors.join("\n"));
                 return;
             }
-            const data2 = { ...formData };  // Creates a shallow copy
-            delete data2.confirmpassword; // Only affects the copy, not the original
+            const data2 = { ...formData };
+            delete data2.confirmpassword;
             try {
                 const checkEmail = await fetch(`https://my-backend-api-erp6.onrender.com/api/users/${data2.email}`, {
                     method: "GET",
@@ -567,7 +546,7 @@
                 const data = await response.json();
                 console.log(data);
                 if (response.status == 200) {
-                    localStorage.setItem("monthlyincome" , formData.monthlyincome);
+                    localStorage.setItem("monthlyincome", formData.monthlyincome);
                     // localStorage.setItem("Accountbalance" , formData.Accountbalance);
                     localStorage.setItem("jwtToken", data.token);
                     alert("Registration Successful!");
