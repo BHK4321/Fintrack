@@ -1,402 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  
-  <script src = "bot.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FinTrack - Dashboard</title>
-  <link rel="stylesheet" href="vvvg.css">
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="hamburgr.css">
-  <link rel = "stylesheet" href = "dash.css"></link>
-  <!-- <link rel="stylesheet" href="backgroundstyle.css"> o-->
-  <style>
-    /* Making text under  headings  smaller than the heading size */
-    h1 + p, h2 + p, h3 + p, h4 + p {
-      font-size: 0.85em;
-    }
-    
-    .summary-card h3 {
-      font-size: 1.2em;
-    }
-    
-    .summary-card p {
-      font-size: 0.9em;
-    }
-    
-    .card-title {
-      font-size: 1.3em;
-    }
-    
-    .container-header h3 {
-      font-size: 1.2em;
-    }
-    
-    .footer-column h4 {
-      font-size: 1.1em;
-    }
-    
-    .footer-column p, .footer-column li {
-      font-size: 0.85em;
-    }
-  </style>
+
+    <script src="bot.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack - Dashboard</title>
+    <link rel="stylesheet" href="vvvg.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="hamburgr.css">
+    <link rel="stylesheet" href="dash.css">
+    </link>
+    <style>
+        h1+p,
+        h2+p,
+        h3+p,
+        h4+p {
+            font-size: 0.85em;
+        }
+
+        .summary-card h3 {
+            font-size: 1.2em;
+        }
+
+        .summary-card p {
+            font-size: 0.9em;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+        }
+
+        .container-header h3 {
+            font-size: 1.2em;
+        }
+
+        .footer-column h4 {
+            font-size: 1.1em;
+        }
+
+        .footer-column p,
+        .footer-column li {
+            font-size: 0.85em;
+        }
+    </style>
 </head>
+
 <body>
-  
-  <nav class="nav">
-    <div class="hamburger-menu">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    
-    <div class="sidebar-overlay"></div>
-    
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <a href="profile.html" class="profile-link">
-                <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
-            </a>
-            <div class="close-btn">&times;</div>
+
+    <nav class="nav">
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
-        <div class="sidebar-content">
-            <a href="index.html">Home</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="learn-more-html.html">Learn More</a>
 
-            
-            
-            
-            
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            
-            
-            
+        <div class="sidebar-overlay"></div>
 
-            
-
-
-            <a href="customer_support.html">Contact Us</a>
-            <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="profile.html" class="profile-link">
+                    <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg"
+                        alt="Profile" class="profile-icon">
+                </a>
+                <div class="close-btn">&times;</div>
+            </div>
+            <div class="sidebar-content">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="learn-more-html.html">Learn More</a>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <a href="customer_support.html">Contact Us</a>
+                <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+            </div>
         </div>
-    </div>
-    
-    <script src="hmg.js"></script>
 
-    <div class="logo">FinTrack</div>
-    <div class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
-        <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
-    </div>
-</nav>
+        <script src="hmg.js"></script>
 
-
-  <script src = "allow.js"></script>
-  <section class="dashboard-container">
-    <div class="dashboard-header">
-      <h1>Your Financial Dashboard</h1>
-      <p  style="color: rgb(22, 21, 21);">Welcome back, User! Here's your financial overview.</p>
-
-    </div>
-
-    <div class="dashboard-summary">
-      <div class="summary-card">
-        <h3>Total Balance</h3>
-        <p id = "balance" class="amount"></p>
-      </div>
-      <div class="summary-card">
-        <h3>Monthly Income</h3>
-        <p id = "income" class="amount"></p>
-      </div>
-      <div class="summary-card">
-        <h3>Monthly Expenses</h3>
-        <p id = "expense" class="amount"></p>
-      </div>
-      <div class="summary-card">
-        <h3>Savings Rate</h3>
-        <p id = "savings" class="amount"></p>
-      </div>
-    </div>
-
-    <div class="dashboard-row">
-      <div class="chart-container half">
-        <div class="chart-header">
-          <h3>Expense Breakdown</h3>
+        <div class="logo">FinTrack</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
         </div>
-        <div class="card">
-                <h2 class="card-title">Spending by Category</h2>
-                <div class="chart-container">
-                    <canvas id="category-chart"></canvas>
+    </nav>
+
+
+    <script src="allow.js"></script>
+    <section class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Your Financial Dashboard</h1>
+            <p style="color: rgb(22, 21, 21);">Welcome back, User! Here's your financial overview.</p>
+
+        </div>
+
+        <div class="dashboard-summary">
+            <div class="summary-card">
+                <h3>Total Balance</h3>
+                <p id="balance" class="amount"></p>
+            </div>
+            <div class="summary-card">
+                <h3>Monthly Income</h3>
+                <p id="income" class="amount"></p>
+            </div>
+            <div class="summary-card">
+                <h3>Monthly Expenses</h3>
+                <p id="expense" class="amount"></p>
+            </div>
+            <div class="summary-card">
+                <h3>Savings Rate</h3>
+                <p id="savings" class="amount"></p>
+            </div>
+        </div>
+
+        <div class="dashboard-row">
+            <div class="chart-container half">
+                <div class="chart-header">
+                    <h3>Expense Breakdown</h3>
+                </div>
+                <div class="card">
+                    <h2 class="card-title">Spending by Category</h2>
+                    <div class="chart-container">
+                        <canvas id="category-chart"></canvas>
+                    </div>
                 </div>
             </div>
-      </div>
-    </div>
-<div class="dashboard-row">
-    <div class="reminders-container half">
-        <div class="container-header">
-            <h3>Upcoming Bills</h3>
         </div>
-        <div class="reminders-list">
-            <!-- Bills will be dynamically inserted here by JavaScript -->
-            <p style="color: black;">Loading upcoming bills...</p>
+        <div class="dashboard-row">
+            <div class="reminders-container half">
+                <div class="container-header">
+                    <h3>Upcoming Bills</h3>
+                </div>
+                <div class="reminders-list">
+                    <!-- Bills will be dynamically inserted here by JavaScript -->
+                    <p style="color: black;">Loading upcoming bills...</p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-    <!-- New buttons section after upcoming bills -->
-    <div class="dashboard-row feature-buttons">
-      <button class="feature-btn bill-btn" onclick = "window.location.href = 'billing_notifs.html'">
-        <span class="btn-icon">📅</span>
-        <span class="btn-text">Bills & Notifications</span>
-      </button>
-      <button class="feature-btn chatbot-btn" onclick = "window.location.href = 'financial_goal_setting (1).html'">
-        <span class="btn-icon">💬</span>
-        <span class="btn-text">Finance Assistant</span>
-      </button>
-      <button class="feature-btn transaction-btn" onclick = "window.location.href = 'recent1_transactions.html'">
-        <span class="btn-icon">💰</span>
-        <span class="btn-text">Transactions</span>
-      </button>
-    </div>
-
-  </section>
-
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-column">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#">Features</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Mobile App</a></li>
-          <li><a href="#">Browser Extension</a></li>
-          <li><a href="#">Roadmap</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-column">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Press Kit</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-column">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Help Center</a></li>
-          <li><a href="#">Community</a></li>
-          <li><a href="#">Financial Guides</a></li>
-          <li><a href="#">API Documentation</a></li>
-          <li><a href="#">Security</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-column">
-        <h4>Connect With Us</h4>
-        <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
-        <div class="social-icons">
-          <a href="#" class="social-icon">X</a>
-          <a href="#" class="social-icon">F</a>
-          <a href="#" class="social-icon">I</a>
-          <a href="#" class="social-icon">L</a>
+        <div class="dashboard-row feature-buttons">
+            <button class="feature-btn bill-btn" onclick="window.location.href = 'billing_notifs.html'">
+                <span class="btn-icon">📅</span>
+                <span class="btn-text">Bills & Notifications</span>
+            </button>
+            <button class="feature-btn chatbot-btn" onclick="window.location.href = 'financial_goal_setting (1).html'">
+                <span class="btn-icon">💬</span>
+                <span class="btn-text">Finance Assistant</span>
+            </button>
+            <button class="feature-btn transaction-btn" onclick="window.location.href = 'recent1_transactions.html'">
+                <span class="btn-icon">💰</span>
+                <span class="btn-text">Transactions</span>
+            </button>
         </div>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p>© 2025 FinTrack. All rights reserved.</p>
-      <p style="margin-top: 8px;">
-        <a href="#" style="margin-right: 16px;">Privacy Policy</a>
-        <a href="#" style="margin-right: 16px;">Terms of Service</a>
-        <a href="#">Cookie Settings</a>
-      </p>
-    </div>
-  </footer>
-<script>
-document.addEventListener("DOMContentLoaded", async function () {
-    let transactions = [];
-    let categoryChart = null; // Declare the chart globally
-    const gt = parseFloat(localStorage.getItem("monthlyincome")) || 0;
 
-    const inc = document.getElementById("income");
-    const bal = document.getElementById("balance");
-    if (inc && bal) {
-        inc.innerText = `₹${gt.toFixed(2)}`;
-        bal.innerText = `₹${gt.toFixed(2)}`;
-    }
+    </section>
 
-    async function fetchTransactions() {
-        try {
-            const userEmail = localStorage.getItem("userEmail");
-            if (!userEmail) throw new Error("User email not found");
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Browser Extension</a></li>
+                    <li><a href="#">Roadmap</a></li>
+                </ul>
+            </div>
 
-            const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-transactions?userEmail=${encodeURIComponent(userEmail)}`);
-            if (!response.ok) throw new Error("Failed to fetch transactions.");
-            
-            const trans = await response.json();
-            transactions = trans.map(({ userEmail, ...t }) => ({ ...t, id: t._id }));
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
 
-            console.log("Transactions:", transactions);
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Financial Guides</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
 
-            updateTotalExpenses();
-            updateChart();
-        } catch (error) {
-            console.error("Error fetching transactions:", error);
-        }
-    }
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">X</a>
+                    <a href="#" class="social-icon">F</a>
+                    <a href="#" class="social-icon">I</a>
+                    <a href="#" class="social-icon">L</a>
+                </div>
+            </div>
+        </div>
 
-    function updateTotalExpenses() {
-        let sum = transactions.reduce((acc, t) => acc + Math.abs(t.amount), 0);
-        document.getElementById("expense").innerText = `₹${sum.toFixed(2)}`;
+        <div class="footer-bottom">
+            <p>© 2025 FinTrack. All rights reserved.</p>
+            <p style="margin-top: 8px;">
+                <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+                <a href="#" style="margin-right: 16px;">Terms of Service</a>
+                <a href="#">Cookie Settings</a>
+            </p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            let transactions = [];
+            let categoryChart = null; // Declare the chart globally
+            const gt = parseFloat(localStorage.getItem("monthlyincome")) || 0;
 
-        let y = gt - sum;
-        bal.innerText = `₹${y.toFixed(2)}`;
+            const inc = document.getElementById("income");
+            const bal = document.getElementById("balance");
+            if (inc && bal) {
+                inc.innerText = `₹${gt.toFixed(2)}`;
+                bal.innerText = `₹${gt.toFixed(2)}`;
+            }
 
-        let savingsPercentage = gt > 0 ? ((gt - sum) / gt) * 100 : 0;
-        document.getElementById("savings").innerText = `${savingsPercentage.toFixed(2)} %`;
-    }
+            async function fetchTransactions() {
+                try {
+                    const userEmail = localStorage.getItem("userEmail");
+                    if (!userEmail) throw new Error("User email not found");
 
-    function updateChart() {
-        const canvas = document.getElementById("category-chart");
-        if (!canvas) {
-            console.error("Canvas element not found!");
-            return;
-        }
+                    const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-transactions?userEmail=${encodeURIComponent(userEmail)}`);
+                    if (!response.ok) throw new Error("Failed to fetch transactions.");
 
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-            console.error("Canvas context not found!");
-            return;
-        }
+                    const trans = await response.json();
+                    transactions = trans.map(({ userEmail, ...t }) => ({ ...t, id: t._id }));
 
-        const categoryData = transactions.reduce((acc, t) => {
-            acc[t.category] = (acc[t.category] || 0) + Math.abs(t.amount);
-            return acc;
-        }, {});
+                    console.log("Transactions:", transactions);
 
-        let labels = Object.keys(categoryData);
-        let dataValues = Object.values(categoryData);
-        let backgroundColors = [
-            "#0066cc", "#0080ff", "#66b3ff", "#2997ff", "#0056b3",
-            "#e0e0e0", "#86868b", "#6c757d", "#003366", "#002b4d"
-        ].slice(0, labels.length);
+                    updateTotalExpenses();
+                    updateChart();
+                } catch (error) {
+                    console.error("Error fetching transactions:", error);
+                }
+            }
 
-        if (labels.length === 0) {
-            labels = ["No Transactions"];
-            dataValues = [1];
-            backgroundColors = ["#d3d3d3"];
-        }
+            function updateTotalExpenses() {
+                let sum = transactions.reduce((acc, t) => acc + Math.abs(t.amount), 0);
+                document.getElementById("expense").innerText = `₹${sum.toFixed(2)}`;
 
-        if (categoryChart) {
-            categoryChart.data.labels = labels;
-            categoryChart.data.datasets[0].data = dataValues;
-            categoryChart.data.datasets[0].backgroundColor = backgroundColors;
-            categoryChart.update();
-        } else {
-            categoryChart = new Chart(ctx, {
-                type: "pie",
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: dataValues,
-                        backgroundColor: backgroundColors
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: "right",
-                            labels: { boxWidth: 12, font: { size: 11 } }
+                let y = gt - sum;
+                bal.innerText = `₹${y.toFixed(2)}`;
+
+                let savingsPercentage = gt > 0 ? ((gt - sum) / gt) * 100 : 0;
+                document.getElementById("savings").innerText = `${savingsPercentage.toFixed(2)} %`;
+            }
+
+            function updateChart() {
+                const canvas = document.getElementById("category-chart");
+                if (!canvas) {
+                    console.error("Canvas element not found!");
+                    return;
+                }
+
+                const ctx = canvas.getContext("2d");
+                if (!ctx) {
+                    console.error("Canvas context not found!");
+                    return;
+                }
+
+                const categoryData = transactions.reduce((acc, t) => {
+                    acc[t.category] = (acc[t.category] || 0) + Math.abs(t.amount);
+                    return acc;
+                }, {});
+
+                let labels = Object.keys(categoryData);
+                let dataValues = Object.values(categoryData);
+                let backgroundColors = [
+                    "#0066cc", "#0080ff", "#66b3ff", "#2997ff", "#0056b3",
+                    "#e0e0e0", "#86868b", "#6c757d", "#003366", "#002b4d"
+                ].slice(0, labels.length);
+
+                if (labels.length === 0) {
+                    labels = ["No Transactions"];
+                    dataValues = [1];
+                    backgroundColors = ["#d3d3d3"];
+                }
+
+                if (categoryChart) {
+                    categoryChart.data.labels = labels;
+                    categoryChart.data.datasets[0].data = dataValues;
+                    categoryChart.data.datasets[0].backgroundColor = backgroundColors;
+                    categoryChart.update();
+                } else {
+                    categoryChart = new Chart(ctx, {
+                        type: "pie",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: dataValues,
+                                backgroundColor: backgroundColors
+                            }]
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    return context.label === "No Transactions"
-                                        ? "No data available"
-                                        : `${context.label}: ₹${context.raw.toFixed(2)}`;
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: "right",
+                                    labels: { boxWidth: 12, font: { size: 11 } }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return context.label === "No Transactions"
+                                                ? "No data available"
+                                                : `${context.label}: ₹${context.raw.toFixed(2)}`;
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
+                    });
                 }
-            });
-        }
-    }
-
-    async function fetchBills() {
-        try {
-            const userEmail = localStorage.getItem("userEmail");
-            if (!userEmail) {
-                console.error("User email not found in localStorage.");
-                return;
             }
 
-            const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-upcoming-bills?userEmail=${encodeURIComponent(userEmail)}`);
-            
-            if (!response.ok) {
-                throw new Error("Failed to fetch upcoming bills.");
-            }
+            async function fetchBills() {
+                try {
+                    const userEmail = localStorage.getItem("userEmail");
+                    if (!userEmail) {
+                        console.error("User email not found in localStorage.");
+                        return;
+                    }
 
-            const bills = await response.json();
-            const remindersList = document.querySelector(".reminders-list");
+                    const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-upcoming-bills?userEmail=${encodeURIComponent(userEmail)}`);
 
-            if (!remindersList) {
-                console.error("Reminders list element not found!");
-                return;
-            }
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch upcoming bills.");
+                    }
 
-            remindersList.innerHTML = "";
+                    const bills = await response.json();
+                    const remindersList = document.querySelector(".reminders-list");
 
-            if (bills.length === 0) {
-                remindersList.innerHTML = "<p>No upcoming bills.</p>";
-                return;
-            }
-            
-            bills.forEach((bill) => {
-                const billItem = document.createElement("div");
-                billItem.classList.add("reminder-item");
+                    if (!remindersList) {
+                        console.error("Reminders list element not found!");
+                        return;
+                    }
 
-                const deadline = new Date(bill.deadline).toLocaleDateString("en-IN", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                    timeZone: "Asia/Kolkata",
-                });
+                    remindersList.innerHTML = "";
 
-                billItem.innerHTML = `
+                    if (bills.length === 0) {
+                        remindersList.innerHTML = "<p>No upcoming bills.</p>";
+                        return;
+                    }
+
+                    bills.forEach((bill) => {
+                        const billItem = document.createElement("div");
+                        billItem.classList.add("reminder-item");
+
+                        const deadline = new Date(bill.deadline).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            timeZone: "Asia/Kolkata",
+                        });
+
+                        billItem.innerHTML = `
                     <p><strong>${bill.description}</strong></p>
                     <p>Amount: ₹${bill.amount}</p>
                     <p>Due: ${deadline}</p>
+                    <p>------------------/p>
                 `;
 
-                remindersList.appendChild(billItem);
-            });
-        } catch (error) {
-            console.error("Error fetching bills:", error);
-            const remindersList = document.querySelector(".reminders-list");
-            if (remindersList) {
-                remindersList.innerHTML = "<p>Error loading upcoming bills.</p>";
+                        remindersList.appendChild(billItem);
+                    });
+                } catch (error) {
+                    console.error("Error fetching bills:", error);
+                    const remindersList = document.querySelector(".reminders-list");
+                    if (remindersList) {
+                        remindersList.innerHTML = "<p>Error loading upcoming bills.</p>";
+                    }
+                }
             }
-        }
-    }
 
-    // ✅ Await both functions before continuing
-    await fetchTransactions();
-    await fetchBills();
-});
+            await fetchTransactions();
+            await fetchBills();
+        });
 
-</script>
+    </script>
 
 
 </body>
-</html>
 
+</html>
