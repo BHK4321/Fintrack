@@ -99,4 +99,31 @@ The AI assistant on the Goal Setting page provides personalized financial guidan
 ---
 
 ## API Endpoints
-(Add your API endpoints here)
+
+### User Management
+- `POST /api/users`: Registers a new user
+- `POST /api/signin`: Authenticates and logs in a user
+- `POST /api/logout`: Logs out a user by clearing the access token cookie
+- `GET /api/users/:email`: Retrieves a user's profile by email
+- `PUT /api/update/:email`: Updates a user's profile information
+
+### Password Management
+- `POST /api/forgot-password`: Initiates the password reset process
+- `POST /api/reset-password`: Resets a user's password
+
+### Bill Management
+- `POST /api/bills`: Creates a new bill
+- `POST /api/schedule-reminder`: Schedules a reminder for a bill
+- `GET /api/get-upcoming-bills`: Retrieves upcoming bills for a user
+
+### Authentication
+- `GET /auth/google`: Initiates Google OAuth authentication
+- `GET /auth/google/callback`: Handles the Google OAuth callback
+- `POST /api/google-signin`: Authenticates a user using Google sign-in
+- `POST /api/jwt-auth`: Authenticates a user using a JWT token
+- `GET /api/auth/check/:email`: Checks if a user is authorized
+
+### Transaction Management
+- `POST /api/transactions`: Creates a new transaction
+- `GET /api/get-transactions`: Retrieves all transactions for a user
+- `DELETE /api/transactions/:id`: Deletes a specific transaction
