@@ -12,7 +12,7 @@ JWT_SECRET = your_jwt_key_for_authentication
 ###############################################
 # For Sending Mails (App-pasword)
 
-EMAIL_SERVER= your_email
+EMAIL_SERVER= your_email (For the server deployed : bhaskarpandey787@gmail.com)
 
 EMAIL_PASS= App_password_provided_by_Google
 
