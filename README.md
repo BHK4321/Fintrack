@@ -56,7 +56,8 @@ Users can set savings goals by providing:
 - Initial deposit
 - Target amount
 - Description
-
+The Front-end fetches the monthly-income and other things related to the user which leads to better personalised guidance from the prompt generated
+for the user.
 A generated prompt based on these inputs can be copied into the AI assistant for financial guidance.
 
 ## Additional Features
