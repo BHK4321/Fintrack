@@ -187,14 +187,6 @@
                 dashboardSection.style.display = "none";
             });
 
-            dashboardTab.addEventListener("click", function () {
-                dashboardTab.classList.add("active");
-                goalsTab.classList.remove("active");
-                dashboardSection.style.display = "block";
-                goalsSection.style.display = "none";
-            });
-
-
             const createGoalButton = document.querySelector("#new-goal-form button[type='submit']");
 
             createGoalButton.addEventListener("click", function (e) {
