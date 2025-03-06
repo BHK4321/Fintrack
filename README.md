@@ -90,8 +90,6 @@ The AI assistant on the Goal Setting page provides personalized financial guidan
 
 ---
 
-### Screenshots
-
 - **Expensense Tracking**
   
 ![image](https://github.com/user-attachments/assets/9694f788-77fc-497c-941f-7f8d072af9c0)
