@@ -1,260 +1,285 @@
 <!DOCTYPE html>
 <html lang="en" style="scroll-behavior: smooth;">
+
 <head>
-<!--       <script src="chatbot2.js"></script> -->
-        <script src = "bot.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FinTrack - Personal Finance Management</title>
-  <link rel="stylesheet" href="vvvg.css">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="hamburgr.css">
+    <script src="bot.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack - Personal Finance Management</title>
+    <link rel="stylesheet" href="vvvg.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="hamburgr.css">
 </head>
+
 <body style="background-color: white;">
 
-  <link rel="stylesheet" href="vvvg.css">
-  <link rel="stylesheet" href="hamburgr.css">
-  <link rel = "stylesheet" href = "dash.css"></link>
+    <link rel="stylesheet" href="vvvg.css">
+    <link rel="stylesheet" href="hamburgr.css">
+    <link rel="stylesheet" href="dash.css">
+    </link>
 
 
-  <nav class="nav">
-    <div class="hamburger-menu">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-    
-    <div class="sidebar-overlay"></div>
-    
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <a href="profile.html" class="profile-link">
-                <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg" alt="Profile" class="profile-icon">
-            </a>
-            <div class="close-btn">&times;</div>
+    <nav class="nav">
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
-        <div class="sidebar-content">
-            <a href="index.html">Home</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="learn-more-html.html">Learn More</a>
 
-            
-            
-            
-            
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            
-            
-            
+        <div class="sidebar-overlay"></div>
 
-            
-
-
-            <a href="customer_support.html">Contact Us</a>
-            <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <a href="profile.html" class="profile-link">
+                    <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg"
+                        alt="Profile" class="profile-icon">
+                </a>
+                <div class="close-btn">&times;</div>
+            </div>
+            <div class="sidebar-content">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="learn-more-html.html">Learn More</a>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <a href="customer_support.html">Contact Us</a>
+                <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
+            </div>
         </div>
-    </div>
-    
-    <script src="hmg.js"></script>
 
-    <div class="logo">FinTrack</div>
-    <div class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
-        <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
-    </div>
-</nav>
+        <script src="hmg.js"></script>
 
-
-  
-<script src = "auth.js"></script>
+        <div class="logo">FinTrack</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="signin.html" id="auth-link" style="display: none;" class="nav-link">Sign In</a>
+        </div>
+    </nav>
 
 
-<style>
-  h1 {
-font-size: 2.5rem;
-margin-bottom: 10px;
-background: linear-gradient(to right, #2c5ce0, #ff5733); /* Adjust colors as needed */
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-}
-</style>
+
+    <script src="auth.js"></script>
+
+
+    <style>
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #2c5ce0, #ff5733);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 
 
 
     <section style="background-color: white;" class="hero">
-      <h1 class="animate">Take Control of Your Finances</h1>
-      <p class="sub animate delay-1">Intelligent tools to track, analyze, and optimize your personal finances with beautiful visualizations and actionable insights.</p>
-      <br>
-      <div class="animate delay-2">
-        <a href="dashboard.html" class="btn btn-primary">Get Started</a>
-       <button onclick="window.location.href = 'learn-more-html.html'" class="btn bg-gray-900 text-white hover:bg-gray-600">Learn More</button>
+        <h1 class="animate">Take Control of Your Finances</h1>
+        <p class="sub animate delay-1">Intelligent tools to track, analyze, and optimize your personal finances with
+            beautiful visualizations and actionable insights.</p>
+        <br>
+        <div class="animate delay-2">
+            <a href="dashboard.html" class="btn btn-primary">Get Started</a>
+            <button onclick="window.location.href = 'learn-more-html.html'"
+                class="btn bg-gray-900 text-white hover:bg-gray-600">Learn More</button>
 
-      </div>
-      
-      <div class="dashboard-preview animate delay-3">
-        <img src="dshbrd.png" alt="Dashboard Preview">
-      </div>
+        </div>
+
+        <div class="dashboard-preview animate delay-3">
+            <img src="dshbrd.png" alt="Dashboard Preview">
+        </div>
     </section>
-    
-    <section class="features" id = "features">
-      <div class="section-header">
-        <h2>Powerful Features</h2>
-        <p class="subtitle">Everything you need to master your financial life</p>
-      </div>
-      
-      <div class="features-grid" >
-<div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('photo-of-man-in-motorcycle-suit-riding-on-red-and-white-sport-bike-wallpaper-preview.jpg'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-  <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px;">📊</div>
-  <h3 class="feature-title" style="margin-bottom: 10px;">Expense Tracking</h3>
-  <p class="feature-desc" style="margin-bottom: 0;"></p>
-  
-  <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('expnstrack.png'); background-size: cover; background-position: center;">
-    <!-- Image will appear on hover -->
-  </div>
-</div>        
-        <div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('istockphoto-1402430797-612x612.jpg'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-          <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">📈</div>
-          <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Interactive Charts</h3>
-          <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
-          
-          <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('intrcharts.png'); background-size: cover; background-position: center;">
-          </div>
+
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Powerful Features</h2>
+            <p class="subtitle">Everything you need to master your financial life</p>
         </div>
-        <div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('csv-file-scanning-on-black-background-free-video.jpg'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-          <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🔄</div>
-          <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">CSV Import/Export</h3>
-          <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
-          
-          <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('csvv.png'); background-size: cover; background-position: center;">
-          </div>
+
+        <div class="features-grid">
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('photo-of-man-in-motorcycle-suit-riding-on-red-and-white-sport-bike-wallpaper-preview.jpg'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px;">📊</div>
+                <h3 class="feature-title" style="margin-bottom: 10px;">Expense Tracking</h3>
+                <p class="feature-desc" style="margin-bottom: 0;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('expnstrack.png'); background-size: cover; background-position: center;">
+                    <!-- Image will appear on hover -->
+                </div>
+            </div>
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('istockphoto-1402430797-612x612.jpg'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">📈</div>
+                <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Interactive Charts</h3>
+                <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('intrcharts.png'); background-size: cover; background-position: center;">
+                </div>
+            </div>
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('csv-file-scanning-on-black-background-free-video.jpg'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🔄</div>
+                <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">CSV Import/Export</h3>
+                <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('csvv.png'); background-size: cover; background-position: center;">
+                </div>
+            </div>
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('pexels-karolina-grabowska-4968382.jpg'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🔍</div>
+                <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Transaction Management</h3>
+                <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('tRANSACTION.png'); background-size: cover; background-position: center;">
+                </div>
+            </div>
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('security_full.gif'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🔒</div>
+                <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Bank-Level Security</h3>
+                <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('./Screenshot 2025-02-28 at 9.58.53 AM.png'); background-size: cover; background-position: center;">
+                </div>
+            </div>
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('Geld-1024x615.jpg'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🎯</div>
+                <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Financial Goals</h3>
+                <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('FNCLGOALS.png'); background-size: cover; background-position: center;">
+                </div>
+            </div>
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('pink-piggy-bank-hightlight-shining-600nw-1210757989.webp'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">💰</div>
+                <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Smart Budgeting</h3>
+                <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('PIKKKA.png'); background-size: cover; background-position: center;">
+                </div>
+            </div>
+            <div class="feature-card"
+                style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('0_dlgZbhAtm5YP_jzU (1).jpg'); background-size: cover; background-position: center;"
+                onmouseover="this.querySelector('.hover-image').style.opacity = '1';"
+                onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">👥</div>
+                <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Expense Splitting</h3>
+                <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
+
+                <div class="hover-image"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('bill&notf.png'); background-size: cover; background-position: center;">
+                </div>
+            </div>
         </div>
-        <div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('pexels-karolina-grabowska-4968382.jpg'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-          <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🔍</div>
-          <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Transaction Management</h3>
-          <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
-          
-          <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('tRANSACTION.png'); background-size: cover; background-position: center;">
-          </div>
-        </div>
-        <div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('security_full.gif'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-          <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🔒</div>
-          <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Bank-Level Security</h3>
-          <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
-          
-          <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('./Screenshot 2025-02-28 at 9.58.53 AM.png'); background-size: cover; background-position: center;">
-          </div>
-        </div>
-        <div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('Geld-1024x615.jpg'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-          <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">🎯</div>
-          <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Financial Goals</h3>
-          <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
-          
-          <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('FNCLGOALS.png'); background-size: cover; background-position: center;">
-          </div>
-        </div>
-        <div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('pink-piggy-bank-hightlight-shining-600nw-1210757989.webp'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-          <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">💰</div>
-          <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Smart Budgeting</h3>
-          <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
-          
-          <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('PIKKKA.png'); background-size: cover; background-position: center;">
-          </div>
-        </div>
-        <div class="feature-card" style="position: relative; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer; overflow: hidden; background-image: url('0_dlgZbhAtm5YP_jzU (1).jpg'); background-size: cover; background-position: center;" onmouseover="this.querySelector('.hover-image').style.opacity = '1';" onmouseout="this.querySelector('.hover-image').style.opacity = '0';">
-          <div class="feature-icon" style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">👥</div>
-          <h3 class="feature-title" style="margin-bottom: 10px; color: #ffffff;">Expense Splitting</h3>
-          <p class="feature-desc" style="margin-bottom: 0; color: #ffffff;"></p>
-          
-          <div class="hover-image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; background-image: url('bill&notf.png'); background-size: cover; background-position: center;">
-          </div>
-        </div>
-      </div>
     </section>
     <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-column">
-          <h4>Product</h4>
-          <ul>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Mobile App</a></li>
-            <li><a href="#">Browser Extension</a></li>
-            <li><a href="#">Roadmap</a></li>
-          </ul>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Browser Extension</a></li>
+                    <li><a href="#">Roadmap</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Financial Guides</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">X</a>
+                    <a href="#" class="social-icon">F</a>
+                    <a href="#" class="social-icon">I</a>
+                    <a href="#" class="social-icon">L</a>
+                </div>
+            </div>
         </div>
-        
-        <div class="footer-column">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Press Kit</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
+
+        <div class="footer-bottom">
+            <p>© 2025 FinTrack. All rights reserved.</p>
+            <p style="margin-top: 8px;">
+                <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+                <a href="#" style="margin-right: 16px;">Terms of Service</a>
+                <a href="#">Cookie Settings</a>
+            </p>
         </div>
-        
-        <div class="footer-column">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Community</a></li>
-            <li><a href="#">Financial Guides</a></li>
-            <li><a href="#">API Documentation</a></li>
-            <li><a href="#">Security</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Connect With Us</h4>
-          <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
-          <div class="social-icons">
-            <a href="#" class="social-icon">X</a>
-            <a href="#" class="social-icon">F</a>
-            <a href="#" class="social-icon">I</a>
-            <a href="#" class="social-icon">L</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p>© 2025 FinTrack. All rights reserved.</p>
-        <p style="margin-top: 8px;">
-          <a href="#" style="margin-right: 16px;">Privacy Policy</a>
-          <a href="#" style="margin-right: 16px;">Terms of Service</a>
-          <a href="#">Cookie Settings</a>
-        </p>
-      </div>
     </footer>
-  <script>
-    // Simple script to handle navigation and animations
-    document.addEventListener('DOMContentLoaded', function() {
-      // Add hover effect to feature cards
-      const featureCards = document.querySelectorAll('.feature-card');
-      
-      featureCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-          this.style.backgroundColor = '#ffffff'; // Hover state dark green
+    <script>
+        // Simple script to handle navigation and animations
+        document.addEventListener('DOMContentLoaded', function () {
+            const featureCards = document.querySelectorAll('.feature-card');
+
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    this.style.backgroundColor = '#ffffff';
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    this.style.backgroundColor = '#ffffff';
+                });
+            });
+
+            // Handle navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                });
+            });
         });
-        
-        card.addEventListener('mouseleave', function() {
-          this.style.backgroundColor = '#ffffff'; // Normal state dark green
-        });
-      });
-      
-      // Handle navigation
-      const navLinks = document.querySelectorAll('.nav-link');
-      
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          if (this.getAttribute('href') === '#') {
-            e.preventDefault();
-          }
-        });
-      });
-    });
-  </script>
+    </script>
 
 </body>
+
 </html>
