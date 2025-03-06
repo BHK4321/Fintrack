@@ -12,6 +12,14 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <script src="auth.js"></script>
     <style>
+        .parent-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* Full viewport height */
+        }
+
         body {
             background-color: #ffffff;
             margin: 0;
@@ -425,11 +433,13 @@
                     including biometric verification.</p>
             </div>
 
-            <div class="feature-card animate delay-3" style = "display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin: auto;">
-                <div class="feature-icon">🛡️</div>
-                <h3 class="feature-title" style="color: #000000;">Data Privacy</h3>
-                <p class="feature-desc" style="color: #333333;">Your financial data belongs to you alone. We never sell
-                    your information or share it with third parties.</p>
+            <div class="parent-container">
+                <div class="feature-card animate delay-3">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title" style="color: #000000;">Data Privacy</h3>
+                    <p class="feature-desc" style="color: #333333;">Your financial data belongs to you alone. We never
+                        sell your information or share it with third parties.</p>
+                </div>
             </div>
         </div>
     </section>
