@@ -337,7 +337,22 @@
         async function updateUserInfo(event) {
             event.preventDefault();
             console.log("Updating user info...");
+            const requiredFields = ["username", "firstName", "lastName", "userage", "phone", "monthlyincome"];
+            let isValid = true;
+            let missingFields = [];
 
+            requiredFields.forEach((field) => {
+                const value = document.getElementById(field).value.trim();
+                if (!value) {
+                    isValid = false;
+                    missingFields.push(field);
+                }
+            });
+
+            if (!isValid) {
+                alert("Please fill in the required fields: " + missingFields.join(", "));
+                return; // Stop submission
+            }
             const email = localStorage.getItem("userEmail");
             const token = localStorage.getItem("jwtToken");
 
