@@ -1,4 +1,4 @@
-# Personal Finance Management Tool: FinTrack
+# Personal Finance Management Tool : FinTrack
 
 FinTrack helps users manage their income, expenses, and transactions with budgeting, analytics, and financial insights.
 
