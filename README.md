@@ -118,8 +118,6 @@ The AI assistant on the Goal Setting page provides personalized financial guidan
 
 ![image (6)](https://github.com/user-attachments/assets/27b4cd0b-741c-4f33-a808-e5dd607e57d5)
 
-- **Data Sequrity**
-
 - **Notifications & Bill Reminders**
   
 ![image (7)](https://github.com/user-attachments/assets/675782a4-c96e-4580-99c4-dce6990b5249)
