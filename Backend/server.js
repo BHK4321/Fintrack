@@ -137,43 +137,43 @@ function encrypt(text) {
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 // Google Authentication Endpoint
-app.post("/api/google-auth", async (req, res) => {
-    try {
-        const { token, email } = req.body;
-        if (!token || !email) {
-            return res.status(400).json({ valid: 2, message: "Token and email are required" });
-        }
+// app.post("/api/google-auth", async (req, res) => {
+//     try {
+//         const { token, email } = req.body;
+//         if (!token || !email) {
+//             return res.status(400).json({ valid: 2, message: "Token and email are required" });
+//         }
 
-        console.log("Verifying Google token...");
-        let payload;
-        try {
-            const ticket = await client.verifyIdToken({
-                idToken: token,
-                audience: process.env.GOOGLE_CLIENT_ID, // Must match the client ID in Google Cloud Console
-            });
-            payload = ticket.getPayload();
-        } catch (error) {
-            console.error("Google Token Verification Failed:", error);
-            return res.status(401).json({ valid: 2, message: "Invalid Google token" });
-        }
+//         console.log("Verifying Google token...");
+//         let payload;
+//         try {
+//             const ticket = await client.verifyIdToken({
+//                 idToken: token,
+//                 audience: process.env.GOOGLE_CLIENT_ID, // Must match the client ID in Google Cloud Console
+//             });
+//             payload = ticket.getPayload();
+//         } catch (error) {
+//             console.error("Google Token Verification Failed:", error);
+//             return res.status(401).json({ valid: 2, message: "Invalid Google token" });
+//         }
 
-        // Ensure the email from the token matches the provided email
-        if (payload.email !== email) {
-            return res.status(403).json({ valid: 2, message: "Unauthorized access: Email mismatch" });
-        }
+//         // Ensure the email from the token matches the provided email
+//         if (payload.email !== email) {
+//             return res.status(403).json({ valid: 2, message: "Unauthorized access: Email mismatch" });
+//         }
 
-        // Check if user exists in DB or create a new one
-        let user = await User.findOne({ email }).select("-password");
-        if (!user) {
-            return res.json({ valid: 0, message: "User not found" });
-        }
+//         // Check if user exists in DB or create a new one
+//         let user = await User.findOne({ email }).select("-password");
+//         if (!user) {
+//             return res.json({ valid: 0, message: "User not found" });
+//         }
 
-        return res.status(200).json({ valid: 3, user });
-    } catch (error) {
-        console.error("Google Authentication Error:", error);
-        return res.status(500).json({ valid: 5, message: "Server error" });
-    }
-});
+//         return res.status(200).json({ valid: 3, user });
+//     } catch (error) {
+//         console.error("Google Authentication Error:", error);
+//         return res.status(500).json({ valid: 5, message: "Server error" });
+//     }
+// });
 
 
 // JWT Authentication Endpoint
@@ -242,28 +242,28 @@ app.get("/api/auth/check/:email", async (req, res) => {
         return res.status(500).json({ valid: 6, message: "Server error" });
     }
 });
-app.get("/api/auth/check2/:email", async (req, res) => {
-    try {
-        const { email } = req.params;
-        const {password , username} = req.body;
-        try {
-            // Fetch user by email
-            const user = await User.findOne({ email });
+// app.get("/api/auth/check2/:email", async (req, res) => {
+//     try {
+//         const { email } = req.params;
+//         const {password , username} = req.body;
+//         try {
+//             // Fetch user by email
+//             const user = await User.findOne({ email });
 
-            if (!user) {
-                return res.status(404).json({ valid: 0, message: "User not found!" });
-            }
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) return res.json({valid:1, error: "Invalid email or password" });
-            return res.status(200).json({ valid: 3, message: "User is authorized"});
-        } catch (err) {
-            return res.status(403).json({ valid: 5, message: "Invalid or expired token" });
-        }
-    } catch (error) {
-        console.error("Error checking authorization:", error);
-        return res.status(500).json({ valid: 6, message: "Server error" });
-    }
-});
+//             if (!user) {
+//                 return res.status(404).json({ valid: 0, message: "User not found!" });
+//             }
+//             const isMatch = await bcrypt.compare(password, user.password);
+//             if (!isMatch) return res.json({valid:1, error: "Invalid email or password" });
+//             return res.status(200).json({ valid: 3, message: "User is authorized"});
+//         } catch (err) {
+//             return res.status(403).json({ valid: 5, message: "Invalid or expired token" });
+//         }
+//     } catch (error) {
+//         console.error("Error checking authorization:", error);
+//         return res.status(500).json({ valid: 6, message: "Server error" });
+//     }
+// });
 
 app.put("/api/update/:email", async (req, res) => {
   try {
