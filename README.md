@@ -84,12 +84,12 @@ Financial goal setting page of our websiter provide another ai assistant . Its p
 
 ## Hosted Links
 
-#### Front-end Deployment
+- Front-end Deployment
 
 ```
 https://bhk4321.github.io/Devbits/
 ```
-#### Back-end Deployment
+- Back-end Deployment
 
 ```
 The pages may take time to load at first but eventually they will run smoothly this doesn't has anything on our part You can read the Render Quotation : Your free instance will spin down with inactivity, which can delay requests by 50 seconds or more. 
