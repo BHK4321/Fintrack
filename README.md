@@ -40,7 +40,7 @@ It also includes a graphical expense breakdown using a pie chart and displays up
 
 ### 6. Data Security & Authentication
 - Secure authentication using JWT.
-- Complete Secure Signup , Signin system with forgot password -- reset password feature.
+- Complete Secure Signup , Signin system with forgot password -- reset password feature with email.
 - Financial data is stored securely in MongoDB.
 - Password hashing and encryption for sensitive information like account numbers.
 - Automatic logout in case of unauthorized access for additional security (implemented in `allow.js` and `auth.js`).
