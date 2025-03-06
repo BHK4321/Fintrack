@@ -90,6 +90,66 @@ The AI assistant on the Goal Setting page provides personalized financial guidan
 
 ---
 
+### Screenshots
+
+- **Expensense Tracking**
+  
+![image](https://github.com/user-attachments/assets/9694f788-77fc-497c-941f-7f8d072af9c0)
+![image (1)](https://github.com/user-attachments/assets/577926c4-4c12-43a6-8578-8a257105d57c)
+
+- **Graphs and Visualization**
+
+![image (2)](https://github.com/user-attachments/assets/8dcbb1e5-5141-47fd-9aea-a95afdc245a4)
+
+- **CSV Import/Export**
+
+![image (3)](https://github.com/user-attachments/assets/d3b9ce18-a478-423b-8773-ca3e8f56051a)
+
+- **search, filter, and sort transactions**
+
+![image (4)](https://github.com/user-attachments/assets/9533bff4-b864-4a89-b8f1-684382dd870b)
+
+
+![image (5)](https://github.com/user-attachments/assets/3cd55ded-62f0-4e21-a362-5881ac5f6d5c)
+
+- **Dashboard**
+
+![image (6)](https://github.com/user-attachments/assets/27b4cd0b-741c-4f33-a808-e5dd607e57d5)
+
+- **Data Sequrity**
+
+- **Notifications & Bill Reminders**
+  
+![image (7)](https://github.com/user-attachments/assets/675782a4-c96e-4580-99c4-dce6990b5249)
+
+![image (10)](https://github.com/user-attachments/assets/0facf4da-19e3-4834-9103-9e2557e64486)
+
+
+- **Financial Goal Setting**
+
+  ![image (9)](https://github.com/user-attachments/assets/d2640b65-87f6-4844-904f-8161351a9012)
+
+- **Split Bills**
+
+ 
+  ![image (11)](https://github.com/user-attachments/assets/1cd83e3b-3fb4-4d9d-b3e4-3e2e4b958f88)
+
+
+![image (12)](https://github.com/user-attachments/assets/250308c3-9e61-428a-a591-36172c5e4b9e)
+
+
+- **AI ASSISTANT**
+
+  
+  ![image (13)](https://github.com/user-attachments/assets/907cd9d3-4b38-49cb-b7d9-49d144699424)
+  
+
+  ![image (14)](https://github.com/user-attachments/assets/01b398e8-eec2-4000-a936-c22cf42e9048)
+
+- **Smart Budgeting with AI**
+ 
+![image (15)](https://github.com/user-attachments/assets/e7683b0f-6805-4cc5-bcab-96798142f657)
+
 ## Technologies Used
 
 - HTML
