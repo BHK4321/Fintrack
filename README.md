@@ -43,6 +43,7 @@ It also includes a graphical expense breakdown using a pie chart and displays up
 - Financial data is stored securely in MongoDB.
 - Password hashing and encryption for sensitive information like account numbers.
 - Automatic logout in case of unauthorized access for additional security (implemented in `allow.js` and `auth.js`).
+- Google Sign-in is also implemented.
 
 ### 7. Notifications & Bill Reminders
 Users can set up bill reminders and receive an email 6 hours before the deadline.
