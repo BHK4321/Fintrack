@@ -100,45 +100,53 @@ const userSchema = new mongoose.Schema({
 
 //---------------------------------------------------------------------
 
-const encryptionKey = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
-
-// Updated encrypt function that returns a string representation
+const ENCRYPTION_KEY = crypto.randomBytes(32); // Store this securely (e.g., process.env.ENCRYPTION_KEY)
+const IV_LENGTH = 16;
+console.log(ENCRYPTION_KEY);
+// Encrypt Function
 function encrypt(text) {
     try {
-        if (!text) text = '';
-        const ENCRYPTION_KEY = crypto.randomBytes(32); // 32 bytes = 256 bits
-        const iv = crypto.randomBytes(16); // 16 bytes = 128 bits
-        const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+        if (!text) text = "";
+        const iv = crypto.randomBytes(IV_LENGTH);
+        const cipher = crypto.createCipheriv("aes-256-cbc", ENCRYPTION_KEY, iv);
 
-        let encrypted = cipher.update(text, 'utf8', 'hex');
-        encrypted += cipher.final('hex');
+        let encrypted = cipher.update(text, "utf8", "hex");
+        encrypted += cipher.final("hex");
 
-        // Return a string format that can be easily stored in MongoDB
         return JSON.stringify({
-            iv: iv.toString('hex'),
-            data: encrypted
+            iv: iv.toString("hex"),
+            data: encrypted,
         });
     } catch (err) {
-        console.error('Encryption error:', err);
-        return ''; // Return empty string on error
+        console.error("Encryption error:", err);
+        return "";
     }
 }
 
-function decrypt(encryptedObj) {
-    const decipher = crypto.createDecipheriv(
-        'aes-256-gcm',
-        encryptionKey,
-        Buffer.from(encryptedObj.iv, 'hex')
-    );
+// Decrypt Function
+function decrypt(encryptedStr) {
+    try {
+        if (!encryptedStr) return "";
 
-    decipher.setAuthTag(Buffer.from(encryptedObj.authTag, 'hex'));
+        // Parse stored string
+        const encryptedObj = JSON.parse(encryptedStr);
+        const iv = Buffer.from(encryptedObj.iv, "hex");
+        const decipher = crypto.createDecipheriv("aes-256-cbc", ENCRYPTION_KEY, iv);
 
-    let decrypted = decipher.update(encryptedObj.encryptedData, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
+        let decrypted = decipher.update(encryptedObj.data, "hex", "utf8");
+        decrypted += decipher.final("utf8");
 
-    return decrypted;
+        return decrypted;
+    } catch (err) {
+        console.error("Decryption error:", err);
+        return "";
+    }
 }
+const encryptedText = encrypt("50000"); // Encrypting salary
+console.log("Encrypted:", encryptedText);
+
+const decryptedText = decrypt(encryptedText);
+console.log("Decrypted:", decryptedText);
 
 //---------------------------------------------------------------------
 
