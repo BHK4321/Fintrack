@@ -1010,7 +1010,9 @@
   .bot-frame-container {
     flex: 1;
     position: relative;
-  }
+    width: 60%; /* Adjust as needed */
+}
+
   
   .chat-frame {
     width: 100%;
