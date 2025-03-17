@@ -100,9 +100,9 @@ const userSchema = new mongoose.Schema({
 
 //---------------------------------------------------------------------
 
-const ENCRYPTION_KEY = crypto.randomBytes(32); // Store this securely (e.g., process.env.ENCRYPTION_KEY)
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 const IV_LENGTH = 16;
-console.log(ENCRYPTION_KEY.toString("hex"));
+//console.log(ENCRYPTION_KEY.toString("hex"));
 // Encrypt Function
 function encrypt(text) {
     try {
