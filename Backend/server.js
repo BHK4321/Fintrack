@@ -100,7 +100,7 @@ const userSchema = new mongoose.Schema({
 
 //---------------------------------------------------------------------
 
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY, "hex");
 const IV_LENGTH = 16;
 //console.log(ENCRYPTION_KEY.toString("hex"));
 // Encrypt Function
