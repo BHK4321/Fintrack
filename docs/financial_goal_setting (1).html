@@ -238,6 +238,14 @@ I’d like to reach this goal by ${goalDeadline}.
 My initial savings deposit is ₹${initialDeposit}. 
 Is this goal realistic, and what strategy would you recommend?`;
 
+                const transactionSummaryContainer = document.createElement("div");
+                transactionSummaryContainer.className = "transaction-summary";
+                transactionSummaryContainer.textContent = "Fetching transaction summary...";
+
+                fetchTransactionSummary().then(summaryText => {
+                    transactionSummaryContainer.textContent = summaryText;
+                });
+
                 const copyButton = document.createElement("button");
                 copyButton.className = "copy-prompt-btn";
                 copyButton.textContent = "Copy to Clipboard";
@@ -247,15 +255,6 @@ Is this goal realistic, and what strategy would you recommend?`;
                         setTimeout(() => copyButton.textContent = "Copy to Clipboard", 2000);
                     });
                 };
-
-                const transactionSummaryContainer = document.createElement("div");
-                transactionSummaryContainer.className = "transaction-summary";
-                transactionSummaryContainer.textContent = "Fetching transaction summary...";
-
-                fetchTransactionSummary().then(summaryText => {
-                    transactionSummaryContainer.textContent = summaryText;
-                });
-
                 assistantContent.appendChild(assistantMessage);
                 assistantContent.appendChild(goalSummary);
                 assistantContent.appendChild(copyButton);
