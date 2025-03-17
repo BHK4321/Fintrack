@@ -731,7 +731,7 @@ app.post("/api/google-signin", async (req, res) => {
         const authToken = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
             expiresIn: "7d",
         });
-
+        user.monhtlyincome = decrypt(user.monthlyincome);
         res.json({ token: authToken, user });
     } catch (error) {
         console.error("Google sign-in error:", error);
