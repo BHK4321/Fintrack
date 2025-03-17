@@ -245,6 +245,9 @@ Is this goal realistic, and what strategy would you recommend?`;
                 fetchTransactionSummary().then(summaryText => {
                     transactionSummaryContainer.textContent = summaryText;
                 });
+                const copyButton = document.createElement("button");
+                 copyButton.className = "copy-prompt-btn";
+                 copyButton.textContent = "Copy to Clipboard";
                 copyButton.onclick = () => {
     const fullText = `${goalSummary.textContent}\n\n${transactionSummaryContainer.textContent}`;
     navigator.clipboard.writeText(fullText).then(() => {
