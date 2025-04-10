@@ -405,7 +405,7 @@ app.post("/api/forgot-password", async (req, res) => {
             }
         });
 
-        const resetLink = `${process.env.FRONTEND_URL}/resetpassword`;
+        const resetLink = `${process.env.FRONTEND_URL}/resetpassword?resetToken=${token}`;
         console.log("Reset Link:", resetLink); // Debugging log
         const emailTemplatePath = path.join(__dirname, 'resetpasswordemail.html');
         let emailTemplate = fs.readFileSync(emailTemplatePath, 'utf-8');
