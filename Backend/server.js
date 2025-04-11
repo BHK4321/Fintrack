@@ -428,14 +428,17 @@ app.post("/api/forgot-password", async (req, res) => {
 // Reset Password Endpoint
 app.post("/api/reset-password", async (req, res) => {
     try {
-        const { email, newPassword } = req.body;
+        const { email,resetToken, newPassword } = req.body;
         // Find user by decoded token ID
         const user = await User.findOne({ email });
         console.log(email);
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
-
+        const decoded = jwt.verify(resetToken , process.env.JWT_SECRET);
+        if (decoded.id !== user._id.toString()) {
+                return res.status(403).json({ valid: 4, message: "Unauthorized access" });
+        }
         // Hash the new password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
