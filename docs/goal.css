@@ -72,16 +72,11 @@
   }
 
   .header {
-    position: relative;
     text-align: center;
-    padding: 80px 20px 40px;
-    color: rgb(0, 0, 0);
-    display: flex;
-    background-color: #ab1818;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+    padding: 50px 20px;
+    background: white;
+    color: #000;
+}
 
   h1 {
     font-size: 56px;
@@ -809,19 +804,33 @@
   .header h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    background: linear-gradient(to right, #2c5ce0, #ff5733); /* Adjust colors as needed */
+    background: linear-gradient(to right, #2c5ce0, #ff5733);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-fill-color: transparent; /* For better browser compatibility */
+}
+  
+.subtitle {
+  color: black; /* Ensure visibility */
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .logo {
+      margin-left: 20px;
+      font-size: 32px; /* Smaller logo on mobile */
   }
   
-  .subtitle {
-    color: black;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-    animation: fadeIn 1s ease-out 0.5s both;
+  .nav-links {
+      display: none; /* Hide traditional nav on mobile */
   }
   
+  .hamburger-menu {
+      display: block; /* Ensure hamburger is visible */
+  }
+}
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -831,23 +840,26 @@
   .main-content {
     display: flex;
     max-width: 1200px;
-    margin: 0 auto; /* Centers it dynamically */
-    padding: 30px 0px;
-    gap: 100px;
+    margin: 0 auto;
+    padding: 30px 20px; 
+    gap: 40px; 
+}
+  /* Better Breakpoints for Layout */
+  @media (max-width: 1100px) {
+  .main-content {
+      flex-direction: column; /* Stack columns on smaller screens */
+      gap: 30px;
   }
-  
   /* Content columns */
   .content-column {
-    flex: 1;
-    min-width: 0;
-  }
+    width: 100%;
+}
   
   /* Bot column */
   .bot-column {
-    margin-right:0%;
-    width: 600px;
-    position: relative;
-  }
+    width: 100%;
+    margin-right: 0;
+}
   
   /* Tab buttons */
   .tab-buttons {
@@ -977,18 +989,11 @@
   
   /* Bot container and controls */
   .bot-container {
-    /* margin-right: 5px; */
-    position: sticky;
-    top: 150px;
-    background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-    height: calc(100vh - 120px);
-    max-height: 700px;
-    display: flex;
-    flex-direction: column;
-  }
+    position: relative;
+    top: 0;
+    height: 500px;
+    max-height: 500px;
+}
   
   .bot-header {
     padding: 15px;
@@ -1043,7 +1048,7 @@
     overflow-y: auto;
     animation: slideIn 0.3s ease-out;
   }
-  
+}
   @keyframes slideIn {
     from {
       transform: translateY(30px);
@@ -1160,18 +1165,107 @@
       right:0%;
     }
   }
-  
-  @media (max-width: 600px) {
+  .form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
     .form-row {
-      flex-direction: column;
-      gap: 10px;
+        flex-direction: column;
+        gap: 10px;
     }
     
-    .header h1 {
-      font-size: 1.8rem;
+    .form-group {
+        width: 100%;
     }
     
-    .goals-grid {
-      grid-template-columns: 1fr;
+    /* Ensure inputs are properly sized */
+    input, select, textarea {
+        width: 100%;
+        box-sizing: border-box;
     }
+}
+
+.assistant-popup {
+  width: 95%;
+  max-width: 550px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+  .assistant-popup {
+      width: 100%;
+      max-width: none;
+      border-radius: 0;
+      height: 100%;
+      max-height: 100vh;
   }
+  
+  .assistant-content {
+      padding: 15px;
+  }
+}
+@media (max-width: 768px) {
+  h1 {
+      font-size: 32px;
+  }
+  
+  h2 {
+      font-size: 24px;
+  }
+  
+  .subtitle {
+      font-size: 16px;
+  }
+  
+  .btn {
+      padding: 8px 16px; /* Smaller buttons on mobile */
+      font-size: 14px;
+  }
+}
+
+/* Footer Responsiveness */
+@media (max-width: 768px) {
+  .footer {
+      padding: 40px 20px 20px;
+  }
+  
+  .footer-content {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-content {
+      grid-template-columns: 1fr;
+  }
+}
+
+/* Fix Tips Section Responsiveness */
+.tips-section {
+  padding: 20px 15px;
+}
+
+@media (max-width: 768px) {
+  .tips-list li {
+      margin-bottom: 12px;
+  }
+}
+
+/* Fix the Chatbot Frame Container */
+.bot-frame-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.chat-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
