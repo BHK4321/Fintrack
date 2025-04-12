@@ -831,7 +831,7 @@
   .main-content {
     display: flex;
     max-width: 1200px;
-    margin: 0px 100px 0px 100px;
+    margin: 0 auto; /* Centers it dynamically */
     padding: 30px 0px;
     gap: 100px;
   }
@@ -845,7 +845,7 @@
   /* Bot column */
   .bot-column {
     margin-right:0%;
-    width: 460px;
+    width: 600px;
     position: relative;
   }
   
@@ -1010,7 +1010,8 @@
   .bot-frame-container {
     flex: 1;
     position: relative;
-  }
+}
+
   
   .chat-frame {
     width: 100%;

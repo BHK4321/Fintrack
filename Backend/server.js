@@ -100,45 +100,53 @@ const userSchema = new mongoose.Schema({
 
 //---------------------------------------------------------------------
 
-const encryptionKey = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
-
-// Updated encrypt function that returns a string representation
+const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY, "hex");
+const IV_LENGTH = 16;
+//console.log(ENCRYPTION_KEY.toString("hex"));
+// Encrypt Function
 function encrypt(text) {
     try {
-        if (!text) text = '';
-        const ENCRYPTION_KEY = crypto.randomBytes(32); // 32 bytes = 256 bits
-        const iv = crypto.randomBytes(16); // 16 bytes = 128 bits
-        const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+        if (!text) text = "";
+        const iv = crypto.randomBytes(IV_LENGTH);
+        const cipher = crypto.createCipheriv("aes-256-cbc", ENCRYPTION_KEY, iv);
 
-        let encrypted = cipher.update(text, 'utf8', 'hex');
-        encrypted += cipher.final('hex');
+        let encrypted = cipher.update(text, "utf8", "hex");
+        encrypted += cipher.final("hex");
 
-        // Return a string format that can be easily stored in MongoDB
         return JSON.stringify({
-            iv: iv.toString('hex'),
-            data: encrypted
+            iv: iv.toString("hex"),
+            data: encrypted,
         });
     } catch (err) {
-        console.error('Encryption error:', err);
-        return ''; // Return empty string on error
+        console.error("Encryption error:", err);
+        return "";
     }
 }
 
-function decrypt(encryptedObj) {
-    const decipher = crypto.createDecipheriv(
-        'aes-256-gcm',
-        encryptionKey,
-        Buffer.from(encryptedObj.iv, 'hex')
-    );
+// Decrypt Function
+function decrypt(encryptedStr) {
+    try {
+        if (!encryptedStr) return "";
 
-    decipher.setAuthTag(Buffer.from(encryptedObj.authTag, 'hex'));
+        // Parse stored string
+        const encryptedObj = JSON.parse(encryptedStr);
+        const iv = Buffer.from(encryptedObj.iv, "hex");
+        const decipher = crypto.createDecipheriv("aes-256-cbc", ENCRYPTION_KEY, iv);
 
-    let decrypted = decipher.update(encryptedObj.encryptedData, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
+        let decrypted = decipher.update(encryptedObj.data, "hex", "utf8");
+        decrypted += decipher.final("utf8");
 
-    return decrypted;
+        return decrypted;
+    } catch (err) {
+        console.error("Decryption error:", err);
+        return "";
+    }
 }
+const encryptedText = encrypt("50000"); // Encrypting salary
+console.log("Encrypted:", encryptedText);
+
+const decryptedText = decrypt(encryptedText);
+console.log("Decrypted:", decryptedText);
 
 //---------------------------------------------------------------------
 
@@ -397,7 +405,7 @@ app.post("/api/forgot-password", async (req, res) => {
             }
         });
 
-        const resetLink = `${process.env.FRONTEND_URL}/resetpassword`;
+        const resetLink = `${process.env.FRONTEND_URL}/resetpassword?resetToken=${token}`;
         console.log("Reset Link:", resetLink); // Debugging log
         const emailTemplatePath = path.join(__dirname, 'resetpasswordemail.html');
         let emailTemplate = fs.readFileSync(emailTemplatePath, 'utf-8');
@@ -420,14 +428,17 @@ app.post("/api/forgot-password", async (req, res) => {
 // Reset Password Endpoint
 app.post("/api/reset-password", async (req, res) => {
     try {
-        const { email, newPassword } = req.body;
+        const { email,resetToken, newPassword } = req.body;
         // Find user by decoded token ID
         const user = await User.findOne({ email });
         console.log(email);
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
-
+        const decoded = jwt.verify(resetToken , process.env.JWT_SECRET);
+        if (decoded.id !== user._id.toString()) {
+                return res.status(403).json({ valid: 4, message: "Unauthorized access" });
+        }
         // Hash the new password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
@@ -731,7 +742,7 @@ app.post("/api/google-signin", async (req, res) => {
         const authToken = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
             expiresIn: "7d",
         });
-
+        user.monthlyincome = decrypt(user.monthlyincome);
         res.json({ token: authToken, user });
     } catch (error) {
         console.error("Google sign-in error:", error);

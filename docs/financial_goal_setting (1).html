@@ -148,14 +148,15 @@
 
             async function fetchTransactionSummary() {
                 try {
-                    const response = await fetch("https://my-backend-api-erp6.onrender.com/api/get-transactions", {
+                    const userEmail = localStorage.getItem("userEmail");
+                    const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-transactions?userEmail=${encodeURIComponent(userEmail)}`, {
                         method: "GET",
                         headers: { "Content-Type": "application/json" },
                     });
 
                     if (!response.ok) throw new Error("Failed to fetch transactions.");
-
-                    const transactions = await response.json();
+                    const trans = await response.json();
+                    const transactions = trans.map(({ userEmail, ...t }) => ({ ...t, id: t._id }));
                     let totalAmount = 0;
                     let transactionList = "";
                     const currentMonth = new Date().getMonth();
@@ -237,8 +238,31 @@ My current Monthly income is : ${income}.
 I’d like to reach this goal by ${goalDeadline}. 
 My initial savings deposit is ₹${initialDeposit}. 
 Is this goal realistic, and what strategy would you recommend?`;
+                const copyButton = document.createElement("button");
+    copyButton.className = "copy-prompt-btn";
+    copyButton.textContent = "Copy to Clipboard";
+    copyButton.onclick = () => {
+        const fullText = `${goalSummary.textContent}\n\n${transactionSummaryContainer.textContent}`;
+        navigator.clipboard.writeText(fullText).then(() => {
+            copyButton.textContent = "Copied!";
+            setTimeout(() => copyButton.textContent = "Copy to Clipboard", 2000);
+        });
+    };
 
+    // ✅ Create transaction summary container
+    const transactionSummaryContainer = document.createElement("div");
+    transactionSummaryContainer.className = "transaction-summary";
+    transactionSummaryContainer.textContent = "Fetching transaction summary...";
 
+    fetchTransactionSummary().then(summaryText => {
+        transactionSummaryContainer.textContent = summaryText;
+    });
+
+    // ✅ Append elements in the correct order
+    assistantContent.appendChild(assistantMessage);
+    assistantContent.appendChild(goalSummary);
+    assistantContent.appendChild(copyButton); // Copy button comes BEFORE transaction summary
+    assistantContent.appendChild(transactionSummaryContainer);
                 const copyButton = document.createElement("button");
                 copyButton.className = "copy-prompt-btn";
                 copyButton.textContent = "Copy to Clipboard";
@@ -259,12 +283,11 @@ Is this goal realistic, and what strategy would you recommend?`;
                 assistantContent.appendChild(goalSummary);
                 assistantContent.appendChild(copyButton);
                 assistantContent.appendChild(transactionSummaryContainer);
+    popupContent.appendChild(popupHeader);
+    popupContent.appendChild(assistantContent);
+    popupOverlay.appendChild(popupContent);
 
-                popupContent.appendChild(popupHeader);
-                popupContent.appendChild(assistantContent);
-                popupOverlay.appendChild(popupContent);
-
-                document.body.appendChild(popupOverlay);
+    document.body.appendChild(popupOverlay);
             }
         });
 
