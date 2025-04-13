@@ -96,7 +96,7 @@ The AI assistant on the Goal Setting page provides personalized financial guidan
 - **Front-end Deployment**
 - Folder -- docs.
   
-  [https://bhk4321.github.io/Devbits/](https://bhk4321.github.io/Devbits/)
+  [https://bhk4321.github.io/Devbits/](https://bhk4321.github.io/Fintrack/)
 
 - **Back-end Deployment**
 - Folder -- Backend
