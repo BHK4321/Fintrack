@@ -458,7 +458,8 @@ app.post("/api/reset-password", async (req, res) => {
 
 // chat
 app.post('/api/chat', async (req, res) => {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    try{
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(req.body)
@@ -466,6 +467,10 @@ app.post('/api/chat', async (req, res) => {
   
     const data = await response.json();
     res.json(data);
+    console.log(result);
+    }catch(err){
+        console.error("❌ Error calling Gemini API:", err.message);
+    }
   });
 //---------------------------------------------------------------------
 
