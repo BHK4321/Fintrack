@@ -1,5 +1,3 @@
-//----------------------------------------------------------Backend Server----------------------------------------------------------
-
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
@@ -30,41 +28,6 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(bodyParser.json());
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use(
-    new GoogleStrategy(
-        {
-            clientID: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: "https://my-backend-api-erp6.onrender.com/auth/google/callback", // Update this based on your setup
-        },
-        async (accessToken, refreshToken, profile, done) => {
-            try {
-                // Find or create the user in your database
-                let user = await User.findOne({ googleId: profile.id });
-
-                if (!user) {
-                    return;
-                }
-
-                // Generate JWT token
-                const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-                    expiresIn: "7d",
-                });
-
-                return done(null, { user, token });
-            } catch (err) {
-                return done(err, null);
-            }
-        }
-    )
-);
-
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
 
 //---------------------------------------------------------------------
 
@@ -833,6 +796,170 @@ app.delete("/api/transactions/:id", async (req, res) => {
     }
 });
 
+//---------------------------------------------------------------------
+// Define Goal Schema
+const CheckpointSchema = new mongoose.Schema({
+    id: {
+      type: String,
+      required: true
+    },
+    text: {
+      type: String,
+      required: true
+    },
+    completed: {
+      type: Boolean,
+      default: false
+    }
+  });
+  
+  const GoalSchema = new mongoose.Schema({
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    category: {
+      type: String,
+      required: true
+    },
+    amount: {
+      type: Number,
+      required: true
+    },
+    deadline: {
+      type: Date,
+      required: true
+    },
+    description: {
+      type: String,
+      trim: true
+    },
+    initialDeposit: {
+      type: Number,
+      default: 0
+    },
+    currentAmount: {
+      type: Number,
+      default: 0
+    },
+    checkpoints: [CheckpointSchema],
+    userEmail: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    created: {
+      type: Date,
+      default: Date.now
+    }
+  });
+  
+  const Goal = mongoose.model('Goal', GoalSchema);
+  
+  // API Routes for Goals
+  
+  // Get all goals for a specific user
+  app.get('/api/get-goals', async (req, res) => {
+    try {
+      const { userEmail } = req.query;
+      
+      if (!userEmail) {
+        return res.status(400).json({ message: 'User email is required' });
+      }
+      
+      const goals = await Goal.find({ userEmail });
+      res.json(goals);
+    } catch (error) {
+      console.error('Error fetching goals:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
+  
+  // Create a new goal
+  app.post('/api/save-goal', async (req, res) => {
+    try {
+      const { userEmail } = req.body;
+      
+      if (!userEmail) {
+        return res.status(400).json({ message: 'User email is required' });
+      }
+      
+      // Create new goal
+      const goal = new Goal(req.body);
+      const savedGoal = await goal.save();
+      
+      res.status(201).json(savedGoal);
+    } catch (error) {
+      console.error('Error creating goal:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
+  
+  // Update an existing goal
+  app.put('/api/update-goal', async (req, res) => {
+    try {
+      const { id } = req.body;
+      
+      if (!id) {
+        return res.status(400).json({ message: 'Goal ID is required' });
+      }
+      
+      // Find and update the goal
+      const updatedGoal = await Goal.findByIdAndUpdate(
+        id,
+        { $set: req.body },
+        { new: true, runValidators: true }
+      );
+      
+      if (!updatedGoal) {
+        return res.status(404).json({ message: 'Goal not found' });
+      }
+      
+      res.json(updatedGoal);
+    } catch (error) {
+      console.error('Error updating goal:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
+  
+  // Delete a goal
+  app.delete('/api/delete-goal/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Find and delete the goal
+      const deletedGoal = await Goal.findByIdAndDelete(id);
+      
+      if (!deletedGoal) {
+        return res.status(404).json({ message: 'Goal not found' });
+      }
+      
+      res.json({ message: 'Goal deleted successfully', id });
+    } catch (error) {
+      console.error('Error deleting goal:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
+  
+  // Get a specific goal by ID (optional, useful for future features)
+  app.get('/api/get-goal/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const goal = await Goal.findById(id);
+      
+      if (!goal) {
+        return res.status(404).json({ message: 'Goal not found' });
+      }
+      
+      res.json(goal);
+    } catch (error) {
+      console.error('Error fetching goal:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  });
+  
 //---------------------------------------------------------------------
 
 app.listen(PORT, () => console.log(`SERVER IS LIVE!!`));

@@ -42,6 +42,110 @@ document.addEventListener("DOMContentLoaded", function () {
         return diffDays > 0 ? diffDays : 0;
     }
 
+    // Function to fetch goals from the database
+    async function fetchGoalsFromDatabase() {
+        try {
+            const userEmail = localStorage.getItem("userEmail");
+            if (!userEmail) {
+                console.error("User email not found in localStorage");
+                return [];
+            }
+            
+            const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-goals?userEmail=${encodeURIComponent(userEmail)}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (!response.ok) throw new Error("Failed to fetch goals.");
+            
+            const goals = await response.json();
+            console.log("Fetched goals:", goals);
+            return goals.map(goal => {
+                // Convert any database-specific fields if needed
+                return {
+                    ...goal,
+                    id: goal._id || goal.id, // Use MongoDB _id if available
+                    amount: parseFloat(goal.amount),
+                    currentAmount: parseFloat(goal.currentAmount),
+                    initialDeposit: parseFloat(goal.initialDeposit || 0)
+                };
+            });
+        } catch (error) {
+            console.error("Error fetching goals:", error);
+            return [];
+        }
+    }
+
+    // Function to save goal to the database
+    async function saveGoalToDatabase(goal) {
+        try {
+            const userEmail = localStorage.getItem("userEmail");
+            if (!userEmail) {
+                console.error("User email not found in localStorage");
+                return false;
+            }
+            
+            // Add user email to the goal object
+            const goalWithUser = {
+                ...goal,
+                userEmail
+            };
+            
+            const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/save-goal`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(goalWithUser)
+            });
+
+            if (!response.ok) throw new Error("Failed to save goal.");
+            
+            const savedGoal = await response.json();
+            console.log("Goal saved successfully:", savedGoal);
+            return savedGoal;
+        } catch (error) {
+            console.error("Error saving goal:", error);
+            return false;
+        }
+    }
+
+    // Function to update goal in the database
+    async function updateGoalInDatabase(goal) {
+        try {
+            const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/update-goal`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(goal)
+            });
+
+            if (!response.ok) throw new Error("Failed to update goal.");
+            
+            const updatedGoal = await response.json();
+            console.log("Goal updated successfully:", updatedGoal);
+            return true;
+        } catch (error) {
+            console.error("Error updating goal:", error);
+            return false;
+        }
+    }
+
+    // Function to delete goal from the database
+    async function deleteGoalFromDatabase(goalId) {
+        try {
+            const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/delete-goal/${goalId}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (!response.ok) throw new Error("Failed to delete goal.");
+            
+            console.log("Goal deleted successfully");
+            return true;
+        } catch (error) {
+            console.error("Error deleting goal:", error);
+            return false;
+        }
+    }
+
     // Handle goal form submission
     const goalForm = document.getElementById("new-goal-form");
     goalForm.addEventListener("submit", async function (e) {
@@ -55,12 +159,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const goalDescription = document.getElementById("goal-description").value;
         const initialDeposit = document.getElementById("initial-deposit").value;
 
-        // Generate a unique ID for the goal
-        const goalId = 'goal-' + Date.now();
+        // Generate a unique ID for the goal (will be replaced by database ID)
+        const tempGoalId = 'goal-' + Date.now();
 
-        // Create and save goal
+        // Create goal object
         const goal = {
-            id: goalId,
+            id: tempGoalId, // Temporary ID, will be replaced by database ID
             name: goalName,
             category: goalCategory,
             amount: parseFloat(goalAmount),
@@ -78,7 +182,6 @@ document.addEventListener("DOMContentLoaded", function () {
         createGoalButton.textContent = "Processing...";
         createGoalButton.disabled = true;
 
-        // Get AI suggestions for checkpoints
         try {
             // Prepare the goal data for AI analysis
             const income = localStorage.getItem("monthlyincome") || "N/A";
@@ -92,7 +195,7 @@ Is this goal realistic, and what strategy would you recommend?`;
             const transactionSummary = await fetchTransactionSummary();
             const fullText = `${goalSummary}\n\n${transactionSummary}`;
 
-            // This would normally call your actual API, but for demo we'll use mock data
+            // Call AI API to get checkpoints
             const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -103,6 +206,7 @@ Is this goal realistic, and what strategy would you recommend?`;
                     }]
                 })
             });
+            
             const data = await response.json();
             let reply = null;
             if (data.content && data.content.parts && data.content.parts.length > 0) {
@@ -117,28 +221,32 @@ Is this goal realistic, and what strategy would you recommend?`;
                 console.log("Extracted checkpoints:", checkpoints);
                 goal.checkpoints = checkpoints.map((text, index) => {
                     return {
-                        id: `${goalId}-checkpoint-${index}`,
+                        id: `${tempGoalId}-checkpoint-${index}`,
                         text: text,
                         completed: index === 0 && goal.initialDeposit > 0
                     };
                 });
 
-                // Save goals to localStorage
-                const existingGoals = JSON.parse(localStorage.getItem('fintrack-goals') || '[]');
-                existingGoals.push(goal);
-                localStorage.setItem('fintrack-goals', JSON.stringify(existingGoals));
-
-                // Add goal to dashboard
-                createGoalBlock(goal);
-
-                // Hide empty state if needed
-                document.getElementById("empty-goals-state").style.display = "none";
-
-                // Reset form
-                goalForm.reset();
-
-                // Switch to dashboard tab
-                dashboardTab.click();
+                // Save goal to database
+                const savedGoal = await saveGoalToDatabase(goal);
+                if (savedGoal) {
+                    // Update goal with database ID
+                    goal.id = savedGoal._id || savedGoal.id;
+                    
+                    // Add goal to dashboard
+                    createGoalBlock(goal);
+                    
+                    // Hide empty state if needed
+                    document.getElementById("empty-goals-state").style.display = "none";
+                    
+                    // Reset form
+                    goalForm.reset();
+                    
+                    // Switch to dashboard tab
+                    dashboardTab.click();
+                } else {
+                    throw new Error("Failed to save goal to database");
+                }
             }
         } catch (error) {
             console.error("Error creating goal:", error);
@@ -202,66 +310,95 @@ Is this goal realistic, and what strategy would you recommend?`;
         // Add event listeners to checkpoint radios
         const checkpointRadios = goalBlock.querySelectorAll('input[type="radio"]');
         checkpointRadios.forEach((radio, index) => {
-            radio.addEventListener('change', function () {
-                // Update checkpoint status
-                const goals = JSON.parse(localStorage.getItem('fintrack-goals') || '[]');
-                const goalIndex = goals.findIndex(g => g.id === goal.id);
+            radio.addEventListener('change', async function () {
+                // Update checkpoint status and goal progress
+                try {
+                    // Find goal in current tracking
+                    const goals = await fetchGoalsFromDatabase();
+                    const goalToUpdate = goals.find(g => g.id === goal.id);
+                    
+                    if (goalToUpdate) {
+                        // Mark this and all previous checkpoints as completed
+                        for (let i = 0; i <= index; i++) {
+                            goalToUpdate.checkpoints[i].completed = true;
+                        }
 
-                if (goalIndex !== -1) {
-                    // Mark this and all previous checkpoints as completed
-                    for (let i = 0; i <= index; i++) {
-                        goals[goalIndex].checkpoints[i].completed = true;
+                        // Update current amount based on checkpoint
+                        if (index === 0) {
+                            // First checkpoint is creating a savings plan
+                            goalToUpdate.currentAmount = Math.max(goalToUpdate.initialDeposit, goalToUpdate.amount * 0.1);
+                        } else if (index === 1) {
+                            goalToUpdate.currentAmount = goalToUpdate.amount * 0.25;
+                        } else if (index === 2) {
+                            goalToUpdate.currentAmount = goalToUpdate.amount * 0.5;
+                        } else if (index === 3) {
+                            goalToUpdate.currentAmount = goalToUpdate.amount * 0.75;
+                        } else if (index === 4) {
+                            goalToUpdate.currentAmount = goalToUpdate.amount;
+                            // Show celebration for final goal completion
+                            showCelebration(goalToUpdate);
+                            
+                            // Delete goal after celebration
+                            setTimeout(async () => {
+                                const deleted = await deleteGoalFromDatabase(goalToUpdate.id);
+                                if (deleted) {
+                                    goalBlock.remove();
+                                    
+                                    // Check if there are any goals left
+                                    const remainingGoals = await fetchGoalsFromDatabase();
+                                    if (remainingGoals.length === 0) {
+                                        document.getElementById("empty-goals-state").style.display = "block";
+                                    }
+                                }
+                            }, 500);
+                            
+                            return; // Exit early as we're deleting this goal
+                        }
+
+                        // Update progress bar in UI
+                        const progressPercentage = (goalToUpdate.currentAmount / goalToUpdate.amount) * 100;
+                        goalBlock.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+                        goalBlock.querySelector('.progress-stats span:first-child').textContent =
+                            `₹${goalToUpdate.currentAmount.toLocaleString('en-IN')} saved`;
+                        goalBlock.querySelector('.progress-stats span:last-child').textContent =
+                            `${Math.round(progressPercentage)}% complete`;
+
+                        // Save updated goal to database
+                        await updateGoalInDatabase(goalToUpdate);
                     }
-
-                    // Update current amount based on checkpoint
-                    if (index === 0) {
-                        // First checkpoint is creating a savings plan
-                        goals[goalIndex].currentAmount = Math.max(goals[goalIndex].initialDeposit, goals[goalIndex].amount * 0.1);
-                    } else if (index === 1) {
-                        goals[goalIndex].currentAmount = goals[goalIndex].amount * 0.25;
-                    } else if (index === 2) {
-                        goals[goalIndex].currentAmount = goals[goalIndex].amount * 0.5;
-                    } else if (index === 3) {
-                        goals[goalIndex].currentAmount = goals[goalIndex].amount * 0.75;
-                    } else if (index === 4) {
-                        goals[goalIndex].currentAmount = goals[goalIndex].amount;
-                        // Show celebration for final goal completion
-                        showCelebration(goals[goalIndex]);
-                        // Remove goal after celebration
-                        setTimeout(() => {
-                            goals.splice(goalIndex, 1);
-                            localStorage.setItem('fintrack-goals', JSON.stringify(goals));
-                            goalBlock.remove();
-
-                            // Show empty state if needed
-                            if (goals.length === 0) {
-                                document.getElementById("empty-goals-state").style.display = "block";
-                            }
-                        }, 500);
-                    }
-
-                    // Update progress bar
-                    const progressPercentage = (goals[goalIndex].currentAmount / goals[goalIndex].amount) * 100;
-                    goalBlock.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
-                    goalBlock.querySelector('.progress-stats span:first-child').textContent =
-                        `₹${goals[goalIndex].currentAmount.toLocaleString('en-IN')} saved`;
-                    goalBlock.querySelector('.progress-stats span:last-child').textContent =
-                        `${Math.round(progressPercentage)}% complete`;
-
-                    // Save updated goals
-                    localStorage.setItem('fintrack-goals', JSON.stringify(goals));
+                } catch (error) {
+                    console.error("Error updating checkpoint:", error);
+                    alert("Failed to update goal progress. Please try again.");
                 }
             });
         });
     }
 
-    // Load existing goals from localStorage
-    function loadGoals() {
-        const goals = JSON.parse(localStorage.getItem('fintrack-goals') || '[]');
-
-        if (goals.length > 0) {
-            document.getElementById("empty-goals-state").style.display = "none";
-            goals.forEach(goal => createGoalBlock(goal));
+    // Load goals from database
+    async function loadGoals() {
+        const loadingIndicator = document.createElement("div");
+        loadingIndicator.id = "goals-loading";
+        loadingIndicator.textContent = "Loading your goals...";
+        loadingIndicator.style.textAlign = "center";
+        loadingIndicator.style.padding = "20px";
+        
+        const dashboardContainer = document.getElementById("goals-dashboard");
+        dashboardContainer.insertBefore(loadingIndicator, document.getElementById("empty-goals-state"));
+        
+        try {
+            const goals = await fetchGoalsFromDatabase();
+            // Remove loading indicator
+            loadingIndicator.remove();
+            
+            if (goals.length > 0) {
+                document.getElementById("empty-goals-state").style.display = "none";
+                goals.forEach(goal => createGoalBlock(goal));
+            } else {
+                document.getElementById("empty-goals-state").style.display = "block";
+            }
+        } catch (error) {
+            console.error("Failed to load goals:", error);
+            loadingIndicator.textContent = "Failed to load goals. Please refresh the page.";
         }
     }
 
@@ -288,7 +425,6 @@ Is this goal realistic, and what strategy would you recommend?`;
     // Create confetti animation
     function createConfetti() {
         const colors = ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"];
-
         for (let i = 0; i < 100; i++) {
             const confetti = document.createElement("div");
             confetti.className = "confetti";
@@ -319,7 +455,6 @@ Is this goal realistic, and what strategy would you recommend?`;
     async function fetchTransactionSummary() {
         try {
             const userEmail = localStorage.getItem("userEmail");
-            // This would normally call your actual API, but for demo we'll return mock data
             const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-transactions?userEmail=${encodeURIComponent(userEmail)}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
@@ -349,6 +484,6 @@ Is this goal realistic, and what strategy would you recommend?`;
         }
     }
 
-    // Load existing goals on page load
+    // Load goals from database on page load
     loadGoals();
 });
