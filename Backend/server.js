@@ -20,7 +20,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const { configDotenv } = require("dotenv");
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const apiKey = process.env.GEMINI_API_KEY;
 //---------------------------------------------------------------------
 
 app.use(cors());
@@ -456,6 +456,17 @@ app.post("/api/reset-password", async (req, res) => {
     }
 });
 
+// chat
+app.post('/api/chat', async (req, res) => {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body)
+    });
+  
+    const data = await response.json();
+    res.json(data);
+  });
 //---------------------------------------------------------------------
 
 // Bills and Notifications
