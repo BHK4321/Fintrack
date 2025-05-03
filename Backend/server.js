@@ -467,7 +467,7 @@ app.post('/api/chat', async (req, res) => {
   
     const data = await response.json();
     res.json(data);
-    console.log(result);
+    console.log(res);
     }catch(err){
         console.error("❌ Error calling Gemini API:", err.message);
     }
