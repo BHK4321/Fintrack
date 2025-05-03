@@ -1,3 +1,5 @@
+import { prompt } from '../components/prompt.js';
+
 document.addEventListener("DOMContentLoaded", function () {
     // Tab switching functionality
     const goalsTab = document.getElementById("goals-tab");
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Create first goal button
     const createFirstGoalBtn = document.getElementById("create-first-goal-btn");
-    createFirstGoalBtn.addEventListener("click", function() {
+    createFirstGoalBtn.addEventListener("click", function () {
         goalsTab.click();
     });
 
@@ -102,45 +104,42 @@ Is this goal realistic, and what strategy would you recommend?`;
                 })
             });
             const data = await response.json();
-            const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "[No response]";
+            let reply = null;
+            if (data.content && data.content.parts && data.content.parts.length > 0) {
+                reply = data.content.parts[0].text;
+                console.log("Generated reply:", reply);
+                const regex = /\{([^}]+)\}/g;
+                let match;
+                const checkpoints = [];
+                while ((match = regex.exec(reply)) !== null) {
+                    checkpoints.push(match[1].trim());
+                }
+                console.log("Extracted checkpoints:", checkpoints);
+                goal.checkpoints = checkpoints.map((text, index) => {
+                    return {
+                        id: `${goalId}-checkpoint-${index}`,
+                        text: text,
+                        completed: index === 0 && goal.initialDeposit > 0
+                    };
+                });
 
-            // Mock AI response with checkpoints
-            const regex = /\{(\d+\.\s*[^}]+)\}/g;
-            let match;
-            const checkpoints = [];
-            
-            // Loop through all matches and add to the checkpoints array
-            while ((match = regex.exec(reply)) !== null) {
-              // Remove the curly braces and push the checkpoint text
-              checkpoints.push(match[1].trim()); 
+                // Save goals to localStorage
+                const existingGoals = JSON.parse(localStorage.getItem('fintrack-goals') || '[]');
+                existingGoals.push(goal);
+                localStorage.setItem('fintrack-goals', JSON.stringify(existingGoals));
+
+                // Add goal to dashboard
+                createGoalBlock(goal);
+
+                // Hide empty state if needed
+                document.getElementById("empty-goals-state").style.display = "none";
+
+                // Reset form
+                goalForm.reset();
+
+                // Switch to dashboard tab
+                dashboardTab.click();
             }
-
-            // Add checkpoints to the goal
-            goal.checkpoints = checkpoints.map((text, index) => {
-                return {
-                    id: `${goalId}-checkpoint-${index}`,
-                    text: text,
-                    completed: index === 0 && goal.initialDeposit > 0
-                };
-            });
-
-            // Save goals to localStorage
-            const existingGoals = JSON.parse(localStorage.getItem('fintrack-goals') || '[]');
-            existingGoals.push(goal);
-            localStorage.setItem('fintrack-goals', JSON.stringify(existingGoals));
-
-            // Add goal to dashboard
-            createGoalBlock(goal);
-
-            // Hide empty state if needed
-            document.getElementById("empty-goals-state").style.display = "none";
-
-            // Reset form
-            goalForm.reset();
-
-            // Switch to dashboard tab
-            dashboardTab.click();
-
         } catch (error) {
             console.error("Error creating goal:", error);
             alert("There was an error creating your goal. Please try again.");
@@ -203,11 +202,11 @@ Is this goal realistic, and what strategy would you recommend?`;
         // Add event listeners to checkpoint radios
         const checkpointRadios = goalBlock.querySelectorAll('input[type="radio"]');
         checkpointRadios.forEach((radio, index) => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 // Update checkpoint status
                 const goals = JSON.parse(localStorage.getItem('fintrack-goals') || '[]');
                 const goalIndex = goals.findIndex(g => g.id === goal.id);
-                
+
                 if (goalIndex !== -1) {
                     // Mark this and all previous checkpoints as completed
                     for (let i = 0; i <= index; i++) {
@@ -233,7 +232,7 @@ Is this goal realistic, and what strategy would you recommend?`;
                             goals.splice(goalIndex, 1);
                             localStorage.setItem('fintrack-goals', JSON.stringify(goals));
                             goalBlock.remove();
-                            
+
                             // Show empty state if needed
                             if (goals.length === 0) {
                                 document.getElementById("empty-goals-state").style.display = "block";
@@ -244,9 +243,9 @@ Is this goal realistic, and what strategy would you recommend?`;
                     // Update progress bar
                     const progressPercentage = (goals[goalIndex].currentAmount / goals[goalIndex].amount) * 100;
                     goalBlock.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
-                    goalBlock.querySelector('.progress-stats span:first-child').textContent = 
+                    goalBlock.querySelector('.progress-stats span:first-child').textContent =
                         `₹${goals[goalIndex].currentAmount.toLocaleString('en-IN')} saved`;
-                    goalBlock.querySelector('.progress-stats span:last-child').textContent = 
+                    goalBlock.querySelector('.progress-stats span:last-child').textContent =
                         `${Math.round(progressPercentage)}% complete`;
 
                     // Save updated goals
@@ -259,7 +258,7 @@ Is this goal realistic, and what strategy would you recommend?`;
     // Load existing goals from localStorage
     function loadGoals() {
         const goals = JSON.parse(localStorage.getItem('fintrack-goals') || '[]');
-        
+
         if (goals.length > 0) {
             document.getElementById("empty-goals-state").style.display = "none";
             goals.forEach(goal => createGoalBlock(goal));
@@ -270,16 +269,16 @@ Is this goal realistic, and what strategy would you recommend?`;
     function showCelebration(goal) {
         const celebrationModal = document.getElementById("celebration-modal");
         celebrationModal.querySelector("h2").textContent = `Congratulations! 🎉`;
-        celebrationModal.querySelector("p").textContent = 
+        celebrationModal.querySelector("p").textContent =
             `You've successfully completed your "${goal.name}" goal of ₹${goal.amount.toLocaleString('en-IN')}! Keep up the great work!`;
-        
+
         celebrationModal.style.display = "flex";
-        
+
         // Create confetti effect
         createConfetti();
-        
+
         // Close button
-        document.getElementById("close-celebration").addEventListener("click", function() {
+        document.getElementById("close-celebration").addEventListener("click", function () {
             celebrationModal.style.display = "none";
             // Remove all confetti elements
             document.querySelectorAll('.confetti').forEach(el => el.remove());
@@ -289,7 +288,7 @@ Is this goal realistic, and what strategy would you recommend?`;
     // Create confetti animation
     function createConfetti() {
         const colors = ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"];
-        
+
         for (let i = 0; i < 100; i++) {
             const confetti = document.createElement("div");
             confetti.className = "confetti";
@@ -297,7 +296,7 @@ Is this goal realistic, and what strategy would you recommend?`;
             confetti.style.left = Math.random() * 100 + "vw";
             confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
             confetti.style.opacity = "1";
-            
+
             // Animate fall
             confetti.animate([
                 { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
@@ -306,9 +305,9 @@ Is this goal realistic, and what strategy would you recommend?`;
                 duration: Math.random() * 3000 + 2000,
                 easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
             });
-            
+
             document.body.appendChild(confetti);
-            
+
             // Remove confetti after animation
             setTimeout(() => {
                 confetti.remove();
@@ -322,7 +321,7 @@ Is this goal realistic, and what strategy would you recommend?`;
             const userEmail = localStorage.getItem("userEmail");
             // This would normally call your actual API, but for demo we'll return mock data
             const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-transactions?userEmail=${encodeURIComponent(userEmail)}`, {
-                method: "GET", 
+                method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
 
@@ -340,12 +339,10 @@ Is this goal realistic, and what strategy would you recommend?`;
                     transactionList += `📌 ${transaction.date.split("T")[0]} - ${transaction.category}: ₹${transaction.amount}\n\n`;
                 }
             });
-            
-            return `Here's my transaction history for this month:\nTotal Spent: ₹${totalAmount}\n\n${transactionList || "I didn't do any transactions this month till now."}\n\n
-            ${`Please answer in checkpoints where each checkpoint is enclosed within curly braces: "{}".
-            Start with the checkpoints only nothing else.
-            Only give checkpoints with the format described and nothing else.
-            `}`;
+
+            return `Here's my transaction history for this month:\nTotal Spent: ₹${totalAmount}\n\n
+            ${transactionList || "I didn't do any transactions this month till now."}\n\n
+            ${prompt}`;
         } catch (error) {
             console.error("Error fetching transaction summary:", error);
             return "Transaction data is unavailable at the moment.";

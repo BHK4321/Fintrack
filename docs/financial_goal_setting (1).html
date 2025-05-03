@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTrack - Financial Goal Setting</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="hamburgr.css">
-    <link rel="stylesheet" href="goal.css">
+    <link rel="stylesheet" href="../src/styles/hamburgr.css">
+    <link rel="stylesheet" href="../src/styles/goal.css">
 </head>
 
 <body>
@@ -18,7 +18,6 @@
             <div class="bar"></div>
             <div class="bar"></div>
         </div>
-
         <div class="sidebar-overlay"></div>
 
         <div class="sidebar">
@@ -38,9 +37,7 @@
                 <a href="#" id="logout-btn" style="display: none;" class="nav-link" onclick="logout()">Log Out</a>
             </div>
         </div>
-
-        <script src="hmg.js"></script>
-
+        <script src="../src/scripts/hmg.js"></script>
         <div class="logo">FinTrack</div>
         <div class="nav-links">
             <a href="index.html" class="nav-link">Home</a>
@@ -55,12 +52,11 @@
     </section>
 
     <div class="main-content">
-        <div class="content-column">
+        <div class="content-column full-width">
             <div class="tab-buttons">
                 <button id="goals-tab" class="tab-button active">Goals</button>
                 <button id="dashboard-tab" class="tab-button">Dashboard</button>
             </div>
-
             <!-- Goals Section -->
             <div id="goals-section" class="goals-container">
                 <h2>Create a New Financial Goal</h2>
@@ -104,16 +100,13 @@
                         <textarea id="goal-description" rows="3"
                             placeholder="Add details about your goal..."></textarea>
                     </div>
-
                     <div class="form-group">
                         <label for="initial-deposit">Initial Deposit (₹)</label>
                         <input type="number" id="initial-deposit" min="0" placeholder="0" required>
                     </div>
-
                     <button type="submit" class="btn btn-primary">Create Goal</button>
                 </form>
             </div>
-
             <!-- Dashboard Section -->
             <div id="dashboard-section">
                 <h2>Your Financial Goals</h2>
@@ -126,7 +119,6 @@
                     </div>
                 </div>
             </div>
-
             <section class="tips-section">
                 <h2>Tips for Successful Goal Setting</h2>
                 <ul class="tips-list">
@@ -142,8 +134,7 @@
                 </ul>
             </section>
         </div>
-
-        <!-- Chatbot column -->
+        <!-- Chatbot column
         <div class="bot-column">
             <div class="bot-container">
                 <div class="bot-header">
@@ -154,7 +145,7 @@
                         frameborder="0" id="chatbot-iframe"></iframe>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Celebration Modal (Hidden by default) -->
@@ -163,60 +154,60 @@
         <p>You've successfully completed your financial goal! Keep up the great work!</p>
         <button id="close-celebration">Continue</button>
     </div>
-    <script src = "goal.js"></script>
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-column">
-            <h4>Product</h4>
-            <ul>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Mobile App</a></li>
-                <li><a href="#">Browser Extension</a></li>
-                <li><a href="#">Roadmap</a></li>
-            </ul>
-        </div>
+    <script type="module" src="../src/scripts/goal.js"></script>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Mobile App</a></li>
+                    <li><a href="#">Browser Extension</a></li>
+                    <li><a href="#">Roadmap</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-column">
-            <h4>Company</h4>
-            <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Press Kit</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-column">
-            <h4>Resources</h4>
-            <ul>
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Community</a></li>
-                <li><a href="#">Financial Guides</a></li>
-                <li><a href="#">API Documentation</a></li>
-                <li><a href="#">Security</a></li>
-            </ul>
-        </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Financial Guides</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-column">
-            <h4>Connect With Us</h4>
-            <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
-            <div class="social-icons">
-                <a href="#" class="social-icon">X</a>
-                <a href="#" class="social-icon">F</a>
-                <a href="#" class="social-icon">I</a>
-                <a href="#" class="social-icon">L</a>
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <p>Subscribe to our newsletter for tips, updates, and financial wisdom.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">X</a>
+                    <a href="#" class="social-icon">F</a>
+                    <a href="#" class="social-icon">I</a>
+                    <a href="#" class="social-icon">L</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="footer-bottom">
-        <p>© 2025 FinTrack. All rights reserved.</p>
-        <p style="margin-top: 8px;">
-            <a href="#" style="margin-right: 16px;">Privacy Policy</a>
-            <a href="#" style="margin-right: 16px;">Terms of Service</a>
-            <a href="#">Cookie Settings</a>
-        </p>
-    </div>
-</footer>
+        <div class="footer-bottom">
+            <p>© 2025 FinTrack. All rights reserved.</p>
+            <p style="margin-top: 8px;">
+                <a href="#" style="margin-right: 16px;">Privacy Policy</a>
+                <a href="#" style="margin-right: 16px;">Terms of Service</a>
+                <a href="#">Cookie Settings</a>
+            </p>
+        </div>
+    </footer>
