@@ -458,20 +458,33 @@ app.post("/api/reset-password", async (req, res) => {
 
 // chat
 app.post('/api/chat', async (req, res) => {
-    try{
+    try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(req.body)
-    });
-  
-    const data = await response.json();
-    console.log(data);
-    res.json(data);
-    }catch(err){
-        console.error("❌ Error calling Gemini API:", err.message);
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req.body)
+        });
+
+        // Check if the response is OK (status code 200)
+        if (!response.ok) {
+            throw new Error(`Failed to fetch from Gemini API. Status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.candidates && data.candidates.length > 0) {
+            const content = data.candidates[0].content;
+            console.log("Content from Gemini API:", content);
+            res.json({ content: content });
+        } else {
+            // No candidates or no content found
+            res.status(400).json({ error: 'No candidates or content found in Gemini API response' });
+        }
+    } catch (err) {
+        // Log the error and send a proper response
+        console.error("Error calling Gemini API:", err.message);
+        res.status(500).json({ error: `Error calling Gemini API: ${err.message}` });
     }
-  });
+});
+
 //---------------------------------------------------------------------
 
 // Bills and Notifications
