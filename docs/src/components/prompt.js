@@ -7,6 +7,7 @@ export const prompt = `Please answer in checkpoints where each checkpoint is enc
             You don't have to give suggestions, you have to give complete step-wise procedure to reach the goal.
             Give practical Steps for me to acheive the goal amount by the date mentioned.
             CURRENT DATE : ${today}.
+            You can also say it is "NOT ACHEIVABLE".
             Here are some sources:
             https://www.investopedia.com/
             https://finance.yahoo.com/
