@@ -3,12 +3,12 @@
 
 <head>
 
-    <script src="bot.js"></script>
+    <script src="src/scripts/bot.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTrack - Sign In</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="vvvg.css">
+    <link rel="stylesheet" href="src/styles/vvvg.css">
     <script>
         tailwind.config = {
             theme: {
@@ -28,11 +28,11 @@
         }
     </script>
 
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="hamburgr.css">
+    <link rel="icon" type="image/x-icon" href="public/favicon.ico">
+    <link rel="stylesheet" href="src/styles/hamburgr.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="google.js"></script>
-    <script src="signedin.js"></script>
+    <script src="src/scripts/google.js"></script>
+    <script src="src/scripts/signedin.js"></script>
     <style>
         .sidebar {
             height: 100vh;
@@ -61,7 +61,7 @@
         <div class="sidebar">
             <div class="sidebar-header">
                 <a href="profile.html" class="profile-link">
-                    <img src="pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg"
+                    <img src="public/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_5247852.jpg"
                         alt="Profile" class="profile-icon">
                 </a>
                 <div class="close-btn">&times;</div>
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <script src="hmg.js"></script>
+        <script src="src/scripts/hmg.js"></script>
 
         <div class="logo">FinTrack</div>
         <div class="nav-links">
@@ -151,7 +151,7 @@
             <div class="flex justify-center gap-4 mt-4">
                 <button onclick="googleSignIn()"
                     class="flex items-center justify-center w-12 h-12 rounded-lg border border-gray-500 transition duration-300 hover:bg-gray-200 hover:-translate-y-0.5">
-                    <img src="images.jpeg" alt="Google Sign-In" class="w-8 h-8">
+                    <img src="public/images.jpeg" alt="Google Sign-In" class="w-8 h-8">
                 </button>
             </div>
         </div>
