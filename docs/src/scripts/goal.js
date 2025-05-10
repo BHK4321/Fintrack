@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const goalsSection = document.getElementById("goals-section");
     const dashboardSection = document.getElementById("dashboard-section");
 
+    // Initially hide dashboard section
+    dashboardSection.style.display = "none";
+
     goalsTab.addEventListener("click", function () {
         goalsTab.classList.add("active");
         dashboardTab.classList.remove("active");
@@ -23,9 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Create first goal button
     const createFirstGoalBtn = document.getElementById("create-first-goal-btn");
-    createFirstGoalBtn.addEventListener("click", function () {
-        goalsTab.click();
-    });
+    if (createFirstGoalBtn) {
+        createFirstGoalBtn.addEventListener("click", function () {
+            goalsTab.click();
+        });
+    }
 
     // Helper function to format date
     function formatDate(dateString) {
@@ -148,115 +153,120 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Handle goal form submission
     const goalForm = document.getElementById("new-goal-form");
-    goalForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
+    if (goalForm) {
+        goalForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
 
-        // Get form values
-        const goalName = document.getElementById("goal-name").value;
-        const goalCategory = document.getElementById("goal-category").value;
-        const goalAmount = document.getElementById("goal-amount").value;
-        const goalDeadline = document.getElementById("goal-deadline").value;
-        const goalDescription = document.getElementById("goal-description").value;
-        const initialDeposit = document.getElementById("initial-deposit").value;
+            // Get form values
+            const goalName = document.getElementById("goal-name").value;
+            const goalCategory = document.getElementById("goal-category").value;
+            const goalAmount = document.getElementById("goal-amount").value;
+            const goalDeadline = document.getElementById("goal-deadline").value;
+            const goalDescription = document.getElementById("goal-description").value;
+            const initialDeposit = document.getElementById("initial-deposit").value;
 
-        // Generate a unique ID for the goal (will be replaced by database ID)
-        const tempGoalId = 'goal-' + Date.now();
+            // Generate a unique ID for the goal (will be replaced by database ID)
+            const tempGoalId = 'goal-' + Date.now();
 
-        // Create goal object
-        const goal = {
-            id: tempGoalId, // Temporary ID, will be replaced by database ID
-            name: goalName,
-            category: goalCategory,
-            amount: parseFloat(goalAmount),
-            deadline: goalDeadline,
-            description: goalDescription,
-            initialDeposit: parseFloat(initialDeposit) || 0,
-            currentAmount: parseFloat(initialDeposit) || 0,
-            checkpoints: [], // Will be populated by the AI response
-            created: new Date().toISOString()
-        };
+            // Create goal object
+            const goal = {
+                id: tempGoalId, // Temporary ID, will be replaced by database ID
+                name: goalName,
+                category: goalCategory,
+                amount: parseFloat(goalAmount),
+                deadline: goalDeadline,
+                description: goalDescription,
+                initialDeposit: parseFloat(initialDeposit) || 0,
+                currentAmount: parseFloat(initialDeposit) || 0,
+                checkpoints: [], // Will be populated by the AI response
+                created: new Date().toISOString()
+            };
 
-        // Show loading state
-        const createGoalButton = goalForm.querySelector('button[type="submit"]');
-        const originalButtonText = createGoalButton.textContent;
-        createGoalButton.textContent = "Processing...";
-        createGoalButton.disabled = true;
+            // Show loading state
+            const createGoalButton = goalForm.querySelector('button[type="submit"]');
+            const originalButtonText = createGoalButton.textContent;
+            createGoalButton.textContent = "Processing...";
+            createGoalButton.disabled = true;
 
-        try {
-            // Prepare the goal data for AI analysis
-            const income = localStorage.getItem("monthlyincome") || "N/A";
-            const goalSummary = `I want to save for ${goalName} with a target amount of ₹${goalAmount}. 
+            try {
+                // Prepare the goal data for AI analysis
+                const income = localStorage.getItem("monthlyincome") || "N/A";
+                const goalSummary = `I want to save for ${goalName} with a target amount of ₹${goalAmount}. 
 My current Monthly income is : ${income}.
 I'd like to reach this goal by ${goalDeadline}. 
 My initial savings deposit is ₹${initialDeposit}. 
 Is this goal realistic, and what strategy would you recommend?`;
 
-            // Get transaction summary if available
-            const transactionSummary = await fetchTransactionSummary();
-            const fullText = `${goalSummary}\n\n${transactionSummary}`;
+                // Get transaction summary if available
+                const transactionSummary = await fetchTransactionSummary();
+                const fullText = `${goalSummary}\n\n${transactionSummary}`;
 
-            // Call AI API to get checkpoints
-            const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/chat`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{
-                        role: 'user',
-                        parts: [{ text: fullText }]
-                    }]
-                })
-            });
-            
-            const data = await response.json();
-            let reply = null;
-            if (data.content && data.content.parts && data.content.parts.length > 0) {
-                reply = data.content.parts[0].text;
-                console.log("Generated reply:", reply);
-                const regex = /\{([^}]+)\}/g;
-                let match;
-                const checkpoints = [];
-                while ((match = regex.exec(reply)) !== null) {
-                    checkpoints.push(match[1].trim());
-                }
-                console.log("Extracted checkpoints:", checkpoints);
-                goal.checkpoints = checkpoints.map((text, index) => {
-                    return {
-                        id: `${tempGoalId}-checkpoint-${index}`,
-                        text: text,
-                        completed: index === 0 && goal.initialDeposit > 0
-                    };
+                // Call AI API to get checkpoints
+                const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            role: 'user',
+                            parts: [{ text: fullText }]
+                        }]
+                    })
                 });
+                
+                const data = await response.json();
+                let reply = null;
+                if (data.content && data.content.parts && data.content.parts.length > 0) {
+                    reply = data.content.parts[0].text;
+                    console.log("Generated reply:", reply);
+                    const regex = /\{([^}]+)\}/g;
+                    let match;
+                    const checkpoints = [];
+                    while ((match = regex.exec(reply)) !== null) {
+                        checkpoints.push(match[1].trim());
+                    }
+                    console.log("Extracted checkpoints:", checkpoints);
+                    goal.checkpoints = checkpoints.map((text, index) => {
+                        return {
+                            id: `${tempGoalId}-checkpoint-${index}`,
+                            text: text,
+                            completed: index === 0 && goal.initialDeposit > 0
+                        };
+                    });
 
-                // Save goal to database
-                const savedGoal = await saveGoalToDatabase(goal);
-                if (savedGoal) {
-                    // Update goal with database ID
-                    goal.id = savedGoal._id || savedGoal.id;
-                    
-                    // Add goal to dashboard
-                    createGoalBlock(goal);
-                    
-                    // Hide empty state if needed
-                    document.getElementById("empty-goals-state").style.display = "none";
-                    
-                    // Reset form
-                    goalForm.reset();
-                    
-                    // Switch to dashboard tab
-                    dashboardTab.click();
-                } else {
-                    throw new Error("Failed to save goal to database");
+                    // Save goal to database
+                    const savedGoal = await saveGoalToDatabase(goal);
+                    if (savedGoal) {
+                        // Update goal with database ID
+                        goal.id = savedGoal._id || savedGoal.id;
+                        
+                        // Add goal to dashboard
+                        createGoalBlock(goal);
+                        
+                        // Hide empty state if needed
+                        const emptyState = document.getElementById("empty-goals-state");
+                        if (emptyState) {
+                            emptyState.style.display = "none";
+                        }
+                        
+                        // Reset form
+                        goalForm.reset();
+                        
+                        // Switch to dashboard tab
+                        dashboardTab.click();
+                    } else {
+                        throw new Error("Failed to save goal to database");
+                    }
                 }
+            } catch (error) {
+                console.error("Error creating goal:", error);
+                alert("There was an error creating your goal. Please try again.");
+            } finally {
+                // Restore button state
+                createGoalButton.textContent = originalButtonText;
+                createGoalButton.disabled = false;
             }
-        } catch (error) {
-            console.error("Error creating goal:", error);
-            alert("There was an error creating your goal. Please try again.");
-        } finally {
-            // Restore button state
-            createGoalButton.textContent = originalButtonText;
-            createGoalButton.disabled = false;
-        }
-    });
+        });
+    }
 
     // Function to create a goal block and add it to the dashboard
     function createGoalBlock(goal) {
@@ -268,7 +278,7 @@ Is this goal realistic, and what strategy would you recommend?`;
         const progressPercentage = (goal.currentAmount / goal.amount) * 100;
         const remainingDays = getRemainingDays(goal.deadline);
 
-        // Create HTML for the goal block
+        // Create HTML for the goal block - updated for vertical full-width layout
         goalBlock.innerHTML = `
             <div class="goal-header">
                 <h3 class="goal-title">${goal.name}</h3>
@@ -301,11 +311,23 @@ Is this goal realistic, and what strategy would you recommend?`;
                     `).join('')}
                 </div>
             </div>
+            <div class="goal-actions">
+                <button class="add-funds-btn" data-id="${goal.id}">Add Funds</button>
+                <button class="edit-goal-btn" data-id="${goal.id}">Edit</button>
+                <button class="delete-goal-btn" data-id="${goal.id}">Delete</button>
+            </div>
         `;
 
         // Add to dashboard
         const dashboardContainer = document.getElementById("goals-dashboard");
-        dashboardContainer.insertBefore(goalBlock, document.getElementById("empty-goals-state"));
+        const emptyState = document.getElementById("empty-goals-state");
+        if (dashboardContainer) {
+            if (emptyState) {
+                dashboardContainer.insertBefore(goalBlock, emptyState);
+            } else {
+                dashboardContainer.appendChild(goalBlock);
+            }
+        }
 
         // Add event listeners to checkpoint radios
         const checkpointRadios = goalBlock.querySelectorAll('input[type="radio"]');
@@ -347,7 +369,10 @@ Is this goal realistic, and what strategy would you recommend?`;
                                     // Check if there are any goals left
                                     const remainingGoals = await fetchGoalsFromDatabase();
                                     if (remainingGoals.length === 0) {
-                                        document.getElementById("empty-goals-state").style.display = "block";
+                                        const emptyState = document.getElementById("empty-goals-state");
+                                        if (emptyState) {
+                                            emptyState.style.display = "block";
+                                        }
                                     }
                                 }
                             }, 500);
@@ -372,29 +397,122 @@ Is this goal realistic, and what strategy would you recommend?`;
                 }
             });
         });
+
+        // Add event listeners for action buttons
+        const addFundsBtn = goalBlock.querySelector('.add-funds-btn');
+        if (addFundsBtn) {
+            addFundsBtn.addEventListener('click', async function() {
+                const amount = prompt('Enter amount to add:');
+                if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
+                    try {
+                        // Get the latest goal data
+                        const goals = await fetchGoalsFromDatabase();
+                        const goalToUpdate = goals.find(g => g.id === goal.id);
+                        
+                        if (goalToUpdate) {
+                            const newAmount = parseFloat(amount);
+                            goalToUpdate.currentAmount += newAmount;
+                            
+                            // Update progress bar in UI
+                            const progressPercentage = (goalToUpdate.currentAmount / goalToUpdate.amount) * 100;
+                            goalBlock.querySelector('.progress-fill').style.width = `${progressPercentage}%`;
+                            goalBlock.querySelector('.progress-stats span:first-child').textContent =
+                                `₹${goalToUpdate.currentAmount.toLocaleString('en-IN')} saved`;
+                            goalBlock.querySelector('.progress-stats span:last-child').textContent =
+                                `${Math.round(progressPercentage)}% complete`;
+                            
+                            // Check if goal is completed
+                            if (goalToUpdate.currentAmount >= goalToUpdate.amount) {
+                                goalToUpdate.currentAmount = goalToUpdate.amount; // Cap at target amount
+                                showCelebration(goalToUpdate);
+                                
+                                setTimeout(async () => {
+                                    const deleted = await deleteGoalFromDatabase(goalToUpdate.id);
+                                    if (deleted) {
+                                        goalBlock.remove();
+                                        
+                                        // Check if there are any goals left
+                                        const remainingGoals = await fetchGoalsFromDatabase();
+                                        if (remainingGoals.length === 0) {
+                                            const emptyState = document.getElementById("empty-goals-state");
+                                            if (emptyState) {
+                                                emptyState.style.display = "block";
+                                            }
+                                        }
+                                    }
+                                }, 500);
+                                
+                                return; // Exit early as we're deleting this goal
+                            }
+                            
+                            // Save updated goal to database
+                            await updateGoalInDatabase(goalToUpdate);
+                        }
+                    } catch (error) {
+                        console.error("Error adding funds:", error);
+                        alert("Failed to add funds. Please try again.");
+                    }
+                }
+            });
+        }
+
+        // Add delete button functionality
+        const deleteBtn = goalBlock.querySelector('.delete-goal-btn');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', async function() {
+                if (confirm('Are you sure you want to delete this goal?')) {
+                    try {
+                        const deleted = await deleteGoalFromDatabase(goal.id);
+                        if (deleted) {
+                            goalBlock.remove();
+                            
+                            // Check if there are any goals left
+                            const remainingGoals = await fetchGoalsFromDatabase();
+                            if (remainingGoals.length === 0) {
+                                const emptyState = document.getElementById("empty-goals-state");
+                                if (emptyState) {
+                                    emptyState.style.display = "block"; 
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error deleting goal:", error);
+                        alert("Failed to delete goal. Please try again.");
+                    }
+                }
+            });
+        }
     }
 
     // Load goals from database
     async function loadGoals() {
+        const dashboardContainer = document.getElementById("goals-dashboard");
+        const emptyState = document.getElementById("empty-goals-state");
+        
+        if (!dashboardContainer) return;
+        
         const loadingIndicator = document.createElement("div");
         loadingIndicator.id = "goals-loading";
         loadingIndicator.textContent = "Loading your goals...";
         loadingIndicator.style.textAlign = "center";
         loadingIndicator.style.padding = "20px";
         
-        const dashboardContainer = document.getElementById("goals-dashboard");
-        dashboardContainer.insertBefore(loadingIndicator, document.getElementById("empty-goals-state"));
+        if (emptyState) {
+            dashboardContainer.insertBefore(loadingIndicator, emptyState);
+        } else {
+            dashboardContainer.appendChild(loadingIndicator);
+        }
         
         try {
             const goals = await fetchGoalsFromDatabase();
             // Remove loading indicator
             loadingIndicator.remove();
             
-            if (goals.length > 0) {
-                document.getElementById("empty-goals-state").style.display = "none";
+            if (goals.length > 0 && emptyState) {
+                emptyState.style.display = "none";
                 goals.forEach(goal => createGoalBlock(goal));
-            } else {
-                document.getElementById("empty-goals-state").style.display = "block";
+            } else if (emptyState) {
+                emptyState.style.display = "block";
             }
         } catch (error) {
             console.error("Failed to load goals:", error);
@@ -405,6 +523,8 @@ Is this goal realistic, and what strategy would you recommend?`;
     // Show celebration when a goal is completed
     function showCelebration(goal) {
         const celebrationModal = document.getElementById("celebration-modal");
+        if (!celebrationModal) return;
+        
         celebrationModal.querySelector("h2").textContent = `Congratulations! 🎉`;
         celebrationModal.querySelector("p").textContent =
             `You've successfully completed your "${goal.name}" goal of ₹${goal.amount.toLocaleString('en-IN')}! Keep up the great work!`;
@@ -415,11 +535,14 @@ Is this goal realistic, and what strategy would you recommend?`;
         createConfetti();
 
         // Close button
-        document.getElementById("close-celebration").addEventListener("click", function () {
-            celebrationModal.style.display = "none";
-            // Remove all confetti elements
-            document.querySelectorAll('.confetti').forEach(el => el.remove());
-        }, { once: true });
+        const closeBtn = document.getElementById("close-celebration");
+        if (closeBtn) {
+            closeBtn.addEventListener("click", function () {
+                celebrationModal.style.display = "none";
+                // Remove all confetti elements
+                document.querySelectorAll('.confetti').forEach(el => el.remove());
+            }, { once: true });
+        }
     }
 
     // Create confetti animation
@@ -455,6 +578,8 @@ Is this goal realistic, and what strategy would you recommend?`;
     async function fetchTransactionSummary() {
         try {
             const userEmail = localStorage.getItem("userEmail");
+            if (!userEmail) return "Transaction data is unavailable at the moment.";
+            
             const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-transactions?userEmail=${encodeURIComponent(userEmail)}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
