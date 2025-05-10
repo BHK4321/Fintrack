@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
 My current Monthly income is : ${income}.
 I'd like to reach this goal by ${goalDeadline}. 
 My initial savings deposit is ₹${initialDeposit}. 
+And this is the description ${goalDescription}.
 Is this goal realistic, and what strategy would you recommend?`;
 
             // Get transaction summary if available
@@ -215,6 +216,7 @@ Is this goal realistic, and what strategy would you recommend?`;
                 const regex = /\{([^}]+)\}/g;
                 let match;
                 const checkpoints = [];
+                checkpoints.push("Start");
                 while ((match = regex.exec(reply)) !== null) {
                     checkpoints.push(match[1].trim());
                 }
