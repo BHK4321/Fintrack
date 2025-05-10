@@ -50,14 +50,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("User email not found in localStorage");
                 return [];
             }
-            
+
             const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/get-goals?userEmail=${encodeURIComponent(userEmail)}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
 
             if (!response.ok) throw new Error("Failed to fetch goals.");
-            
+
             const goals = await response.json();
             console.log("Fetched goals:", goals);
             return goals.map(goal => {
@@ -84,13 +84,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("User email not found in localStorage");
                 return false;
             }
-            
+
             // Add user email to the goal object
             const goalWithUser = {
                 ...goal,
                 userEmail
             };
-            
+
             const response = await fetch(`https://my-backend-api-erp6.onrender.com/api/save-goal`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (!response.ok) throw new Error("Failed to save goal.");
-            
+
             const savedGoal = await response.json();
             console.log("Goal saved successfully:", savedGoal);
             return savedGoal;
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (!response.ok) throw new Error("Failed to update goal.");
-            
+
             const updatedGoal = await response.json();
             console.log("Goal updated successfully:", updatedGoal);
             return true;
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (!response.ok) throw new Error("Failed to delete goal.");
-            
+
             console.log("Goal deleted successfully");
             return true;
         } catch (error) {
@@ -206,7 +206,7 @@ Is this goal realistic, and what strategy would you recommend?`;
                     }]
                 })
             });
-            
+
             const data = await response.json();
             let reply = null;
             if (data.content && data.content.parts && data.content.parts.length > 0) {
@@ -232,16 +232,16 @@ Is this goal realistic, and what strategy would you recommend?`;
                 if (savedGoal) {
                     // Update goal with database ID
                     goal.id = savedGoal._id || savedGoal.id;
-                    
+
                     // Add goal to dashboard
                     createGoalBlock(goal);
-                    
+
                     // Hide empty state if needed
                     document.getElementById("empty-goals-state").style.display = "none";
-                    
+
                     // Reset form
                     goalForm.reset();
-                    
+
                     // Switch to dashboard tab
                     dashboardTab.click();
                 } else {
@@ -316,34 +316,24 @@ Is this goal realistic, and what strategy would you recommend?`;
                     // Find goal in current tracking
                     const goals = await fetchGoalsFromDatabase();
                     const goalToUpdate = goals.find(g => g.id === goal.id);
-                    
+
                     if (goalToUpdate) {
                         // Mark this and all previous checkpoints as completed
                         for (let i = 0; i <= index; i++) {
                             goalToUpdate.checkpoints[i].completed = true;
                         }
-
-                        // Update current amount based on checkpoint
-                        if (index === 0) {
-                            // First checkpoint is creating a savings plan
-                            goalToUpdate.currentAmount = Math.max(goalToUpdate.initialDeposit, goalToUpdate.amount * 0.1);
-                        } else if (index === 1) {
-                            goalToUpdate.currentAmount = goalToUpdate.amount * 0.25;
-                        } else if (index === 2) {
-                            goalToUpdate.currentAmount = goalToUpdate.amount * 0.5;
-                        } else if (index === 3) {
-                            goalToUpdate.currentAmount = goalToUpdate.amount * 0.75;
-                        } else if (index === 4) {
+                        goalToUpdate.currentAmount = goalToUpdate.initialDeposit + (goalToUpdate.amount - goalToUpdate.initialDeposit) * ((index + 1) / goalToUpdate.checkpoints.length);
+                        if (index + 1 === goalToUpdate.checkpoints.length) {
                             goalToUpdate.currentAmount = goalToUpdate.amount;
                             // Show celebration for final goal completion
                             showCelebration(goalToUpdate);
-                            
+
                             // Delete goal after celebration
                             setTimeout(async () => {
                                 const deleted = await deleteGoalFromDatabase(goalToUpdate.id);
                                 if (deleted) {
                                     goalBlock.remove();
-                                    
+
                                     // Check if there are any goals left
                                     const remainingGoals = await fetchGoalsFromDatabase();
                                     if (remainingGoals.length === 0) {
@@ -351,7 +341,7 @@ Is this goal realistic, and what strategy would you recommend?`;
                                     }
                                 }
                             }, 500);
-                            
+
                             return; // Exit early as we're deleting this goal
                         }
 
@@ -381,15 +371,15 @@ Is this goal realistic, and what strategy would you recommend?`;
         loadingIndicator.textContent = "Loading your goals...";
         loadingIndicator.style.textAlign = "center";
         loadingIndicator.style.padding = "20px";
-        
+
         const dashboardContainer = document.getElementById("goals-dashboard");
         dashboardContainer.insertBefore(loadingIndicator, document.getElementById("empty-goals-state"));
-        
+
         try {
             const goals = await fetchGoalsFromDatabase();
             // Remove loading indicator
             loadingIndicator.remove();
-            
+
             if (goals.length > 0) {
                 document.getElementById("empty-goals-state").style.display = "none";
                 goals.forEach(goal => createGoalBlock(goal));
