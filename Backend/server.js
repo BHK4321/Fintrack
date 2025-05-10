@@ -330,6 +330,7 @@ app.post("/api/signin", async (req, res) => {
             sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
+        user.monthlyincome = decrypt(user.monthlyincome);
         res.status(200).json({ valid: 0, monthlyincome: user.monthlyincome, accessToken, message: "Sign-in successful" });
     } catch (error) {
         res.status(500).json({ error: "Sign-in failed" });
