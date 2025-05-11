@@ -4,6 +4,7 @@ export const prompt = `Please answer in checkpoints where each checkpoint is enc
             Start with the checkpoints only nothing else.
             Only give checkpoints with the format described and nothing else.
             Give the checkpoints in such a way completing the checkpoint will increase the saved amount by the same amount at each step.
+            Realise the goal difficulty and accordingly decide the number of steps.
             You don't have to give suggestions, you have to give complete step-wise procedure to reach the goal.
             Give practical Steps for me to acheive the goal amount by the date mentioned.
             CURRENT DATE : ${today}.
